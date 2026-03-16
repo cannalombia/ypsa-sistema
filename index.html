@@ -12,6 +12,19 @@
   --text:#f0f0f5;--muted:#7a7a9d;
   --border:rgba(255,255,255,0.08);--input-bg:rgba(255,255,255,0.04);
 }
+/* LIGHT MODE */
+body.light-mode{
+  --bg:#f0f4f8;--surface:#ffffff;--surface2:#e8ecf0;--surface3:#dde3ea;
+  --text:#0d1117;--muted:#6b7280;
+  --border:rgba(0,0,0,0.08);--input-bg:rgba(0,0,0,0.03);
+}
+body.light-mode .blob{opacity:.06;}
+body.light-mode .topnav{background:rgba(255,255,255,.96);}
+body.light-mode .panel-left{background:linear-gradient(150deg,#0c1220,#111827);}
+body.light-mode .modal{background:#fff;border-color:rgba(0,0,0,.1);}
+body.light-mode .tbl td,.light-mode .tbl th{border-color:rgba(0,0,0,.06);}
+body.light-mode .hero-mega{background:linear-gradient(135deg,rgba(0,229,176,.08),rgba(108,92,231,.06));}
+body.light-mode .ucard,.light-mode .acard{background:#f8fafc;}
 *{margin:0;padding:0;box-sizing:border-box;}
 body{background:var(--bg);color:var(--text);font-family:'DM Sans',sans-serif;min-height:100vh;overflow-x:hidden;}
 .blob{position:fixed;border-radius:50%;filter:blur(110px);opacity:.11;pointer-events:none;animation:blobFloat 9s ease-in-out infinite;z-index:0;}
@@ -19,13 +32,12 @@ body{background:var(--bg);color:var(--text);font-family:'DM Sans',sans-serif;min
 .blob-2{width:500px;height:500px;background:var(--accent);bottom:-200px;right:-120px;animation-delay:3.5s;}
 @keyframes blobFloat{0%,100%{transform:translateY(0);}50%{transform:translateY(-28px);}}
 
-/* SESSION */
 .session-bar{display:none;position:fixed;top:0;left:0;right:0;height:3px;background:rgba(255,255,255,.05);z-index:999;}
 .session-bar-fill{height:100%;background:linear-gradient(90deg,var(--accent),var(--accent2));transition:width 1s linear;width:100%;}
 .session-warning{display:none;position:fixed;bottom:24px;right:24px;background:var(--surface);border:1px solid rgba(255,77,109,.4);border-radius:12px;padding:12px 18px;font-size:13px;color:var(--danger);z-index:500;}
 
-/* ══════════ LOGIN ══════════ */
-#loginPage{min-height:100vh;display:flex;align-items:center;justify-content:center;position:relative;z-index:10;padding:20px;}
+/* LOGIN */
+#loginPage{min-height:100vh;display:flex;align-items:center;justify-content:center;flex-direction:column;position:relative;z-index:10;padding:20px;}
 .login-card{display:grid;grid-template-columns:1fr 1fr;width:min(960px,100%);min-height:575px;border-radius:28px;overflow:hidden;border:1px solid var(--border);box-shadow:0 40px 120px rgba(0,0,0,.65);animation:fadeUp .6s ease both;}
 @keyframes fadeUp{from{opacity:0;transform:translateY(28px);}to{opacity:1;transform:translateY(0);}}
 .panel-left{background:linear-gradient(150deg,#0c0c1a,#111120);padding:50px 44px;display:flex;flex-direction:column;justify-content:space-between;position:relative;overflow:hidden;}
@@ -34,6 +46,71 @@ body{background:var(--bg);color:var(--text);font-family:'DM Sans',sans-serif;min
 .brand-icon{width:44px;height:44px;background:linear-gradient(135deg,var(--accent),var(--accent2));border-radius:12px;display:flex;align-items:center;justify-content:center;font-size:21px;box-shadow:0 8px 20px rgba(0,229,176,.22);}
 .brand-name{font-family:'Syne',sans-serif;font-size:22px;font-weight:800;}
 .brand-name span{color:var(--accent);}
+
+/* ── YPSA ANIMATED LOGO ── */
+.ypsa-anim {
+  font-family:'Syne',sans-serif;
+  font-weight:800;
+  font-size:22px;
+  background: linear-gradient(90deg, #00e5b0, #6c5ce7, #f5c842, #00e5b0);
+  background-size: 300% 100%;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  animation: shimmer 3s linear infinite, floatY 4s ease-in-out infinite;
+  display: inline-block;
+  filter: drop-shadow(0 0 8px rgba(0,229,176,0.5));
+}
+@keyframes shimmer {
+  0%   { background-position: 0% 50%; }
+  100% { background-position: 300% 50%; }
+}
+@keyframes floatY {
+  0%,100% { transform: translateY(0px); }
+  50%     { transform: translateY(-3px); }
+}
+
+/* TOPNAV YPSA */
+.nav-brand-name-anim {
+  font-family:'Syne',sans-serif;
+  font-size:17px;
+  font-weight:800;
+  background: linear-gradient(90deg, #00e5b0, #6c5ce7, #f5c842, #00e5b0);
+  background-size: 300% 100%;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  animation: shimmer 3s linear infinite;
+  filter: drop-shadow(0 0 6px rgba(0,229,176,0.4));
+}
+
+/* BRAND ICON PULSE */
+.brand-icon-anim {
+  width:44px; height:44px;
+  background:linear-gradient(135deg,var(--accent),var(--accent2));
+  border-radius:12px;
+  display:flex; align-items:center; justify-content:center;
+  font-size:21px;
+  animation: iconPulse 2.5s ease-in-out infinite, iconGlow 2.5s ease-in-out infinite;
+}
+@keyframes iconPulse {
+  0%,100% { transform: scale(1); }
+  50%     { transform: scale(1.08); }
+}
+@keyframes iconGlow {
+  0%,100% { box-shadow: 0 0 10px rgba(0,229,176,.3); }
+  50%     { box-shadow: 0 0 24px rgba(0,229,176,.7), 0 0 48px rgba(108,92,231,.3); }
+}
+
+/* NAV ICON */
+.nav-brand-icon-anim {
+  width:34px; height:34px;
+  background:linear-gradient(135deg,var(--accent),var(--accent2));
+  border-radius:9px;
+  display:flex; align-items:center; justify-content:center;
+  font-size:16px;
+  animation: iconPulse 2.5s ease-in-out infinite, iconGlow 2.5s ease-in-out infinite;
+}
 .left-content{position:relative;z-index:1;}
 .left-content h2{font-family:'Syne',sans-serif;font-size:36px;font-weight:800;line-height:1.08;margin-bottom:16px;}
 .left-content h2 em{font-style:normal;color:var(--accent);}
@@ -48,37 +125,46 @@ body{background:var(--bg);color:var(--text);font-family:'DM Sans',sans-serif;min
 .sinfo strong{font-family:'Syne',sans-serif;font-size:13px;font-weight:700;display:block;line-height:1.2;}
 .sinfo small{font-size:11px;color:var(--muted);}
 .panel-right{background:var(--surface);padding:50px 44px;display:flex;flex-direction:column;justify-content:center;}
-.lh{margin-bottom:26px;}
-.lh h3{font-family:'Syne',sans-serif;font-size:26px;font-weight:800;margin-bottom:6px;}
+/* LOGIN FORM ANIMATIONS */
+.lh{margin-bottom:26px;animation:loginFadeUp .6s .1s ease both;}
+.lh h3{font-family:"Syne",sans-serif;font-size:26px;font-weight:800;margin-bottom:6px;background:linear-gradient(90deg,var(--text),rgba(240,240,245,.75));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;}
 .lh p{font-size:13px;color:var(--muted);}
-.rlabel{font-size:11px;letter-spacing:1.5px;text-transform:uppercase;color:var(--muted);margin-bottom:9px;display:block;}
-.rselector{display:grid;grid-template-columns:1fr 1fr;gap:9px;margin-bottom:20px;}
-.rbtn{background:var(--input-bg);border:1px solid var(--border);border-radius:10px;padding:9px 12px;color:var(--muted);font-family:'DM Sans',sans-serif;font-size:12px;cursor:pointer;transition:all .2s;display:flex;align-items:center;gap:8px;}
-.rbtn:hover{border-color:var(--accent);color:var(--text);}
-.rbtn.active{border-color:var(--accent);background:rgba(0,229,176,.08);color:var(--accent);}
-.fg{margin-bottom:14px;}
+@keyframes loginFadeUp{from{opacity:0;transform:translateY(16px);}to{opacity:1;transform:translateY(0);}}
+.rlabel{font-size:11px;letter-spacing:1.5px;text-transform:uppercase;color:var(--muted);margin-bottom:9px;display:block;animation:loginFadeUp .6s .2s ease both;}
+.rselector{display:grid;grid-template-columns:1fr 1fr;gap:9px;margin-bottom:20px;animation:loginFadeUp .6s .25s ease both;}
+.rbtn{background:var(--input-bg);border:1px solid var(--border);border-radius:10px;padding:9px 12px;color:var(--muted);font-family:"DM Sans",sans-serif;font-size:12px;cursor:pointer;transition:all .25s;display:flex;align-items:center;gap:8px;position:relative;overflow:hidden;}
+.rbtn::before{content:"";position:absolute;inset:0;background:linear-gradient(135deg,rgba(0,229,176,.08),transparent);opacity:0;transition:opacity .25s;}
+.rbtn:hover{border-color:var(--accent);color:var(--text);transform:translateY(-2px);}
+.rbtn:hover::before{opacity:1;}
+.rbtn.active{border-color:var(--accent);background:rgba(0,229,176,.08);color:var(--accent);animation:activePulse 2s ease-in-out infinite;}
+@keyframes activePulse{0%,100%{box-shadow:0 0 12px rgba(0,229,176,.15);}50%{box-shadow:0 0 24px rgba(0,229,176,.4);}}
+.fg{margin-bottom:14px;animation:loginFadeUp .6s .35s ease both;}
 .fg label{display:block;font-size:11px;letter-spacing:1.5px;text-transform:uppercase;color:var(--muted);margin-bottom:6px;}
 .iw{position:relative;}
-.iw .ico{position:absolute;left:14px;top:50%;transform:translateY(-50%);font-size:15px;pointer-events:none;}
-.iw input{width:100%;background:var(--input-bg);border:1px solid var(--border);border-radius:11px;padding:12px 44px;color:var(--text);font-family:'DM Sans',sans-serif;font-size:14px;outline:none;transition:border-color .2s,background .2s;}
+.iw .ico{position:absolute;left:14px;top:50%;transform:translateY(-50%);font-size:15px;pointer-events:none;animation:iconFloat 3s ease-in-out infinite;}
+.iw input{width:100%;background:var(--input-bg);border:1px solid var(--border);border-radius:11px;padding:12px 44px;color:var(--text);font-family:"DM Sans",sans-serif;font-size:14px;outline:none;transition:border-color .3s,background .3s,box-shadow .3s;}
 .iw input::placeholder{color:var(--muted);}
-.iw input:focus{border-color:var(--accent);background:rgba(0,229,176,.03);}
-.iw input.err{border-color:var(--danger);}
-.tpass{position:absolute;right:12px;top:50%;transform:translateY(-50%);background:none;border:none;cursor:pointer;color:var(--muted);font-size:14px;transition:color .2s;}
+.iw input:focus{border-color:var(--accent);background:rgba(0,229,176,.04);box-shadow:0 0 0 3px rgba(0,229,176,.1),0 4px 20px rgba(0,229,176,.08);}
+.iw input.err{border-color:var(--danger);box-shadow:0 0 0 3px rgba(255,77,109,.1);}
+.tpass{position:absolute;right:12px;top:50%;transform:translateY(-50%);background:none;border:none;cursor:pointer;color:var(--muted);font-size:14px;transition:color .2s;animation:iconFloat 4s ease-in-out infinite;}
 .tpass:hover{color:var(--accent);}
-.forgot{text-align:right;margin-top:5px;margin-bottom:20px;}
-.forgot a{font-size:12px;color:var(--accent);text-decoration:none;opacity:.7;}
+.forgot{text-align:right;margin-top:5px;margin-bottom:20px;animation:loginFadeUp .6s .45s ease both;}
+.forgot a{font-size:12px;color:var(--accent);text-decoration:none;opacity:.7;transition:opacity .2s;}
 .forgot a:hover{opacity:1;}
-.btn-login{width:100%;background:linear-gradient(135deg,var(--accent),#00c4a0);color:#0a0a0f;border:none;border-radius:11px;padding:14px;font-family:'Syne',sans-serif;font-size:14px;font-weight:800;cursor:pointer;transition:opacity .2s,transform .15s;letter-spacing:.5px;}
-.btn-login:hover{opacity:.9;transform:translateY(-1px);}
+.btn-login{width:100%;background:linear-gradient(135deg,var(--accent),#00c4a0);color:#0a0a0f;border:none;border-radius:11px;padding:14px;font-family:"Syne",sans-serif;font-size:14px;font-weight:800;cursor:pointer;transition:opacity .2s,transform .15s,box-shadow .2s;letter-spacing:.5px;animation:loginFadeUp .6s .55s ease both,btnPulse 3s 1.5s ease-in-out infinite;}
+.btn-login:hover{opacity:.9;transform:translateY(-2px);box-shadow:0 8px 28px rgba(0,229,176,.35);}
 .errmsg{display:none;background:rgba(255,77,109,.1);border:1px solid rgba(255,77,109,.28);border-radius:10px;padding:10px 14px;font-size:13px;color:var(--danger);margin-top:11px;text-align:center;}
 @keyframes shake{0%,100%{transform:translateX(0);}25%{transform:translateX(-7px);}75%{transform:translateX(7px);}}
 
-/* ══════════ DASHBOARD ══════════ */
+/* FOOTER DEVELOPER */
+.dev-footer{text-align:center;margin-top:18px;padding:14px 20px;background:rgba(255,255,255,.02);border:1px solid var(--border);border-radius:14px;width:min(960px,100%);}
+.dev-footer p{font-size:12px;color:var(--muted);letter-spacing:.5px;}
+.dev-footer span{color:var(--accent);font-family:'Syne',sans-serif;font-weight:700;font-size:13px;}
+
+/* DASHBOARD */
 #dashPage{display:none;min-height:100vh;position:relative;z-index:10;}
 @keyframes fadeIn{from{opacity:0;}to{opacity:1;}}
 
-/* TOPNAV */
 .topnav{display:flex;align-items:center;justify-content:space-between;padding:0 32px;background:rgba(13,13,20,.96);backdrop-filter:blur(18px);border-bottom:1px solid var(--border);position:sticky;top:0;z-index:50;height:58px;gap:16px;}
 .nav-brand{display:flex;align-items:center;gap:10px;flex-shrink:0;}
 .nav-brand-icon{width:34px;height:34px;background:linear-gradient(135deg,var(--accent),var(--accent2));border-radius:9px;display:flex;align-items:center;justify-content:center;font-size:16px;}
@@ -96,11 +182,9 @@ body{background:var(--bg);color:var(--text);font-family:'DM Sans',sans-serif;min
 .btn-out{background:rgba(255,77,109,.1);border:1px solid rgba(255,77,109,.28);color:var(--danger);border-radius:9px;padding:6px 13px;font-family:'DM Sans',sans-serif;font-size:12px;cursor:pointer;transition:all .2s;}
 .btn-out:hover{background:rgba(255,77,109,.18);}
 
-/* SECTIONS */
 .dash-section{display:none;max-width:1160px;margin:0 auto;padding:32px 32px 60px;animation:fadeIn .35s ease;}
 .dash-section.active{display:block;}
 
-/* HERO */
 .hero{background:linear-gradient(135deg,rgba(0,229,176,.07),rgba(108,92,231,.07));border:1px solid rgba(0,229,176,.17);border-radius:22px;padding:38px 46px;margin-bottom:28px;position:relative;overflow:hidden;}
 .hero::before{content:'';position:absolute;width:380px;height:380px;border-radius:50%;background:radial-gradient(circle,rgba(0,229,176,.08),transparent 70%);top:-140px;right:-80px;pointer-events:none;}
 .hero-tag{display:inline-flex;align-items:center;gap:7px;border:1px solid rgba(0,229,176,.33);color:var(--accent);font-size:10px;letter-spacing:2px;text-transform:uppercase;padding:5px 13px;border-radius:100px;margin-bottom:18px;}
@@ -108,9 +192,34 @@ body{background:var(--bg);color:var(--text);font-family:'DM Sans',sans-serif;min
 @keyframes pulse{0%,100%{opacity:1;}50%{opacity:.25;}}
 .hero h1{font-family:'Syne',sans-serif;font-size:clamp(22px,3vw,36px);font-weight:800;line-height:1.12;margin-bottom:12px;}
 .hero h1 em{font-style:normal;color:var(--accent);}
+
+/* ── HERO TITLE ANIMATION ── */
+.hero-word {
+  display: inline-block;
+  animation: wordFloat 3s ease-in-out infinite;
+  animation-delay: 0s;
+}
+@keyframes wordFloat {
+  0%,100% { transform: translateY(0); }
+  50%     { transform: translateY(-4px); }
+}
+.hero-ypsa {
+  display: inline-block;
+  font-style: normal;
+  background: linear-gradient(90deg, #00e5b0, #6c5ce7, #f5c842, #00e5b0);
+  background-size: 300% 100%;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  animation: shimmer 2.5s linear infinite, wordBounce 2s ease-in-out infinite;
+  filter: drop-shadow(0 0 10px rgba(0,229,176,0.5));
+}
+@keyframes wordBounce {
+  0%,100% { transform: translateY(0) scale(1); }
+  50%     { transform: translateY(-5px) scale(1.04); }
+}
 .hero p{font-size:14px;color:rgba(240,240,245,.68);line-height:1.75;max-width:700px;}
 
-/* KPI */
 .kpi-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:13px;margin-bottom:28px;}
 .kpi{background:var(--surface);border:1px solid var(--border);border-radius:15px;padding:19px;transition:border-color .2s,transform .2s;}
 .kpi:hover{border-color:rgba(0,229,176,.28);transform:translateY(-2px);}
@@ -119,22 +228,16 @@ body{background:var(--bg);color:var(--text);font-family:'DM Sans',sans-serif;min
 .kpi .kv{font-family:'Syne',sans-serif;font-size:26px;font-weight:800;color:var(--accent);line-height:1;}
 .kpi .kd{font-size:11px;color:var(--muted);margin-top:4px;}
 
-/* SEC TITLE */
 .stitle{font-family:'Syne',sans-serif;font-size:17px;font-weight:800;margin-bottom:14px;display:flex;align-items:center;gap:10px;}
 .sbadge{font-size:10px;background:rgba(0,229,176,.09);color:var(--accent);border:1px solid rgba(0,229,176,.18);border-radius:100px;padding:3px 11px;font-family:'DM Sans',sans-serif;font-weight:500;letter-spacing:.8px;}
 
-/* CARD */
 .card{background:var(--surface);border:1px solid var(--border);border-radius:15px;overflow:hidden;}
-.card-pad{padding:22px;}
-
-/* TABLE */
 .tbl{width:100%;border-collapse:collapse;font-size:13px;}
 .tbl th{text-align:left;padding:11px 15px;font-size:10px;letter-spacing:1.3px;text-transform:uppercase;color:var(--muted);border-bottom:1px solid var(--border);font-weight:500;}
 .tbl td{padding:12px 15px;border-bottom:1px solid rgba(255,255,255,.03);vertical-align:middle;}
 .tbl tr:last-child td{border-bottom:none;}
 .tbl tr:hover td{background:rgba(255,255,255,.018);}
 
-/* BADGES */
 .badge{display:inline-block;padding:3px 10px;border-radius:100px;font-size:11px;font-weight:500;}
 .b-green{background:rgba(0,229,176,.12);color:var(--accent);}
 .b-orange{background:rgba(255,140,66,.12);color:var(--orange);}
@@ -142,25 +245,21 @@ body{background:var(--bg);color:var(--text);font-family:'DM Sans',sans-serif;min
 .b-purple{background:rgba(108,92,231,.12);color:var(--accent2);}
 .b-gold{background:rgba(245,200,66,.12);color:var(--gold);}
 
-/* PROD CELL */
 .pcell{display:flex;align-items:center;gap:11px;}
 .pemoji{width:38px;height:38px;border-radius:10px;background:rgba(0,229,176,.07);display:flex;align-items:center;justify-content:center;font-size:19px;flex-shrink:0;cursor:pointer;transition:background .2s;}
 .pemoji:hover{background:rgba(0,229,176,.15);}
 .pname{font-weight:500;font-size:13px;}
 .pdesc{font-size:11px;color:var(--muted);margin-top:2px;}
 
-/* STOCK BAR */
 .sbar-wrap{display:flex;align-items:center;gap:9px;}
 .sbar{height:5px;background:rgba(255,255,255,.06);border-radius:100px;flex:1;min-width:55px;}
 .sfill{height:100%;border-radius:100px;}
 .snum{font-size:12px;color:var(--muted);min-width:48px;text-align:right;}
 
-/* SEARCH */
 .srch{background:var(--input-bg);border:1px solid var(--border);border-radius:9px;padding:8px 14px;color:var(--text);font-family:'DM Sans',sans-serif;font-size:13px;outline:none;width:210px;transition:border-color .2s;}
 .srch:focus{border-color:var(--accent);}
 .srch::placeholder{color:var(--muted);}
 
-/* MODULE CARDS (inicio) */
 .mods-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-bottom:28px;}
 .mcard{background:var(--surface);border:1px solid var(--border);border-radius:13px;padding:18px;cursor:pointer;transition:border-color .2s,background .2s;}
 .mcard:hover{border-color:var(--accent);background:rgba(0,229,176,.03);}
@@ -168,7 +267,6 @@ body{background:var(--bg);color:var(--text);font-family:'DM Sans',sans-serif;min
 .mcard h4{font-family:'Syne',sans-serif;font-size:13px;font-weight:700;margin-bottom:4px;}
 .mcard p{font-size:12px;color:var(--muted);line-height:1.5;}
 
-/* MODAL */
 .modal-overlay{display:none;position:fixed;inset:0;background:rgba(5,5,10,.85);z-index:200;align-items:center;justify-content:center;backdrop-filter:blur(6px);}
 .modal-overlay.open{display:flex;animation:fadeIn .25s ease;}
 .modal{background:var(--surface);border:1px solid var(--border);border-radius:20px;width:min(560px,94vw);max-height:88vh;overflow-y:auto;padding:32px;}
@@ -183,7 +281,6 @@ body{background:var(--bg);color:var(--text);font-family:'DM Sans',sans-serif;min
 .mfield .mv.accent{color:var(--accent);font-family:'Syne',sans-serif;font-weight:700;font-size:18px;}
 .mdivider{border:none;border-top:1px solid var(--border);margin:18px 0;}
 
-/* STATS */
 .sg4{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-bottom:24px;}
 .sbig{background:var(--surface);border:1px solid var(--border);border-radius:14px;padding:20px;}
 .sbig .sl{font-size:10px;letter-spacing:1.3px;text-transform:uppercase;color:var(--muted);margin-bottom:6px;}
@@ -206,7 +303,6 @@ body{background:var(--bg);color:var(--text);font-family:'DM Sans',sans-serif;min
 .tup{color:var(--accent);font-size:12px;}
 .tdn{color:var(--danger);font-size:12px;}
 
-/* USER GRID */
 .user-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;}
 .ucard{background:var(--surface2);border:1px solid var(--border);border-radius:13px;padding:18px;display:flex;align-items:center;gap:14px;transition:border-color .2s;}
 .ucard:hover{border-color:rgba(0,229,176,.25);}
@@ -215,7 +311,6 @@ body{background:var(--bg);color:var(--text);font-family:'DM Sans',sans-serif;min
 .uinfo small{font-size:11px;color:var(--muted);}
 .uinfo .urole{display:inline-block;margin-top:5px;}
 
-/* PROVEEDOR CARDS */
 .prov-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;}
 .provcard{background:var(--surface);border:1px solid var(--border);border-radius:14px;padding:20px;transition:border-color .2s;}
 .provcard:hover{border-color:rgba(0,229,176,.25);}
@@ -225,7 +320,6 @@ body{background:var(--bg);color:var(--text);font-family:'DM Sans',sans-serif;min
 .prov-loc{font-size:11px;color:var(--muted);}
 .prov-products{display:flex;flex-wrap:wrap;gap:6px;margin-top:10px;}
 
-/* AUTH USERS */
 .auth-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px;}
 .acard{background:var(--surface2);border:1px solid var(--border);border-radius:13px;padding:18px;display:flex;align-items:flex-start;gap:14px;transition:border-color .2s;}
 .acard:hover{border-color:rgba(0,229,176,.22);}
@@ -238,10 +332,543 @@ body{background:var(--bg);color:var(--text);font-family:'DM Sans',sans-serif;min
 .ainfo .auser{font-size:12px;color:var(--accent);font-family:'Syne',sans-serif;margin-bottom:4px;}
 .ainfo p{font-size:12px;color:var(--muted);line-height:1.5;}
 
-/* MISSION */
 .mission{background:var(--surface);border:1px solid var(--border);border-radius:18px;padding:30px 36px;}
 .mission h3{font-family:'Syne',sans-serif;font-size:16px;font-weight:800;margin-bottom:11px;color:var(--accent);}
 .mission p{font-size:14px;color:rgba(240,240,245,.66);line-height:1.8;}
+
+/* MISSION ANIMATED */
+.mission-animated{
+  display:grid;grid-template-columns:180px 1fr;gap:32px;align-items:center;
+  background:linear-gradient(135deg,rgba(0,229,176,.06),rgba(108,92,231,.06));
+  border:1px solid rgba(0,229,176,.2);border-radius:22px;padding:32px 36px;
+  position:relative;overflow:hidden;
+}
+.mission-animated::before{
+  content:'';position:absolute;width:300px;height:300px;border-radius:50%;
+  background:radial-gradient(circle,rgba(0,229,176,.07),transparent 70%);
+  bottom:-100px;right:-60px;pointer-events:none;
+}
+.mission-left{display:flex;flex-direction:column;align-items:center;gap:16px;}
+
+/* SVG ICON ANIMATIONS */
+.mission-icon-wrap{
+  background:rgba(0,229,176,.08);border:1px solid rgba(0,229,176,.2);
+  border-radius:50%;width:110px;height:110px;
+  display:flex;align-items:center;justify-content:center;
+  animation:iconGlow 2.5s ease-in-out infinite;
+}
+.svg-pulse{animation:svgPulse 2s ease-in-out infinite;}
+@keyframes svgPulse{0%,100%{opacity:1;stroke:#00e5b0;}50%{opacity:.6;stroke:#6c5ce7;}}
+.line1{animation:lineGrow 2s ease-in-out infinite;}
+.line2{animation:lineGrow 2s ease-in-out infinite;animation-delay:.3s;}
+.line3{animation:lineGrow 2s ease-in-out infinite;animation-delay:.6s;}
+@keyframes lineGrow{
+  0%{stroke-dasharray:0 30;opacity:.3;}
+  50%{stroke-dasharray:30 0;opacity:1;}
+  100%{stroke-dasharray:0 30;opacity:.3;}
+}
+.dot-blink{animation:dotBlink 1.2s ease-in-out infinite;}
+@keyframes dotBlink{0%,100%{fill:#00e5b0;r:4;}50%{fill:#f5c842;r:6;}}
+.mission-pills{display:flex;flex-wrap:wrap;gap:6px;justify-content:center;}
+.mpill{
+  font-size:11px;padding:4px 10px;border-radius:100px;
+  background:rgba(0,229,176,.1);border:1px solid rgba(0,229,176,.25);color:var(--accent);
+  animation:pillFloat 3s ease-in-out infinite;display:inline-block;
+}
+@keyframes pillFloat{0%,100%{transform:translateY(0);}50%{transform:translateY(-4px);}}
+.mission-tag{font-size:11px;letter-spacing:2px;text-transform:uppercase;color:var(--accent);margin-bottom:10px;}
+.mission-title{font-family:'Syne',sans-serif;font-size:clamp(18px,2.5vw,26px);font-weight:800;line-height:1.2;margin-bottom:14px;}
+.mw{display:inline-block;animation:wordFloat 3s ease-in-out infinite;}
+.mhighlight{
+  background:linear-gradient(90deg,var(--accent),var(--accent2),var(--gold),var(--accent));
+  background-size:300% 100%;
+  -webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;
+  animation:shimmer 2.5s linear infinite,wordFloat 3s ease-in-out infinite;
+}
+.mission-text{font-size:14px;color:rgba(240,240,245,.7);line-height:1.8;margin-bottom:22px;}
+.mission-stats-row{display:flex;gap:14px;flex-wrap:wrap;}
+.mstat{
+  display:flex;flex-direction:column;align-items:center;gap:2px;
+  background:rgba(255,255,255,.04);border:1px solid var(--border);
+  border-radius:12px;padding:10px 16px;min-width:68px;
+  animation:statPulse 3s ease-in-out infinite;
+}
+.mstat:nth-child(2){animation-delay:.3s;}
+.mstat:nth-child(3){animation-delay:.6s;}
+.mstat:nth-child(4){animation-delay:.9s;}
+@keyframes statPulse{0%,100%{border-color:rgba(255,255,255,.08);}50%{border-color:rgba(0,229,176,.35);}}
+.mstat-val{font-family:'Syne',sans-serif;font-size:18px;font-weight:800;color:var(--accent);}
+.mstat-lbl{font-size:10px;color:var(--muted);text-align:center;letter-spacing:.4px;}
+@media(max-width:600px){.mission-animated{grid-template-columns:1fr;text-align:center;}.mission-stats-row{justify-content:center;}}
+
+/* FOOTER DASHBOARD */
+.dash-footer{text-align:center;padding:24px 32px;border-top:1px solid var(--border);margin-top:10px;}
+.dash-footer p{font-size:12px;color:var(--muted);letter-spacing:.5px;}
+.dash-footer span{color:var(--accent);font-family:'Syne',sans-serif;font-weight:700;}
+
+/* ═══════════════════════════════════════
+   ICON ANIMATIONS — ALL EMOJIS ALIVE
+═══════════════════════════════════════ */
+
+/* KPI icons */
+.kpi .ki{
+  font-size:22px;margin-bottom:9px;
+  display:inline-block;
+  animation:iconBounce 2.5s ease-in-out infinite;
+  transform-origin:center bottom;
+}
+.kpi:nth-child(1) .ki{animation-name:iconBounce;animation-delay:0s;}
+.kpi:nth-child(2) .ki{animation-name:iconSpin;animation-delay:.3s;}
+.kpi:nth-child(3) .ki{animation-name:iconPop;animation-delay:.6s;}
+.kpi:nth-child(4) .ki{animation-name:iconShake;animation-delay:.9s;}
+
+@keyframes iconBounce{
+  0%,100%{transform:translateY(0) scale(1);}
+  30%{transform:translateY(-8px) scale(1.15);}
+  50%{transform:translateY(-4px) scale(1.05);}
+  70%{transform:translateY(-6px) scale(1.1);}
+}
+@keyframes iconSpin{
+  0%,70%,100%{transform:rotate(0deg) scale(1);}
+  20%{transform:rotate(-15deg) scale(1.2);}
+  40%{transform:rotate(15deg) scale(1.2);}
+}
+@keyframes iconPop{
+  0%,100%{transform:scale(1);}
+  40%{transform:scale(1.3);}
+  60%{transform:scale(0.9);}
+  80%{transform:scale(1.15);}
+}
+@keyframes iconShake{
+  0%,100%{transform:translateX(0);}
+  20%{transform:translateX(-5px) rotate(-5deg);}
+  40%{transform:translateX(5px) rotate(5deg);}
+  60%{transform:translateX(-3px);}
+  80%{transform:translateX(3px);}
+}
+
+/* KPI card hover glow */
+.kpi{position:relative;}
+.kpi::after{
+  content:'';position:absolute;inset:0;border-radius:15px;
+  background:radial-gradient(circle at 50% 0%,rgba(0,229,176,.08),transparent 70%);
+  opacity:0;transition:opacity .3s;pointer-events:none;
+}
+.kpi:hover::after{opacity:1;}
+
+/* KPI value counter animation */
+.kpi .kv{
+  font-family:'Syne',sans-serif;font-size:26px;font-weight:800;color:var(--accent);line-height:1;
+  animation:valueGlow 3s ease-in-out infinite;
+}
+@keyframes valueGlow{
+  0%,100%{text-shadow:none;color:var(--accent);}
+  50%{text-shadow:0 0 20px rgba(0,229,176,0.6);color:#00ffcc;}
+}
+
+/* MODULE CARDS icons */
+.mcard .mi{
+  font-size:22px;margin-bottom:9px;
+  display:inline-block;
+  animation:iconFloat 3s ease-in-out infinite;
+}
+.mcard:nth-child(1) .mi{animation-name:iconBounce;animation-delay:0s;}
+.mcard:nth-child(2) .mi{animation-name:iconPop;animation-delay:.2s;}
+.mcard:nth-child(3) .mi{animation-name:iconSpin;animation-delay:.4s;}
+.mcard:nth-child(4) .mi{animation-name:iconShake;animation-delay:.6s;}
+.mcard:nth-child(5) .mi{animation-name:iconBounce;animation-delay:.8s;}
+.mcard:nth-child(6) .mi{animation-name:iconFloat;animation-delay:1s;}
+.mcard:nth-child(7) .mi{animation-name:iconPop;animation-delay:1.2s;}
+.mcard:nth-child(8) .mi{animation-name:iconSpin;animation-delay:1.4s;}
+
+@keyframes iconFloat{
+  0%,100%{transform:translateY(0);}
+  50%{transform:translateY(-6px);}
+}
+
+/* MCARD glow on hover */
+.mcard{transition:border-color .2s,background .2s,transform .2s,box-shadow .2s;}
+.mcard:hover{
+  transform:translateY(-4px) scale(1.02);
+  box-shadow:0 8px 32px rgba(0,229,176,.15);
+}
+
+/* STATS SECTION icons */
+.sbig .sic{
+  font-size:24px;margin-bottom:8px;
+  display:inline-block;
+  animation:iconPop 3s ease-in-out infinite;
+}
+.sbig:nth-child(1) .sic{animation-name:iconBounce;animation-delay:0s;}
+.sbig:nth-child(2) .sic{animation-name:iconSpin;animation-delay:.4s;}
+.sbig:nth-child(3) .sic{animation-name:iconPop;animation-delay:.8s;}
+.sbig:nth-child(4) .sic{animation-name:iconShake;animation-delay:1.2s;}
+
+/* STAT BIG value glow */
+.sbig .sv{
+  font-family:'Syne',sans-serif;font-size:28px;font-weight:800;line-height:1;
+  animation:valueGlow 3s ease-in-out infinite;
+}
+.sbig:nth-child(1) .sv{animation-delay:0s;color:var(--accent);}
+.sbig:nth-child(2) .sv{animation-delay:.4s;color:var(--accent2);}
+.sbig:nth-child(3) .sv{animation-delay:.8s;color:var(--gold);}
+.sbig:nth-child(4) .sv{animation-delay:1.2s;color:var(--danger);}
+
+/* SBIG hover */
+.sbig{transition:transform .2s,box-shadow .2s,border-color .2s;}
+.sbig:hover{transform:translateY(-3px);box-shadow:0 8px 28px rgba(0,229,176,.12);}
+
+/* USER CARD avatar bounce */
+.uavatar{
+  animation:iconFloat 3s ease-in-out infinite;
+}
+.ucard:nth-child(2n) .uavatar{animation-name:iconBounce;animation-delay:.5s;}
+.ucard:nth-child(3n) .uavatar{animation-name:iconPop;animation-delay:1s;}
+
+/* PROVEEDOR icon animation */
+.prov-ico{
+  animation:iconSpin 4s ease-in-out infinite;
+}
+.provcard:nth-child(2n) .prov-ico{animation-name:iconFloat;animation-delay:.4s;}
+.provcard:nth-child(3n) .prov-ico{animation-name:iconBounce;animation-delay:.8s;}
+
+/* PROVCARD hover */
+.provcard{transition:border-color .2s,transform .2s,box-shadow .2s;}
+.provcard:hover{transform:translateY(-3px);box-shadow:0 8px 24px rgba(0,229,176,.12);}
+
+/* AUTH icon animation */
+.aicon{
+  animation:iconPop 3s ease-in-out infinite;
+}
+.acard:nth-child(2n) .aicon{animation-name:iconBounce;animation-delay:.3s;}
+.acard:nth-child(3n) .aicon{animation-name:iconFloat;animation-delay:.6s;}
+.acard:nth-child(4n) .aicon{animation-name:iconShake;animation-delay:.9s;}
+
+/* NAV TAB active pulse */
+.nav-tab.active{
+  color:var(--accent);background:rgba(0,229,176,.08);
+  animation:tabPulse 3s ease-in-out infinite;
+}
+@keyframes tabPulse{
+  0%,100%{background:rgba(0,229,176,.08);}
+  50%{background:rgba(0,229,176,.16);}
+}
+
+/* HERO TAG dot */
+.hero-tag{
+  display:inline-flex;align-items:center;gap:7px;
+  border:1px solid rgba(0,229,176,.33);color:var(--accent);
+  font-size:10px;letter-spacing:2px;text-transform:uppercase;
+  padding:5px 13px;border-radius:100px;margin-bottom:18px;
+  animation:tagGlow 2s ease-in-out infinite;
+}
+@keyframes tagGlow{
+  0%,100%{box-shadow:none;border-color:rgba(0,229,176,.33);}
+  50%{box-shadow:0 0 16px rgba(0,229,176,.3);border-color:rgba(0,229,176,.7);}
+}
+
+/* SESSION BAR rainbow */
+.session-bar-fill{
+  background:linear-gradient(90deg,var(--accent),var(--accent2),var(--gold),var(--accent));
+  background-size:300% 100%;
+  animation:shimmer 2s linear infinite;
+}
+
+/* BADGE pop on hover */
+.badge{transition:transform .15s;}
+.badge:hover{transform:scale(1.1);}
+
+/* TABLE ROW slide in */
+.tbl tbody tr{
+  animation:rowSlide .4s ease both;
+}
+@keyframes rowSlide{
+  from{opacity:0;transform:translateX(-8px);}
+  to{opacity:1;transform:translateX(0);}
+}
+
+/* MSTAT animated value */
+.mstat-val{
+  font-family:'Syne',sans-serif;font-size:18px;font-weight:800;color:var(--accent);
+  animation:valueGlow 2.5s ease-in-out infinite;
+}
+.mstat:nth-child(2) .mstat-val{animation-delay:.3s;}
+.mstat:nth-child(3) .mstat-val{animation-delay:.6s;}
+.mstat:nth-child(4) .mstat-val{animation-delay:.9s;}
+
+/* ═══════════════════════════════════════
+   HERO MEGA ESPECTACULAR
+═══════════════════════════════════════ */
+.hero-mega{
+  position:relative;overflow:hidden;
+  background:linear-gradient(135deg,rgba(0,229,176,.06) 0%,rgba(108,92,231,.08) 50%,rgba(10,10,15,.9) 100%);
+  border:1px solid rgba(0,229,176,.2);border-radius:24px;
+  padding:40px 44px 28px;margin-bottom:28px;
+}
+.hero-mega::before{
+  content:'';position:absolute;inset:0;
+  background:radial-gradient(ellipse at 70% 50%,rgba(108,92,231,.12),transparent 60%);
+  pointer-events:none;
+}
+.hero-mega::after{
+  content:'';position:absolute;
+  width:500px;height:500px;border-radius:50%;
+  background:radial-gradient(circle,rgba(0,229,176,.07),transparent 70%);
+  top:-200px;right:-150px;pointer-events:none;
+  animation:blobFloat 8s ease-in-out infinite;
+}
+
+/* Particles */
+.particle{
+  position:absolute;border-radius:50%;
+  animation:particleFly 6s ease-in-out infinite;
+  pointer-events:none;z-index:0;
+}
+@keyframes particleFly{
+  0%,100%{transform:translateY(0) scale(1);opacity:.6;}
+  33%{transform:translateY(-20px) scale(1.3);opacity:1;}
+  66%{transform:translateY(-10px) translateX(10px) scale(.8);opacity:.4;}
+}
+
+.hero-mega-grid{
+  display:grid;grid-template-columns:1fr 1fr;gap:40px;align-items:center;
+  position:relative;z-index:1;
+}
+
+/* LIVE BADGE */
+.hero-live-badge{
+  display:inline-flex;align-items:center;gap:8px;
+  background:rgba(0,229,176,.08);border:1px solid rgba(0,229,176,.25);
+  color:var(--accent);font-size:11px;letter-spacing:1.5px;text-transform:uppercase;
+  padding:6px 16px;border-radius:100px;margin-bottom:20px;
+  animation:tagGlow 2s ease-in-out infinite;
+}
+.live-dot{
+  width:7px;height:7px;border-radius:50%;background:var(--accent);
+  animation:dotBlink 1.2s ease-in-out infinite;
+  box-shadow:0 0 8px rgba(0,229,176,0.8);
+}
+
+/* HERO MEGA TITLE */
+.hero-mega-title{
+  font-family:'Syne',sans-serif;font-size:clamp(28px,4vw,50px);
+  font-weight:800;line-height:1.1;margin-bottom:18px;
+}
+.hmt-line{
+  display:block;color:var(--text);
+  animation:slideInLeft .8s ease both;
+}
+.hmt-ypsa{
+  display:block;
+  background:linear-gradient(90deg,#00e5b0,#6c5ce7,#f5c842,#00e5b0);
+  background-size:300% 100%;
+  -webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;
+  animation:shimmer 2.5s linear infinite, slideInLeft .8s .2s ease both;
+  filter:drop-shadow(0 0 20px rgba(0,229,176,.4));
+}
+@keyframes slideInLeft{
+  from{opacity:0;transform:translateX(-30px);}
+  to{opacity:1;transform:translateX(0);}
+}
+
+.hero-mega-sub{
+  font-size:15px;color:rgba(240,240,245,.65);line-height:1.75;
+  max-width:440px;margin-bottom:28px;
+  animation:slideInLeft .8s .4s ease both;
+  opacity:0;animation-fill-mode:forwards;
+}
+
+/* CTA BUTTONS */
+.hero-cta-row{display:flex;gap:12px;flex-wrap:wrap;animation:slideInLeft .8s .6s ease both;opacity:0;animation-fill-mode:forwards;}
+.hcta-btn{
+  border:none;border-radius:12px;padding:12px 22px;
+  font-family:'Syne',sans-serif;font-size:13px;font-weight:700;
+  cursor:pointer;transition:transform .2s,box-shadow .2s;
+  letter-spacing:.3px;
+}
+.hcta-primary{
+  background:linear-gradient(135deg,var(--accent),#00c4a0);color:#0a0a0f;
+  box-shadow:0 4px 20px rgba(0,229,176,.3);
+  animation:btnPulse 3s ease-in-out infinite;
+}
+@keyframes btnPulse{
+  0%,100%{box-shadow:0 4px 20px rgba(0,229,176,.3);}
+  50%{box-shadow:0 4px 32px rgba(0,229,176,.6),0 0 0 6px rgba(0,229,176,.1);}
+}
+.hcta-secondary{
+  background:rgba(108,92,231,.15);color:var(--accent2);
+  border:1px solid rgba(108,92,231,.3);
+}
+.hcta-btn:hover{transform:translateY(-2px);box-shadow:0 8px 28px rgba(0,229,176,.25);}
+
+/* SVG DASHBOARD */
+.hero-mega-right{display:flex;justify-content:center;align-items:center;}
+.hero-svg-wrap{
+  position:relative;
+  animation:svgFloat 4s ease-in-out infinite;
+  filter:drop-shadow(0 20px 40px rgba(0,229,176,.15));
+}
+@keyframes svgFloat{
+  0%,100%{transform:translateY(0) rotate(0deg);}
+  50%{transform:translateY(-12px) rotate(.5deg);}
+}
+.hero-svg{width:100%;max-width:360px;}
+
+/* SVG ELEMENTS */
+.svg-dot-blink{animation:dotBlink 1.2s ease-in-out infinite;}
+.kpi-svg-1{animation:kpiGlow 2s ease-in-out infinite;animation-delay:0s;}
+.kpi-svg-2{animation:kpiGlow 2s ease-in-out infinite;animation-delay:.3s;}
+.kpi-svg-3{animation:kpiGlow 2s ease-in-out infinite;animation-delay:.6s;}
+.kpi-svg-4{animation:kpiGlow 2s ease-in-out infinite;animation-delay:.9s;}
+@keyframes kpiGlow{
+  0%,100%{opacity:.6;}
+  50%{opacity:1;filter:drop-shadow(0 0 6px rgba(0,229,176,.4));}
+}
+.donut-anim-1{animation:donutSpin 4s linear infinite;}
+.donut-anim-2{animation:donutSpin 4s linear infinite;animation-delay:.5s;}
+.donut-anim-3{animation:donutSpin 4s linear infinite;animation-delay:1s;}
+@keyframes donutSpin{
+  0%{stroke-dashoffset:0;}
+  50%{stroke-dashoffset:-10;}
+  100%{stroke-dashoffset:0;}
+}
+.bar-anim{
+  animation:barGrow 1.5s cubic-bezier(.34,1.56,.64,1) both;
+}
+.bar-anim:nth-child(1){animation-delay:.1s;}
+.bar-anim:nth-child(2){animation-delay:.25s;}
+.bar-anim:nth-child(3){animation-delay:.4s;}
+.bar-anim:nth-child(4){animation-delay:.55s;}
+.bar-anim:nth-child(5){animation-delay:.7s;}
+.bar-anim:nth-child(6){animation-delay:.85s;}
+.bar-anim:nth-child(7){animation-delay:1s;}
+@keyframes barGrow{
+  from{transform:scaleY(0);transform-origin:bottom;}
+  to{transform:scaleY(1);transform-origin:bottom;}
+}
+.trend-line{animation:lineDrawAnim 2s .5s ease forwards;}
+@keyframes lineDrawAnim{to{stroke-dashoffset:0;}}
+
+/* MINI STATS BAR */
+.hero-mini-stats{
+  display:flex;align-items:center;justify-content:center;
+  gap:0;margin-top:28px;flex-wrap:wrap;
+  background:rgba(255,255,255,.025);border:1px solid var(--border);
+  border-radius:100px;padding:10px 24px;gap:0;
+  position:relative;z-index:1;
+}
+.hms{display:flex;align-items:center;gap:6px;padding:0 16px;}
+.hms-icon{font-size:16px;animation:iconFloat 3s ease-in-out infinite;}
+.hms:nth-child(1) .hms-icon{animation-delay:0s;}
+.hms:nth-child(3) .hms-icon{animation-delay:.4s;}
+.hms:nth-child(5) .hms-icon{animation-delay:.8s;}
+.hms:nth-child(7) .hms-icon{animation-delay:1.2s;}
+.hms:nth-child(9) .hms-icon{animation-delay:1.6s;}
+.hms-txt{font-size:12px;color:var(--muted);}
+.hms-div{width:1px;height:18px;background:var(--border);}
+
+/* ═══ SPLASH SCREEN ═══ */
+#splashScreen{
+  position:fixed;inset:0;z-index:9999;
+  display:flex;align-items:center;justify-content:center;
+  background:var(--bg);
+  transition:opacity .6s ease, transform .6s ease;
+}
+#splashScreen.hide{opacity:0;transform:scale(1.04);pointer-events:none;}
+.splash-bg{
+  position:absolute;inset:0;
+  background:radial-gradient(ellipse at 30% 40%,rgba(108,92,231,.15),transparent 60%),
+             radial-gradient(ellipse at 70% 60%,rgba(0,229,176,.1),transparent 60%);
+}
+.splash-particles{position:absolute;inset:0;pointer-events:none;}
+.sp{
+  position:absolute;width:5px;height:5px;border-radius:50%;
+  background:var(--accent);opacity:.4;
+  animation:spFloat 4s ease-in-out infinite;
+}
+.sp:nth-child(2n){background:var(--accent2);width:4px;height:4px;}
+.sp:nth-child(3n){background:var(--gold);width:3px;height:3px;}
+@keyframes spFloat{
+  0%,100%{transform:translateY(0) scale(1);opacity:.4;}
+  50%{transform:translateY(-25px) scale(1.5);opacity:.8;}
+}
+.splash-content{
+  display:flex;flex-direction:column;align-items:center;gap:16px;
+  position:relative;z-index:1;
+}
+.splash-icon-wrap{
+  position:relative;width:100px;height:100px;
+  display:flex;align-items:center;justify-content:center;
+  margin-bottom:8px;
+}
+.splash-ring{
+  position:absolute;border-radius:50%;border:2px solid transparent;
+}
+.splash-ring-1{
+  width:100px;height:100px;
+  border-top-color:var(--accent);border-right-color:rgba(0,229,176,.3);
+  animation:ringSpinA 1.5s linear infinite;
+}
+.splash-ring-2{
+  width:76px;height:76px;
+  border-bottom-color:var(--accent2);border-left-color:rgba(108,92,231,.3);
+  animation:ringSpinB 1.2s linear infinite reverse;
+}
+.splash-ring-3{
+  width:52px;height:52px;
+  border-top-color:var(--gold);border-right-color:rgba(245,200,66,.3);
+  animation:ringSpinA .9s linear infinite;
+}
+@keyframes ringSpinA{to{transform:rotate(360deg);}}
+@keyframes ringSpinB{to{transform:rotate(-360deg);}}
+.splash-emoji{font-size:28px;animation:iconPop 1.5s ease-in-out infinite;}
+.splash-logo{
+  display:flex;gap:4px;
+  font-family:'Syne',sans-serif;font-size:52px;font-weight:800;
+}
+.splash-y{color:var(--accent);animation:letterPop .6s .1s ease both;}
+.splash-p{color:var(--text);animation:letterPop .6s .2s ease both;}
+.splash-s{color:var(--accent2);animation:letterPop .6s .3s ease both;}
+.splash-a{color:var(--gold);animation:letterPop .6s .4s ease both;}
+@keyframes letterPop{
+  0%{opacity:0;transform:translateY(-20px) scale(.5);}
+  70%{transform:translateY(4px) scale(1.1);}
+  100%{opacity:1;transform:translateY(0) scale(1);}
+}
+.splash-tagline{font-size:13px;color:var(--muted);letter-spacing:2px;text-transform:uppercase;}
+.splash-bar-wrap{
+  width:240px;height:4px;background:rgba(255,255,255,.06);
+  border-radius:100px;overflow:hidden;margin-top:4px;
+}
+.splash-bar{
+  height:100%;width:0%;border-radius:100px;
+  background:linear-gradient(90deg,var(--accent),var(--accent2));
+  transition:width .2s ease;
+  box-shadow:0 0 12px rgba(0,229,176,.5);
+}
+.splash-status{font-size:12px;color:var(--muted);letter-spacing:.5px;min-height:18px;}
+.splash-dev{font-size:11px;color:rgba(122,122,157,.5);margin-top:8px;}
+
+/* ═══ THEME TOGGLE ═══ */
+.btn-theme{
+  width:34px;height:34px;border-radius:50%;
+  background:rgba(255,255,255,.06);border:1px solid var(--border);
+  cursor:pointer;font-size:16px;
+  display:flex;align-items:center;justify-content:center;
+  transition:all .3s;
+  animation:iconFloat 4s ease-in-out infinite;
+}
+.btn-theme:hover{background:rgba(0,229,176,.12);border-color:var(--accent);transform:scale(1.1) rotate(20deg);}
+body.light-mode .btn-theme{background:rgba(0,0,0,.06);border-color:rgba(0,0,0,.1);}
+
+/* ═══ NAV CLOCK ═══ */
+.nav-clock{
+  font-family:'Syne',sans-serif;font-size:12px;font-weight:700;
+  color:var(--accent);letter-spacing:1px;
+  background:rgba(0,229,176,.07);border:1px solid rgba(0,229,176,.15);
+  border-radius:8px;padding:5px 10px;
+  animation:valueGlow 3s ease-in-out infinite;
+}
 
 @media(max-width:800px){
   .login-card{grid-template-columns:1fr;}
@@ -256,10 +883,41 @@ body{background:var(--bg);color:var(--text);font-family:'DM Sans',sans-serif;min
   .topnav{height:auto;flex-wrap:wrap;padding:10px 16px;gap:8px;}
   .nav-tabs{overflow-x:auto;width:100%;}
   .dash-section{padding:22px 16px 48px;}
+  .nav-clock{display:none;}
 }
 </style>
 </head>
 <body>
+
+<!-- ═══ SPLASH SCREEN ═══ -->
+<div id="splashScreen">
+  <div class="splash-bg"></div>
+  <div class="splash-particles">
+    <div class="sp" style="left:15%;top:20%;animation-delay:0s"></div>
+    <div class="sp" style="left:80%;top:15%;animation-delay:.5s"></div>
+    <div class="sp" style="left:60%;top:70%;animation-delay:1s"></div>
+    <div class="sp" style="left:30%;top:80%;animation-delay:.3s"></div>
+    <div class="sp" style="left:90%;top:50%;animation-delay:.8s"></div>
+    <div class="sp" style="left:5%;top:60%;animation-delay:1.2s"></div>
+  </div>
+  <div class="splash-content">
+    <div class="splash-icon-wrap">
+      <div class="splash-ring splash-ring-1"></div>
+      <div class="splash-ring splash-ring-2"></div>
+      <div class="splash-ring splash-ring-3"></div>
+      <div class="splash-emoji">📦</div>
+    </div>
+    <div class="splash-logo">
+      <span class="splash-y">Y</span><span class="splash-p">P</span><span class="splash-s">S</span><span class="splash-a">A</span>
+    </div>
+    <p class="splash-tagline">Sistema de Gestión Empresarial</p>
+    <div class="splash-bar-wrap">
+      <div class="splash-bar" id="splashBar"></div>
+    </div>
+    <p class="splash-status" id="splashStatus">Iniciando sistema…</p>
+    <p class="splash-dev">🦁 Soluciones Informáticas Lions S.A.S</p>
+  </div>
+</div>
 <div class="blob blob-1"></div>
 <div class="blob blob-2"></div>
 <div class="session-bar" id="sessionBar"><div class="session-bar-fill" id="sessionFill"></div></div>
@@ -288,13 +946,13 @@ body{background:var(--bg);color:var(--text);font-family:'DM Sans',sans-serif;min
   </div>
 </div>
 
-<!-- ═══════ LOGIN ═══════ -->
+<!-- LOGIN -->
 <div id="loginPage">
   <div class="login-card">
     <div class="panel-left">
       <div class="brand">
-        <div class="brand-icon">📦</div>
-        <div class="brand-name">YP<span>SA</span></div>
+        <div class="brand-icon-anim">📦</div>
+        <div class="ypsa-anim">YPSA</div>
       </div>
       <div class="left-content">
         <h2>Gestión<br><em>inteligente</em><br>de tu negocio</h2>
@@ -322,17 +980,21 @@ body{background:var(--bg);color:var(--text);font-family:'DM Sans',sans-serif;min
       <div class="errmsg" id="errmsg">❌ Usuario o contraseña incorrectos.</div>
     </div>
   </div>
+  <!-- FOOTER BAJO EL CARD -->
+  <div class="dev-footer">
+    <p>🦁 <span>Soluciones Informáticas Lions S.A.S</span> · Sistema de Gestión YPSA · 2026 · Todos los derechos reservados</p>
+  </div>
 </div>
 
-<!-- ═══════ DASHBOARD ═══════ -->
+<!-- DASHBOARD -->
 <div id="dashPage">
   <nav class="topnav">
     <div class="nav-brand">
-      <div class="nav-brand-icon">📦</div>
-      <div class="nav-brand-name">YP<span>SA</span></div>
+      <div class="nav-brand-icon-anim">📦</div>
+      <div class="nav-brand-name-anim">YPSA</div>
     </div>
     <div class="nav-tabs">
-      <button class="nav-tab active"   onclick="go('inicio',this)">🏠 Inicio</button>
+      <button class="nav-tab active" onclick="go('inicio',this)">🏠 Inicio</button>
       <button class="nav-tab" onclick="go('productos',this)">📦 Productos</button>
       <button class="nav-tab" onclick="go('inventario',this)">📋 Inventario</button>
       <button class="nav-tab" onclick="go('ventas',this)">🛒 Ventas</button>
@@ -348,16 +1010,121 @@ body{background:var(--bg);color:var(--text);font-family:'DM Sans',sans-serif;min
         <div class="nav-uinfo"><strong id="navUN">admin</strong><small id="navUR">Administrador</small></div>
       </div>
       <button class="btn-out" onclick="doLogout()">Salir</button>
+      <button class="btn-theme" onclick="toggleTheme()" id="themeBtn" title="Cambiar tema">🌙</button>
+      <div class="nav-clock" id="navClock">00:00</div>
     </div>
   </nav>
 
   <!-- INICIO -->
   <div class="dash-section active" id="sec-inicio">
-    <div class="hero">
-      <div class="hero-tag">Sistema activo</div>
-      <h1>Bienvenido al Sistema <em>YPSA</em></h1>
-      <p>Plataforma integral para gestionar inventario de mercados campesinos, usuarios, ventas, compras y pérdidas — con reportes que impulsan mejores decisiones.</p>
+
+    <!-- ═══ HERO ESPECTACULAR ═══ -->
+    <div class="hero-mega">
+      <!-- Partículas flotantes de fondo -->
+      <div class="particle" style="left:10%;top:20%;animation-delay:0s;width:6px;height:6px;background:var(--accent);"></div>
+      <div class="particle" style="left:25%;top:60%;animation-delay:1s;width:4px;height:4px;background:var(--accent2);"></div>
+      <div class="particle" style="left:70%;top:15%;animation-delay:2s;width:5px;height:5px;background:var(--gold);"></div>
+      <div class="particle" style="left:85%;top:55%;animation-delay:.5s;width:3px;height:3px;background:var(--accent);"></div>
+      <div class="particle" style="left:50%;top:80%;animation-delay:1.5s;width:4px;height:4px;background:var(--accent2);"></div>
+      <div class="particle" style="left:40%;top:30%;animation-delay:2.5s;width:3px;height:3px;background:var(--gold);"></div>
+
+      <div class="hero-mega-grid">
+        <!-- LEFT: texto -->
+        <div class="hero-mega-left">
+          <div class="hero-live-badge">
+            <span class="live-dot"></span>
+            Sistema en línea · YPSA 2026
+          </div>
+          <h1 class="hero-mega-title">
+            <span class="hmt-line" style="animation-delay:.1s">Bienvenido al</span><br>
+            <span class="hmt-ypsa" style="animation-delay:.3s">Sistema YPSA</span>
+          </h1>
+          <p class="hero-mega-sub">Plataforma integral para gestionar inventario de mercados campesinos — ventas, compras, usuarios y pérdidas en tiempo real.</p>
+          <div class="hero-cta-row">
+            <button class="hcta-btn hcta-primary" onclick="go('inventario',null)">📦 Ver Inventario</button>
+            <button class="hcta-btn hcta-secondary" onclick="go('estadisticas',null)">📊 Estadísticas</button>
+          </div>
+        </div>
+
+        <!-- RIGHT: dashboard SVG animado -->
+        <div class="hero-mega-right">
+          <div class="hero-svg-wrap">
+            <svg viewBox="0 0 320 220" xmlns="http://www.w3.org/2000/svg" class="hero-svg">
+              <!-- Fondo panel -->
+              <rect x="10" y="10" width="300" height="200" rx="14" fill="rgba(19,19,28,0.95)" stroke="rgba(0,229,176,0.3)" stroke-width="1.5"/>
+              <!-- Topbar -->
+              <rect x="10" y="10" width="300" height="32" rx="14" fill="rgba(0,229,176,0.08)"/>
+              <rect x="10" y="30" width="300" height="12" rx="0" fill="rgba(0,229,176,0.08)"/>
+              <circle cx="28" cy="26" r="5" fill="rgba(255,77,109,0.6)"/>
+              <circle cx="44" cy="26" r="5" fill="rgba(245,200,66,0.6)"/>
+              <circle cx="60" cy="26" r="5" fill="rgba(0,229,176,0.6)" class="svg-dot-blink"/>
+              <text x="90" y="30" fill="rgba(240,240,245,0.5)" font-size="9" font-family="sans-serif">Sistema YPSA · Panel de Control</text>
+
+              <!-- KPI cards row -->
+              <rect x="20" y="52" width="60" height="42" rx="7" fill="rgba(0,229,176,0.08)" stroke="rgba(0,229,176,0.25)" stroke-width="1" class="kpi-svg-1"/>
+              <text x="50" y="68" text-anchor="middle" fill="#00e5b0" font-size="14">📦</text>
+              <text x="50" y="80" text-anchor="middle" fill="#00e5b0" font-size="10" font-family="Syne" font-weight="bold">18</text>
+              <text x="50" y="89" text-anchor="middle" fill="rgba(122,122,157,0.8)" font-size="6">Productos</text>
+
+              <rect x="90" y="52" width="60" height="42" rx="7" fill="rgba(108,92,231,0.08)" stroke="rgba(108,92,231,0.25)" stroke-width="1" class="kpi-svg-2"/>
+              <text x="120" y="68" text-anchor="middle" fill="#6c5ce7" font-size="14">🛒</text>
+              <text x="120" y="80" text-anchor="middle" fill="#6c5ce7" font-size="10" font-family="Syne" font-weight="bold">143</text>
+              <text x="120" y="89" text-anchor="middle" fill="rgba(122,122,157,0.8)" font-size="6">Ventas</text>
+
+              <rect x="160" y="52" width="60" height="42" rx="7" fill="rgba(245,200,66,0.08)" stroke="rgba(245,200,66,0.25)" stroke-width="1" class="kpi-svg-3"/>
+              <text x="190" y="68" text-anchor="middle" fill="#f5c842" font-size="14">👥</text>
+              <text x="190" y="80" text-anchor="middle" fill="#f5c842" font-size="10" font-family="Syne" font-weight="bold">27</text>
+              <text x="190" y="89" text-anchor="middle" fill="rgba(122,122,157,0.8)" font-size="6">Usuarios</text>
+
+              <rect x="230" y="52" width="60" height="42" rx="7" fill="rgba(255,77,109,0.08)" stroke="rgba(255,77,109,0.25)" stroke-width="1" class="kpi-svg-4"/>
+              <text x="260" y="68" text-anchor="middle" fill="#ff4d6d" font-size="14">📉</text>
+              <text x="260" y="80" text-anchor="middle" fill="#ff4d6d" font-size="10" font-family="Syne" font-weight="bold">$280K</text>
+              <text x="260" y="89" text-anchor="middle" fill="rgba(122,122,157,0.8)" font-size="6">Pérdidas</text>
+
+              <!-- Gráfico de barras animado -->
+              <rect x="20" y="104" width="175" height="94" rx="7" fill="rgba(255,255,255,0.02)" stroke="rgba(255,255,255,0.07)" stroke-width="1"/>
+              <text x="30" y="116" fill="rgba(240,240,245,0.5)" font-size="7">📊 Ventas por Producto</text>
+
+              <!-- Barras animadas -->
+              <rect x="30" y="155" width="14" height="0" rx="3" fill="#00e5b0" class="bar-anim" style="--bh:35px;--by:120px"/>
+              <rect x="50" y="155" width="14" height="0" rx="3" fill="#6c5ce7" class="bar-anim" style="--bh:50px;--by:105px;animation-delay:.15s"/>
+              <rect x="70" y="155" width="14" height="0" rx="3" fill="#f5c842" class="bar-anim" style="--bh:28px;--by:127px;animation-delay:.3s"/>
+              <rect x="90" y="155" width="14" height="0" rx="3" fill="#ff8c42" class="bar-anim" style="--bh:42px;--by:113px;animation-delay:.45s"/>
+              <rect x="110" y="155" width="14" height="0" rx="3" fill="#00e5b0" class="bar-anim" style="--bh:38px;--by:117px;animation-delay:.6s"/>
+              <rect x="130" y="155" width="14" height="0" rx="3" fill="#6c5ce7" class="bar-anim" style="--bh:55px;--by:100px;animation-delay:.75s"/>
+              <rect x="150" y="155" width="14" height="0" rx="3" fill="#f5c842" class="bar-anim" style="--bh:32px;--by:123px;animation-delay:.9s"/>
+              <!-- Línea base -->
+              <line x1="26" y1="156" x2="188" y2="156" stroke="rgba(255,255,255,0.08)" stroke-width="1"/>
+
+              <!-- Donut mini -->
+              <circle cx="240" cy="150" r="32" fill="none" stroke="rgba(255,255,255,0.05)" stroke-width="12"/>
+              <circle cx="240" cy="150" r="32" fill="none" stroke="#00e5b0" stroke-width="12" stroke-dasharray="70 131" stroke-dashoffset="0" transform="rotate(-90 240 150)" class="donut-anim-1"/>
+              <circle cx="240" cy="150" r="32" fill="none" stroke="#6c5ce7" stroke-width="12" stroke-dasharray="55 146" stroke-dashoffset="-70" transform="rotate(-90 240 150)" class="donut-anim-2"/>
+              <circle cx="240" cy="150" r="32" fill="none" stroke="#f5c842" stroke-width="12" stroke-dasharray="36 165" stroke-dashoffset="-125" transform="rotate(-90 240 150)" class="donut-anim-3"/>
+              <text x="240" y="147" text-anchor="middle" fill="#f0f0f5" font-size="10" font-family="Syne" font-weight="bold">18</text>
+              <text x="240" y="157" text-anchor="middle" fill="rgba(122,122,157,0.8)" font-size="6">productos</text>
+
+              <!-- Línea de tendencia animada -->
+              <polyline points="20,190 40,185 60,178 80,182 100,172 120,168 140,160 160,164 180,155 200,150" fill="none" stroke="#00e5b0" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" class="trend-line" stroke-dasharray="250" stroke-dashoffset="250"/>
+            </svg>
+          </div>
+        </div>
+      </div>
+
+      <!-- Mini stats bar -->
+      <div class="hero-mini-stats">
+        <div class="hms"><span class="hms-icon">🌿</span><span class="hms-txt">Mercados campesinos</span></div>
+        <div class="hms-div"></div>
+        <div class="hms"><span class="hms-icon">⚡</span><span class="hms-txt">Tiempo real</span></div>
+        <div class="hms-div"></div>
+        <div class="hms"><span class="hms-icon">🔒</span><span class="hms-txt">SSL Seguro</span></div>
+        <div class="hms-div"></div>
+        <div class="hms"><span class="hms-icon">📱</span><span class="hms-txt">Web + Móvil</span></div>
+        <div class="hms-div"></div>
+        <div class="hms"><span class="hms-icon">🌐</span><span class="hms-txt">24/7 × 365</span></div>
+      </div>
     </div>
+
     <div class="kpi-grid">
       <div class="kpi"><div class="ki">📦</div><div class="kl">Productos</div><div class="kv">18</div><div class="kd">En inventario activo</div></div>
       <div class="kpi"><div class="ki">🛒</div><div class="kl">Ventas del mes</div><div class="kv">$4.2M</div><div class="kd">COP registradas</div></div>
@@ -375,7 +1142,48 @@ body{background:var(--bg);color:var(--text);font-family:'DM Sans',sans-serif;min
       <div class="mcard" onclick="go('estadisticas',null)"><div class="mi">📊</div><h4>Estadísticas</h4><p>Inversión, ventas, ganancias y pérdidas</p></div>
       <div class="mcard" onclick="go('productos',null)"><div class="mi">🥬</div><h4>Productos</h4><p>18 productos de finca colombiana con detalle</p></div>
     </div>
-    <div class="mission"><h3>🌱 Objetivo del Sistema</h3><p>Gestionar de manera eficiente el inventario de productos de mercados campesinos, así como el registro y control de usuarios, compras, ventas y pérdidas — reduciendo errores manuales y facilitando decisiones con reportes y estadísticas confiables.</p></div>
+    <div class="mission-animated">
+      <div class="mission-left">
+        <div class="mission-icon-wrap">
+          <svg width="80" height="80" viewBox="0 0 80 80" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <!-- Monitor -->
+            <rect x="10" y="14" width="60" height="38" rx="4" fill="rgba(0,229,176,0.12)" stroke="#00e5b0" stroke-width="2" class="svg-pulse"/>
+            <rect x="18" y="22" width="44" height="24" rx="2" fill="rgba(0,229,176,0.08)" stroke="#6c5ce7" stroke-width="1.5"/>
+            <!-- Screen lines animated -->
+            <line x1="22" y1="28" x2="40" y2="28" stroke="#00e5b0" stroke-width="1.5" stroke-linecap="round" class="line1"/>
+            <line x1="22" y1="33" x2="50" y2="33" stroke="#6c5ce7" stroke-width="1.5" stroke-linecap="round" class="line2"/>
+            <line x1="22" y1="38" x2="44" y2="38" stroke="#f5c842" stroke-width="1.5" stroke-linecap="round" class="line3"/>
+            <!-- Stand -->
+            <rect x="33" y="52" width="14" height="6" rx="2" fill="rgba(0,229,176,0.15)" stroke="#00e5b0" stroke-width="1.5"/>
+            <rect x="26" y="58" width="28" height="4" rx="2" fill="rgba(0,229,176,0.15)" stroke="#00e5b0" stroke-width="1.5"/>
+            <!-- Dot indicator -->
+            <circle cx="62" cy="18" r="4" fill="#00e5b0" class="dot-blink"/>
+          </svg>
+        </div>
+        <div class="mission-pills">
+          <span class="mpill" style="animation-delay:0s">🌐 Web</span>
+          <span class="mpill" style="animation-delay:.2s">📱 Móvil</span>
+          <span class="mpill" style="animation-delay:.4s">⚡ Tiempo real</span>
+          <span class="mpill" style="animation-delay:.6s">🔒 Seguro</span>
+        </div>
+      </div>
+      <div class="mission-right">
+        <div class="mission-tag">🌱 Objetivo del Sistema</div>
+        <h2 class="mission-title">
+          <span class="mw" style="animation-delay:0s">Implementación</span>
+          <span class="mw" style="animation-delay:.1s"> de un</span>
+          <span class="mw mhighlight" style="animation-delay:.2s"> sistema inteligente</span>
+        </h2>
+        <p class="mission-text">Para la empresa <strong style="color:var(--accent)">YPSA</strong> — gestión eficiente del inventario de productos de mercados campesinos, con control de usuarios, compras, ventas y pérdidas.</p>
+        <div class="mission-stats-row">
+          <div class="mstat"><span class="mstat-val">24/7</span><span class="mstat-lbl">Disponible</span></div>
+          <div class="mstat"><span class="mstat-val">0</span><span class="mstat-lbl">Errores manuales</span></div>
+          <div class="mstat"><span class="mstat-val">100%</span><span class="mstat-lbl">Confiable</span></div>
+          <div class="mstat"><span class="mstat-val">∞</span><span class="mstat-lbl">Escalable</span></div>
+        </div>
+      </div>
+    </div>
+
   </div>
 
   <!-- PRODUCTOS -->
@@ -393,7 +1201,7 @@ body{background:var(--bg);color:var(--text);font-family:'DM Sans',sans-serif;min
       <div class="stitle" style="margin-bottom:0">Inventario General <span class="sbadge">18 productos</span></div>
       <input class="srch" type="text" placeholder="🔍 Buscar…" oninput="filterInv(this.value)">
     </div>
-    <div class="card"><table class="tbl" id="invTable"><thead><tr><th>Producto</th><th>Categoría</th><th>Precio/kg</th><th>Stock</th><th>Estado</th></tr></thead><tbody id="invBody"></tbody></table></div>
+    <div class="card"><table class="tbl"><thead><tr><th>Producto</th><th>Categoría</th><th>Precio/kg</th><th>Stock</th><th>Estado</th></tr></thead><tbody id="invBody"></tbody></table></div>
   </div>
 
   <!-- VENTAS -->
@@ -491,185 +1299,156 @@ body{background:var(--bg);color:var(--text);font-family:'DM Sans',sans-serif;min
     <div class="cc"><div class="ct">📋 Movimientos por Producto</div><table class="tbl"><thead><tr><th>Producto</th><th>Compras (kg)</th><th>Ventas (kg)</th><th>Pérdidas (kg)</th><th>Ingreso COP</th><th>Tendencia</th></tr></thead><tbody id="statsTable"></tbody></table></div>
   </div>
 
+
 </div><!-- end dashPage -->
 
 <script>
-// ═══════ DATA ═══════
-const PRODUCTS = [
-  {e:'🥔',n:'Papa Pastusa',    d:'Variedad más consumida en Colombia, ideal para sopas y hervida',           cat:'Tubérculo',   p:1200, s:480,m:600,est:'alto',  or:'Nariño / Cundinamarca', t:'Todo el año',    det:'La papa pastusa es el tubérculo más comercializado en los mercados campesinos colombianos. Se cultiva principalmente en los departamentos de Nariño y Cundinamarca a más de 2.800 m de altitud. Ideal para sancochado, sopas y frituras. Alta rotación en plazas de mercado.'},
-  {e:'🌽',n:'Maíz Choclo',     d:'Mazorca tierna cosechada en finca, vendida fresca en mercado campesino',   cat:'Cereal',      p:1500, s:320,m:500,est:'alto',  or:'Eje Cafetero',          t:'Abr – Oct',      det:'El maíz choclo se cosecha tierno para consumo directo. Es base de la cocina colombiana en arepas, envueltos y mazamorra. Alta demanda en plazas locales. La finca YPSA lo comercializa fresco los lunes y jueves.'},
-  {e:'🍌',n:'Plátano Hartón',  d:'Plátano de cocción, se comercializa verde y maduro según pedido',          cat:'Fruta',       p:800,  s:540,m:600,est:'alto',  or:'Urabá / Eje Cafetero',  t:'Todo el año',    det:'El plátano hartón es el más demandado en Colombia para cocinar. Se vende verde para patacones y maduros para fritar o en sopas. Alta rotación, bajo costo y excelente margen para la finca.'},
-  {e:'🥕',n:'Zanahoria',       d:'Producción local, rica en betacaroteno, demanda constante en hogares',     cat:'Hortaliza',   p:1100, s:210,m:400,est:'medio', or:'Cundinamarca',          t:'Todo el año',    det:'La zanahoria es una de las hortalizas de mayor consumo en Colombia. Se usa en sopas, guisos, jugos y ensaladas. Ciclo de cosecha de 90 días. YPSA la recibe de minifincas de Cundinamarca semanalmente.'},
-  {e:'🧅',n:'Cebolla Cabezona',d:'Variedad blanca y morada; base de la cocina colombiana',                   cat:'Hortaliza',   p:2200, s:185,m:350,est:'medio', or:'Boyacá / Cundinamarca', t:'Todo el año',    det:'La cebolla cabezona es ingrediente insustituible en hogares y restaurantes colombianos. YPSA maneja la variedad blanca y morada. Se conserva bien por varios días, lo que reduce el riesgo de pérdida.'},
-  {e:'🍅',n:'Tomate Chonto',   d:'El más comercializado en Colombia; producción en invernadero y campo',     cat:'Hortaliza',   p:1800, s:160,m:300,est:'medio', or:'Antioquia / Santander', t:'Todo el año',    det:'El tomate chonto es el favorito para ensaladas, salsas y sofritos. Se produce bajo invernadero en Antioquia y a campo abierto en Santander. Es perecedero, por lo que YPSA hace rotación de stock cada 3 días.'},
-  {e:'🫘',n:'Fríjol Cargamanto',d:'Leguminosa emblema de la región, base del sancocho y el sudado',          cat:'Grano',       p:5500, s:95, m:200,est:'bajo',  or:'Antioquia / Eje Cafetero',t:'Mar – Jun',    det:'El fríjol cargamanto es símbolo de la gastronomía antioqueña. Se vende seco y verde. YPSA lo adquiere directamente de productores del Eje Cafetero. Alto valor por kilo y excelente margen de ganancia.'},
-  {e:'🥜',n:'Arveja Verde',    d:'Cosecha bimensual, alta rotación en plazas de mercado locales',            cat:'Grano',       p:3200, s:72, m:200,est:'bajo',  or:'Nariño / Boyacá',       t:'Ene – Mar',      det:'La arveja verde es una leguminosa de temporada con cosecha bimensual en las regiones frías del país. Se consume fresca y seca. YPSA la recibe de minifincas de Nariño y la comercializa en bolsas de 500g y 1kg.'},
-  {e:'🌿',n:'Cilantro',        d:'Aromática de alta rotación diaria; perecedero de ciclo corto',             cat:'Aromática',   p:500,  s:300,m:400,est:'alto',  or:'Cundinamarca / Boyacá',  t:'Todo el año',    det:'El cilantro es la aromática de mayor rotación en los mercados colombianos. YPSA lo recibe fresco cada 2 días de productores locales. Se vende en manojos de 50g y a granel. Perecedero: ciclo de venta máximo 48h.'},
-  {e:'🥬',n:'Espinaca',        d:'Hortaliza de hoja verde, cosecha semanal, demanda creciente',              cat:'Hortaliza',   p:1400, s:140,m:300,est:'medio', or:'Cundinamarca',          t:'Todo el año',    det:'La espinaca ha ganado mercado con la tendencia de alimentación saludable en Colombia. YPSA la recibe cosechada los lunes y viernes. Se vende fresca en atados de 250g, con buena demanda en supermercados locales.'},
-  {e:'🍠',n:'Yuca',            d:'Raíz andina de bajo costo y alta durabilidad; versátil en cocina',         cat:'Tubérculo',   p:900,  s:420,m:500,est:'alto',  or:'Tolima / Caldas',       t:'Todo el año',    det:'La yuca es un tubérculo de alta durabilidad y bajo precio que se adapta muy bien a la cocina colombiana. Se consume frita, sancochadda y en tortas. YPSA la comercializa en piezas y en arroba (12.5kg).'},
-  {e:'🫑',n:'Pimentón',        d:'Variedad roja y verde; producción bajo invernadero en Eje Cafetero',       cat:'Hortaliza',   p:3500, s:88, m:200,est:'bajo',  or:'Risaralda / Caldas',    t:'Todo el año',    det:'El pimentón se produce bajo invernadero en el Eje Cafetero colombiano. YPSA maneja variedad roja (más dulce) y verde (más firme). Se vende en unidades y kilogramo. Demanda creciente en restaurantes locales.'},
-  {e:'🍋',n:'Limón Tahití',    d:'Alta demanda gastronómica y en hogares; producción escalonada',            cat:'Fruta',       p:1200, s:350,m:500,est:'alto',  or:'Valle del Cauca / Tolima',t:'Todo el año',  det:'El limón Tahití es el cítrico más vendido en Colombia. YPSA lo recibe en cajas de 20kg de productores del Valle del Cauca. Alta rotación diaria. Se vende a restaurantes, cafeterías y consumidores finales.'},
-  {e:'🥦',n:'Brócoli',         d:'Hortaliza de temporada, cadena corta desde finca a consumidor',            cat:'Hortaliza',   p:2800, s:65, m:200,est:'bajo',  or:'Cundinamarca / Boyacá', t:'Jun – Nov',      det:'El brócoli se cultiva en zonas frías de Cundinamarca y Boyacá. YPSA lo comercializa bajo el modelo de cadena corta, con entrega directa del productor en menos de 24 horas. Demanda en restaurantes saludables.'},
-  {e:'🌶️',n:'Ají Dulce',       d:'Condimento base en cocina colombiana; producción en tierra caliente',     cat:'Aromática',   p:4000, s:50, m:150,est:'bajo',  or:'Tolima / Huila',        t:'Mar – Sep',      det:'El ají dulce es un condimento fundamental en la cocina colombiana de tierra caliente. YPSA lo recibe de productores del Tolima y Huila. Se vende fresco por kilo y en pequeños lotes para hogares y restaurantes.'},
-  {e:'🍑',n:'Lulo',            d:'Fruta nativa colombiana, utilizada en jugos y mermeladas artesanales',     cat:'Fruta',       p:2500, s:180,m:300,est:'medio', or:'Nariño / Putumayo',     t:'Jun – Dic',      det:'El lulo es una fruta nativa del piedemonte colombiano, muy apreciada en jugos naturales. YPSA lo recibe de productores de Nariño y Putumayo. Es perecedero — ciclo de venta de 5 días. Alta demanda en juguerías.'},
-  {e:'🥚',n:'Huevo Criollo',   d:'Producción avícola de patio en finca; alta demanda en mercado campesino', cat:'Proteína',    p:600,  s:400,m:600,est:'alto',  or:'Finca YPSA',            t:'Todo el año',    det:'El huevo criollo de patio es uno de los productos estrella de YPSA. Las gallinas se alimentan de maíz propio y pasto de la finca. El huevo criollo tiene cascara café oscura y yema naranja intensa — diferenciador de calidad.'},
-  {e:'🌱',n:'Pepino Cohombro', d:'Hortaliza refrescante; ciclo corto de 45 días, alta rotación',            cat:'Hortaliza',   p:1000, s:110,m:250,est:'medio', or:'Valle del Cauca',       t:'Todo el año',    det:'El pepino cohombro tiene un ciclo productivo corto de solo 45 días, lo que permite alta rotación. YPSA lo recibe del Valle del Cauca. Se vende en unidades y por kilo. Creciente demanda en ensaladas y cocina saludable.'},
+const PRODUCTS=[
+  {e:'🥔',n:'Papa Pastusa',d:'Variedad más consumida en Colombia, ideal para sopas y hervida',cat:'Tubérculo',p:1200,s:480,m:600,est:'alto',or:'Nariño / Cundinamarca',t:'Todo el año',det:'La papa pastusa es el tubérculo más comercializado en los mercados campesinos colombianos. Se cultiva principalmente en los departamentos de Nariño y Cundinamarca a más de 2.800 m de altitud. Ideal para sancochado, sopas y frituras. Alta rotación en plazas de mercado.'},
+  {e:'🌽',n:'Maíz Choclo',d:'Mazorca tierna cosechada en finca, vendida fresca en mercado campesino',cat:'Cereal',p:1500,s:320,m:500,est:'alto',or:'Eje Cafetero',t:'Abr – Oct',det:'El maíz choclo se cosecha tierno para consumo directo. Es base de la cocina colombiana en arepas, envueltos y mazamorra. Alta demanda en plazas locales. La finca YPSA lo comercializa fresco los lunes y jueves.'},
+  {e:'🍌',n:'Plátano Hartón',d:'Plátano de cocción, se comercializa verde y maduro según pedido',cat:'Fruta',p:800,s:540,m:600,est:'alto',or:'Urabá / Eje Cafetero',t:'Todo el año',det:'El plátano hartón es el más demandado en Colombia para cocinar. Se vende verde para patacones y maduros para fritar o en sopas. Alta rotación, bajo costo y excelente margen para la finca.'},
+  {e:'🥕',n:'Zanahoria',d:'Producción local, rica en betacaroteno, demanda constante en hogares',cat:'Hortaliza',p:1100,s:210,m:400,est:'medio',or:'Cundinamarca',t:'Todo el año',det:'La zanahoria es una de las hortalizas de mayor consumo en Colombia. Se usa en sopas, guisos, jugos y ensaladas. Ciclo de cosecha de 90 días. YPSA la recibe de minifincas de Cundinamarca semanalmente.'},
+  {e:'🧅',n:'Cebolla Cabezona',d:'Variedad blanca y morada; base de la cocina colombiana',cat:'Hortaliza',p:2200,s:185,m:350,est:'medio',or:'Boyacá / Cundinamarca',t:'Todo el año',det:'La cebolla cabezona es ingrediente insustituible en hogares y restaurantes colombianos. YPSA maneja la variedad blanca y morada. Se conserva bien por varios días, lo que reduce el riesgo de pérdida.'},
+  {e:'🍅',n:'Tomate Chonto',d:'El más comercializado en Colombia; producción en invernadero y campo',cat:'Hortaliza',p:1800,s:160,m:300,est:'medio',or:'Antioquia / Santander',t:'Todo el año',det:'El tomate chonto es el favorito para ensaladas, salsas y sofritos. Se produce bajo invernadero en Antioquia y a campo abierto en Santander. Es perecedero, por lo que YPSA hace rotación de stock cada 3 días.'},
+  {e:'🫘',n:'Fríjol Cargamanto',d:'Leguminosa emblema de la región, base del sancocho y el sudado',cat:'Grano',p:5500,s:95,m:200,est:'bajo',or:'Antioquia / Eje Cafetero',t:'Mar – Jun',det:'El fríjol cargamanto es símbolo de la gastronomía antioqueña. Se vende seco y verde. YPSA lo adquiere directamente de productores del Eje Cafetero. Alto valor por kilo y excelente margen de ganancia.'},
+  {e:'🥜',n:'Arveja Verde',d:'Cosecha bimensual, alta rotación en plazas de mercado locales',cat:'Grano',p:3200,s:72,m:200,est:'bajo',or:'Nariño / Boyacá',t:'Ene – Mar',det:'La arveja verde es una leguminosa de temporada con cosecha bimensual en las regiones frías del país. Se consume fresca y seca. YPSA la recibe de minifincas de Nariño y la comercializa en bolsas de 500g y 1kg.'},
+  {e:'🌿',n:'Cilantro',d:'Aromática de alta rotación diaria; perecedero de ciclo corto',cat:'Aromática',p:500,s:300,m:400,est:'alto',or:'Cundinamarca / Boyacá',t:'Todo el año',det:'El cilantro es la aromática de mayor rotación en los mercados colombianos. YPSA lo recibe fresco cada 2 días de productores locales. Se vende en manojos de 50g y a granel. Perecedero: ciclo de venta máximo 48h.'},
+  {e:'🥬',n:'Espinaca',d:'Hortaliza de hoja verde, cosecha semanal, demanda creciente',cat:'Hortaliza',p:1400,s:140,m:300,est:'medio',or:'Cundinamarca',t:'Todo el año',det:'La espinaca ha ganado mercado con la tendencia de alimentación saludable en Colombia. YPSA la recibe cosechada los lunes y viernes. Se vende fresca en atados de 250g, con buena demanda en supermercados locales.'},
+  {e:'🍠',n:'Yuca',d:'Raíz andina de bajo costo y alta durabilidad; versátil en cocina',cat:'Tubérculo',p:900,s:420,m:500,est:'alto',or:'Tolima / Caldas',t:'Todo el año',det:'La yuca es un tubérculo de alta durabilidad y bajo precio que se adapta muy bien a la cocina colombiana. Se consume frita, sancochada y en tortas. YPSA la comercializa en piezas y en arroba (12.5kg).'},
+  {e:'🫑',n:'Pimentón',d:'Variedad roja y verde; producción bajo invernadero en Eje Cafetero',cat:'Hortaliza',p:3500,s:88,m:200,est:'bajo',or:'Risaralda / Caldas',t:'Todo el año',det:'El pimentón se produce bajo invernadero en el Eje Cafetero colombiano. YPSA maneja variedad roja (más dulce) y verde (más firme). Se vende en unidades y kilogramo. Demanda creciente en restaurantes locales.'},
+  {e:'🍋',n:'Limón Tahití',d:'Alta demanda gastronómica y en hogares; producción escalonada',cat:'Fruta',p:1200,s:350,m:500,est:'alto',or:'Valle del Cauca / Tolima',t:'Todo el año',det:'El limón Tahití es el cítrico más vendido en Colombia. YPSA lo recibe en cajas de 20kg de productores del Valle del Cauca. Alta rotación diaria. Se vende a restaurantes, cafeterías y consumidores finales.'},
+  {e:'🥦',n:'Brócoli',d:'Hortaliza de temporada, cadena corta desde finca a consumidor',cat:'Hortaliza',p:2800,s:65,m:200,est:'bajo',or:'Cundinamarca / Boyacá',t:'Jun – Nov',det:'El brócoli se cultiva en zonas frías de Cundinamarca y Boyacá. YPSA lo comercializa bajo el modelo de cadena corta, con entrega directa del productor en menos de 24 horas. Demanda en restaurantes saludables.'},
+  {e:'🌶️',n:'Ají Dulce',d:'Condimento base en cocina colombiana; producción en tierra caliente',cat:'Aromática',p:4000,s:50,m:150,est:'bajo',or:'Tolima / Huila',t:'Mar – Sep',det:'El ají dulce es un condimento fundamental en la cocina colombiana de tierra caliente. YPSA lo recibe de productores del Tolima y Huila. Se vende fresco por kilo y en pequeños lotes para hogares y restaurantes.'},
+  {e:'🍑',n:'Lulo',d:'Fruta nativa colombiana, utilizada en jugos y mermeladas artesanales',cat:'Fruta',p:2500,s:180,m:300,est:'medio',or:'Nariño / Putumayo',t:'Jun – Dic',det:'El lulo es una fruta nativa del piedemonte colombiano, muy apreciada en jugos naturales. YPSA lo recibe de productores de Nariño y Putumayo. Es perecedero — ciclo de venta de 5 días. Alta demanda en juguerías.'},
+  {e:'🥚',n:'Huevo Criollo',d:'Producción avícola de patio en finca; alta demanda en mercado campesino',cat:'Proteína',p:600,s:400,m:600,est:'alto',or:'Finca YPSA',t:'Todo el año',det:'El huevo criollo de patio es uno de los productos estrella de YPSA. Las gallinas se alimentan de maíz propio y pasto de la finca. El huevo criollo tiene cáscara café oscura y yema naranja intensa — diferenciador de calidad.'},
+  {e:'🌱',n:'Pepino Cohombro',d:'Hortaliza refrescante; ciclo corto de 45 días, alta rotación',cat:'Hortaliza',p:1000,s:110,m:250,est:'medio',or:'Valle del Cauca',t:'Todo el año',det:'El pepino cohombro tiene un ciclo productivo corto de solo 45 días, lo que permite alta rotación. YPSA lo recibe del Valle del Cauca. Se vende en unidades y por kilo. Creciente demanda en ensaladas y cocina saludable.'},
+];
+const VENTAS=[
+  {id:'V-001',prod:'Papa Pastusa',cant:'50 kg',pu:'$1.200',total:'$60.000',cli:'Restaurante El Campo',fecha:'01/03/2026'},
+  {id:'V-002',prod:'Plátano Hartón',cant:'40 kg',pu:'$800',total:'$32.000',cli:'Tienda Doña Rosa',fecha:'01/03/2026'},
+  {id:'V-003',prod:'Tomate Chonto',cant:'30 kg',pu:'$1.800',total:'$54.000',cli:'Supermercado El Éxito',fecha:'02/03/2026'},
+  {id:'V-004',prod:'Cilantro',cant:'15 kg',pu:'$500',total:'$7.500',cli:'Carlos Mejía',fecha:'02/03/2026'},
+  {id:'V-005',prod:'Yuca',cant:'60 kg',pu:'$900',total:'$54.000',cli:'Fonda La Montaña',fecha:'03/03/2026'},
+  {id:'V-006',prod:'Maíz Choclo',cant:'25 unid',pu:'$1.500',total:'$37.500',cli:'Ana Gómez',fecha:'03/03/2026'},
+  {id:'V-007',prod:'Fríjol Cargamanto',cant:'20 kg',pu:'$5.500',total:'$110.000',cli:'Restaurante El Rancho',fecha:'04/03/2026'},
+  {id:'V-008',prod:'Limón Tahití',cant:'35 kg',pu:'$1.200',total:'$42.000',cli:'Jugos Naturales SAS',fecha:'04/03/2026'},
+  {id:'V-009',prod:'Zanahoria',cant:'45 kg',pu:'$1.100',total:'$49.500',cli:'Mercado Central',fecha:'05/03/2026'},
+  {id:'V-010',prod:'Cebolla Cabezona',cant:'28 kg',pu:'$2.200',total:'$61.600',cli:'Restaurante La Cosecha',fecha:'05/03/2026'},
+  {id:'V-011',prod:'Lulo',cant:'18 kg',pu:'$2.500',total:'$45.000',cli:'Jugos Naturales SAS',fecha:'06/03/2026'},
+  {id:'V-012',prod:'Huevo Criollo',cant:'10 doc',pu:'$7.200',total:'$72.000',cli:'Varios clientes',fecha:'06/03/2026'},
+  {id:'V-013',prod:'Pimentón',cant:'12 kg',pu:'$3.500',total:'$42.000',cli:'Restaurante El Campo',fecha:'07/03/2026'},
+  {id:'V-014',prod:'Brócoli',cant:'8 kg',pu:'$2.800',total:'$22.400',cli:'Naturcenter Pereira',fecha:'08/03/2026'},
+  {id:'V-015',prod:'Espinaca',cant:'10 kg',pu:'$1.400',total:'$14.000',cli:'Nutrición & Salud',fecha:'09/03/2026'},
+];
+const COMPRAS=[
+  {id:'C-001',prov:'Finca Los Pinos',prod:'Papa Pastusa',cant:'200 kg',pu:'$800',total:'$160.000',fecha:'01/03/2026'},
+  {id:'C-002',prov:'Agrocamp Nariño',prod:'Papa Pastusa',cant:'150 kg',pu:'$780',total:'$117.000',fecha:'02/03/2026'},
+  {id:'C-003',prov:'El Bananero',prod:'Plátano Hartón',cant:'300 kg',pu:'$450',total:'$135.000',fecha:'01/03/2026'},
+  {id:'C-004',prov:'Huerta Verde',prod:'Tomate Chonto',cant:'100 kg',pu:'$1.100',total:'$110.000',fecha:'02/03/2026'},
+  {id:'C-005',prov:'Finca La Aldea',prod:'Maíz Choclo',cant:'120 unid',pu:'$900',total:'$108.000',fecha:'03/03/2026'},
+  {id:'C-006',prov:'Productora Andina',prod:'Fríjol Cargamanto',cant:'50 kg',pu:'$3.800',total:'$190.000',fecha:'04/03/2026'},
+  {id:'C-007',prov:'Cítricos del Valle',prod:'Limón Tahití',cant:'200 kg',pu:'$700',total:'$140.000',fecha:'03/03/2026'},
+  {id:'C-008',prov:'Huerta Verde',prod:'Zanahoria',cant:'180 kg',pu:'$650',total:'$117.000',fecha:'05/03/2026'},
+  {id:'C-009',prov:'Avícola Campesina',prod:'Huevo Criollo',cant:'50 doc',pu:'$4.000',total:'$200.000',fecha:'06/03/2026'},
+  {id:'C-010',prov:'Aromáticas Boyacá',prod:'Cilantro',cant:'80 kg',pu:'$300',total:'$24.000',fecha:'07/03/2026'},
+];
+const PROVEEDORES=[
+  {e:'🌿',n:'Finca Los Pinos',loc:'Nariño, Colombia',prods:['Papa Pastusa','Arveja Verde'],tel:'310 456 7890',calidad:'Excelente'},
+  {e:'🌾',n:'Agrocamp Nariño',loc:'Pasto, Nariño',prods:['Papa Pastusa','Zanahoria'],tel:'314 789 1234',calidad:'Muy buena'},
+  {e:'🍌',n:'El Bananero',loc:'Urabá, Antioquia',prods:['Plátano Hartón'],tel:'300 123 4567',calidad:'Excelente'},
+  {e:'🥬',n:'Huerta Verde',loc:'Cundinamarca',prods:['Tomate Chonto','Zanahoria','Espinaca','Cilantro'],tel:'316 654 3210',calidad:'Muy buena'},
+  {e:'🌽',n:'Finca La Aldea',loc:'Risaralda',prods:['Maíz Choclo','Yuca'],tel:'312 000 5555',calidad:'Buena'},
+  {e:'🫘',n:'Productora Andina',loc:'Antioquia',prods:['Fríjol Cargamanto','Arveja Verde'],tel:'318 321 9876',calidad:'Excelente'},
+  {e:'🍋',n:'Cítricos del Valle',loc:'Valle del Cauca',prods:['Limón Tahití','Pepino Cohombro'],tel:'315 111 2233',calidad:'Muy buena'},
+  {e:'🥚',n:'Avícola Campesina',loc:'Finca YPSA',prods:['Huevo Criollo'],tel:'311 777 8899',calidad:'Excelente'},
+  {e:'🌱',n:'Aromáticas Boyacá',loc:'Tunja, Boyacá',prods:['Cilantro','Ají Dulce'],tel:'317 456 1230',calidad:'Buena'},
+  {e:'🍑',n:'Tropifrutas Nariño',loc:'Pasto / Putumayo',prods:['Lulo','Ají Dulce'],tel:'313 888 4455',calidad:'Muy buena'},
+  {e:'🥦',n:'Frío Andino',loc:'Duitama, Boyacá',prods:['Brócoli','Espinaca'],tel:'320 234 5678',calidad:'Buena'},
+  {e:'🫑',n:'Invernadero Eje',loc:'Pereira, Risaralda',prods:['Pimentón','Tomate Chonto'],tel:'319 345 6789',calidad:'Excelente'},
+];
+const USUARIOS=[
+  {av:'👑',n:'Carlos Ospina',rol:'Administrador',user:'admin',dep:'Gerencia',bg:'rgba(0,229,176,.12)'},
+  {av:'👑',n:'Luisa Herrera',rol:'Administrador',user:'ladmin',dep:'Gerencia',bg:'rgba(0,229,176,.12)'},
+  {av:'👑',n:'Marco Torres',rol:'Administrador',user:'mtadmin',dep:'Sistemas',bg:'rgba(0,229,176,.12)'},
+  {av:'🧑‍💼',n:'Andrés Montoya',rol:'Vendedor',user:'vendedor',dep:'Comercial',bg:'rgba(108,92,231,.12)'},
+  {av:'🧑‍💼',n:'Sandra Ríos',rol:'Vendedor',user:'srios',dep:'Comercial',bg:'rgba(108,92,231,.12)'},
+  {av:'🧑‍💼',n:'Pedro Castaño',rol:'Vendedor',user:'pcastano',dep:'Comercial',bg:'rgba(108,92,231,.12)'},
+  {av:'🧑‍💼',n:'Juliana López',rol:'Vendedor',user:'jlopez',dep:'Comercial',bg:'rgba(108,92,231,.12)'},
+  {av:'🧑‍💼',n:'Diego Salcedo',rol:'Vendedor',user:'dsalcedo',dep:'Comercial',bg:'rgba(108,92,231,.12)'},
+  {av:'🧑‍💼',n:'Marcela Pinto',rol:'Vendedor',user:'mpinto',dep:'Comercial',bg:'rgba(108,92,231,.12)'},
+  {av:'🧑‍💼',n:'Ricardo Vargas',rol:'Vendedor',user:'rvargas',dep:'Comercial',bg:'rgba(108,92,231,.12)'},
+  {av:'🧑‍💼',n:'Nathalia Gómez',rol:'Vendedor',user:'ngomez',dep:'Comercial',bg:'rgba(108,92,231,.12)'},
+  {av:'👤',n:'Restaurante El Campo',rol:'Cliente',user:'cliente',dep:'Gastronomía',bg:'rgba(255,140,66,.1)'},
+  {av:'👤',n:'Tienda Doña Rosa',rol:'Cliente',user:'rosa',dep:'Minorista',bg:'rgba(255,140,66,.1)'},
+  {av:'👤',n:'Supermercado El Éxito',rol:'Cliente',user:'exito',dep:'Cadena',bg:'rgba(255,140,66,.1)'},
+  {av:'👤',n:'Jugos Naturales SAS',rol:'Cliente',user:'jugos',dep:'Gastronomía',bg:'rgba(255,140,66,.1)'},
+  {av:'👤',n:'Mercado Central',rol:'Cliente',user:'mercado',dep:'Plaza',bg:'rgba(255,140,66,.1)'},
+  {av:'👤',n:'Fonda La Montaña',rol:'Cliente',user:'fonda',dep:'Gastronomía',bg:'rgba(255,140,66,.1)'},
+  {av:'👤',n:'Nutrición & Salud',rol:'Cliente',user:'nutri',dep:'Retail',bg:'rgba(255,140,66,.1)'},
+  {av:'👤',n:'Carlos Mejía',rol:'Cliente',user:'cmejia',dep:'Particular',bg:'rgba(255,140,66,.1)'},
+  {av:'👤',n:'Ana Gómez',rol:'Cliente',user:'agomez',dep:'Particular',bg:'rgba(255,140,66,.1)'},
+  {av:'👤',n:'Naturcenter Pereira',rol:'Cliente',user:'nature',dep:'Retail',bg:'rgba(255,140,66,.1)'},
+  {av:'👤',n:'Restaurante La Cosecha',rol:'Cliente',user:'cosecha',dep:'Gastronomía',bg:'rgba(255,140,66,.1)'},
+  {av:'👤',n:'Restaurante El Rancho',rol:'Cliente',user:'rancho',dep:'Gastronomía',bg:'rgba(255,140,66,.1)'},
+  {av:'🚚',n:'Finca Los Pinos',rol:'Proveedor',user:'proveedor',dep:'Nariño',bg:'rgba(245,200,66,.1)'},
+  {av:'🚚',n:'Huerta Verde',rol:'Proveedor',user:'hv',dep:'Cundinamarca',bg:'rgba(245,200,66,.1)'},
+  {av:'🚚',n:'El Bananero',rol:'Proveedor',user:'banana',dep:'Urabá',bg:'rgba(245,200,66,.1)'},
+  {av:'🚚',n:'Avícola Campesina',rol:'Proveedor',user:'avicola',dep:'YPSA',bg:'rgba(245,200,66,.1)'},
+];
+const PERDIDAS=[
+  {prod:'Cilantro',kg:30,causa:'Deterioro por humedad',val:'$15.000',fecha:'05/03/2026',resp:'Pedro Castaño'},
+  {prod:'Tomate Chonto',kg:25,causa:'Maduración acelerada',val:'$45.000',fecha:'06/03/2026',resp:'Sandra Ríos'},
+  {prod:'Lulo',kg:12,causa:'Transporte inadecuado',val:'$30.000',fecha:'07/03/2026',resp:'Andrés Montoya'},
+  {prod:'Brócoli',kg:8,causa:'Temperatura incorrecta',val:'$22.400',fecha:'08/03/2026',resp:'Juliana López'},
+  {prod:'Espinaca',kg:18,causa:'Exceso de inventario',val:'$25.200',fecha:'09/03/2026',resp:'Pedro Castaño'},
+  {prod:'Pimentón',kg:10,causa:'Daño físico en transporte',val:'$35.000',fecha:'10/03/2026',resp:'Diego Salcedo'},
+  {prod:'Ají Dulce',kg:8,causa:'Fecha de vencimiento',val:'$32.000',fecha:'11/03/2026',resp:'Sandra Ríos'},
+  {prod:'Arveja Verde',kg:15,causa:'Humedad excesiva en bodega',val:'$48.000',fecha:'12/03/2026',resp:'Marcela Pinto'},
+  {prod:'Papa Pastusa',kg:12,causa:'Pudrición por almacenamiento',val:'$14.400',fecha:'13/03/2026',resp:'Ricardo Vargas'},
+];
+const AUTH_USERS=[
+  {ico:'ai-admin',e:'👑',n:'Carlos Ospina',user:'admin',rol:'Administrador',perms:'Acceso total al sistema. Gestión de usuarios, configuración, reportes y todos los módulos.',tasks:''},
+  {ico:'ai-admin',e:'👑',n:'Luisa Herrera',user:'ladmin',rol:'Administrador',perms:'Acceso total al sistema. Gestión de usuarios, configuración, reportes y todos los módulos.',tasks:''},
+  {ico:'ai-admin',e:'👑',n:'Marco Torres',user:'mtadmin',rol:'Administrador',perms:'Administrador de sistemas. Gestión de infraestructura, backups y seguridad del servidor.',tasks:''},
+  {ico:'ai-sup',e:'🛠️',n:'Juan Peñaloza',user:'soporte1',rol:'Soporte Técnico',perms:'Puede acceder a logs del sistema, resetear contraseñas de usuarios y generar reportes técnicos.',tasks:'Monitoreo de uptime, resolución de incidencias, soporte a vendedores'},
+  {ico:'ai-sup',e:'🛠️',n:'Valentina Cruz',user:'soporte2',rol:'Soporte Técnico',perms:'Puede revisar errores del sistema, apoyar en capacitación de usuarios y subir actualizaciones.',tasks:'Capacitación de usuarios, documentación técnica, pruebas de módulos'},
+  {ico:'ai-sup',e:'🛠️',n:'Felipe Mora',user:'soporte3',rol:'Soporte Técnico',perms:'Puede ejecutar mantenimientos programados, limpiar caché y verificar integridad de la base de datos.',tasks:'Mantenimiento nocturno, backups, auditoría de accesos'},
+  {ico:'ai-ven',e:'🧑‍💼',n:'Andrés Montoya',user:'vendedor',rol:'Vendedor',perms:'Acceso a módulo de ventas, consulta de inventario y registro de transacciones con clientes.',tasks:''},
+  {ico:'ai-cli',e:'👤',n:'Restaurante El Campo',user:'cliente',rol:'Cliente',perms:'Consulta de productos disponibles, historial de compras propias y generación de pedidos.',tasks:''},
+];
+const STATS_DATA=[
+  {n:'Papa Pastusa',compras:600,ventas:480,perdidas:20,ing:576000},
+  {n:'Plátano Hartón',compras:580,ventas:540,perdidas:18,ing:432000},
+  {n:'Maíz Choclo',compras:500,ventas:320,perdidas:10,ing:480000},
+  {n:'Yuca',compras:500,ventas:420,perdidas:12,ing:378000},
+  {n:'Cilantro',compras:400,ventas:300,perdidas:30,ing:150000},
+  {n:'Zanahoria',compras:400,ventas:210,perdidas:15,ing:231000},
+  {n:'Cebolla',compras:350,ventas:185,perdidas:8,ing:407000},
+  {n:'Tomate Chonto',compras:300,ventas:160,perdidas:25,ing:288000},
 ];
 
-const VENTAS = [
-  {id:'V-001',prod:'Papa Pastusa',cant:'50 kg',pu:'$1.200',total:'$60.000',cli:'Restaurante El Campo',fecha:'01/03/2026',est:'alto'},
-  {id:'V-002',prod:'Plátano Hartón',cant:'40 kg',pu:'$800',total:'$32.000',cli:'Tienda Doña Rosa',fecha:'01/03/2026',est:'alto'},
-  {id:'V-003',prod:'Tomate Chonto',cant:'30 kg',pu:'$1.800',total:'$54.000',cli:'Supermercado El Éxito',fecha:'02/03/2026',est:'alto'},
-  {id:'V-004',prod:'Cilantro',cant:'15 kg',pu:'$500',total:'$7.500',cli:'Carlos Mejía',fecha:'02/03/2026',est:'alto'},
-  {id:'V-005',prod:'Yuca',cant:'60 kg',pu:'$900',total:'$54.000',cli:'Fonda La Montaña',fecha:'03/03/2026',est:'alto'},
-  {id:'V-006',prod:'Maíz Choclo',cant:'25 unid',pu:'$1.500',total:'$37.500',cli:'Ana Gómez',fecha:'03/03/2026',est:'alto'},
-  {id:'V-007',prod:'Fríjol Cargamanto',cant:'20 kg',pu:'$5.500',total:'$110.000',cli:'Restaurante El Rancho',fecha:'04/03/2026',est:'alto'},
-  {id:'V-008',prod:'Limón Tahití',cant:'35 kg',pu:'$1.200',total:'$42.000',cli:'Jugos Naturales SAS',fecha:'04/03/2026',est:'alto'},
-  {id:'V-009',prod:'Zanahoria',cant:'45 kg',pu:'$1.100',total:'$49.500',cli:'Mercado Central',fecha:'05/03/2026',est:'alto'},
-  {id:'V-010',prod:'Cebolla Cabezona',cant:'28 kg',pu:'$2.200',total:'$61.600',cli:'Restaurante La Cosecha',fecha:'05/03/2026',est:'alto'},
-  {id:'V-011',prod:'Lulo',cant:'18 kg',pu:'$2.500',total:'$45.000',cli:'Jugos Naturales SAS',fecha:'06/03/2026',est:'alto'},
-  {id:'V-012',prod:'Huevo Criollo',cant:'10 doc',pu:'$7.200',total:'$72.000',cli:'Varios clientes',fecha:'06/03/2026',est:'alto'},
-  {id:'V-013',prod:'Pimentón',cant:'12 kg',pu:'$3.500',total:'$42.000',cli:'Restaurante El Campo',fecha:'07/03/2026',est:'alto'},
-  {id:'V-014',prod:'Brócoli',cant:'8 kg',pu:'$2.800',total:'$22.400',cli:'Naturcenter Pereira',fecha:'08/03/2026',est:'alto'},
-  {id:'V-015',prod:'Espinaca',cant:'10 kg',pu:'$1.400',total:'$14.000',cli:'Nutrición & Salud',fecha:'09/03/2026',est:'alto'},
-];
-
-const COMPRAS = [
-  {id:'C-001',prov:'Finca Los Pinos',prod:'Papa Pastusa',cant:'200 kg',pu:'$800',total:'$160.000',fecha:'01/03/2026',est:'alto'},
-  {id:'C-002',prov:'Agrocamp Nariño',prod:'Papa Pastusa',cant:'150 kg',pu:'$780',total:'$117.000',fecha:'02/03/2026',est:'alto'},
-  {id:'C-003',prov:'El Bananero',prod:'Plátano Hartón',cant:'300 kg',pu:'$450',total:'$135.000',fecha:'01/03/2026',est:'alto'},
-  {id:'C-004',prov:'Huerta Verde',prod:'Tomate Chonto',cant:'100 kg',pu:'$1.100',total:'$110.000',fecha:'02/03/2026',est:'alto'},
-  {id:'C-005',prov:'Finca La Aldea',prod:'Maíz Choclo',cant:'120 unid',pu:'$900',total:'$108.000',fecha:'03/03/2026',est:'alto'},
-  {id:'C-006',prov:'Productora Andina',prod:'Fríjol Cargamanto',cant:'50 kg',pu:'$3.800',total:'$190.000',fecha:'04/03/2026',est:'alto'},
-  {id:'C-007',prov:'Cítricos del Valle',prod:'Limón Tahití',cant:'200 kg',pu:'$700',total:'$140.000',fecha:'03/03/2026',est:'alto'},
-  {id:'C-008',prov:'Huerta Verde',prod:'Zanahoria',cant:'180 kg',pu:'$650',total:'$117.000',fecha:'05/03/2026',est:'alto'},
-  {id:'C-009',prov:'Avícola Campesina',prod:'Huevo Criollo',cant:'50 doc',pu:'$4.000',total:'$200.000',fecha:'06/03/2026',est:'alto'},
-  {id:'C-010',prov:'Aromáticas Boyacá',prod:'Cilantro',cant:'80 kg',pu:'$300',total:'$24.000',fecha:'07/03/2026',est:'alto'},
-];
-
-const PROVEEDORES = [
-  {e:'🌿',n:'Finca Los Pinos',    loc:'Nariño, Colombia',    prods:['Papa Pastusa','Arveja Verde'],       tel:'310 456 7890',calidad:'Excelente'},
-  {e:'🌾',n:'Agrocamp Nariño',    loc:'Pasto, Nariño',       prods:['Papa Pastusa','Zanahoria'],          tel:'314 789 1234',calidad:'Muy buena'},
-  {e:'🍌',n:'El Bananero',        loc:'Urabá, Antioquia',    prods:['Plátano Hartón'],                    tel:'300 123 4567',calidad:'Excelente'},
-  {e:'🥬',n:'Huerta Verde',       loc:'Cundinamarca',        prods:['Tomate Chonto','Zanahoria','Espinaca','Cilantro'],tel:'316 654 3210',calidad:'Muy buena'},
-  {e:'🌽',n:'Finca La Aldea',     loc:'Risaralda',           prods:['Maíz Choclo','Yuca'],                tel:'312 000 5555',calidad:'Buena'},
-  {e:'🫘',n:'Productora Andina',  loc:'Antioquia',           prods:['Fríjol Cargamanto','Arveja Verde'],  tel:'318 321 9876',calidad:'Excelente'},
-  {e:'🍋',n:'Cítricos del Valle', loc:'Valle del Cauca',     prods:['Limón Tahití','Pepino Cohombro'],    tel:'315 111 2233',calidad:'Muy buena'},
-  {e:'🥚',n:'Avícola Campesina',  loc:'Finca YPSA',          prods:['Huevo Criollo'],                     tel:'311 777 8899',calidad:'Excelente'},
-  {e:'🌱',n:'Aromáticas Boyacá',  loc:'Tunja, Boyacá',       prods:['Cilantro','Ají Dulce'],              tel:'317 456 1230',calidad:'Buena'},
-  {e:'🍑',n:'Tropifrutas Nariño', loc:'Pasto / Putumayo',    prods:['Lulo','Ají Dulce'],                  tel:'313 888 4455',calidad:'Muy buena'},
-  {e:'🥦',n:'Frío Andino',        loc:'Duitama, Boyacá',     prods:['Brócoli','Espinaca'],                tel:'320 234 5678',calidad:'Buena'},
-  {e:'🫑',n:'Invernadero Eje',    loc:'Pereira, Risaralda',  prods:['Pimentón','Tomate Chonto'],          tel:'319 345 6789',calidad:'Excelente'},
-];
-
-const USUARIOS = [
-  // Admins
-  {av:'👑',n:'Carlos Ospina',    rol:'Administrador', user:'admin',    dep:'Gerencia',     tel:'312 000 0001',bg:'rgba(0,229,176,.12)',c:'var(--accent)'},
-  {av:'👑',n:'Luisa Herrera',    rol:'Administrador', user:'ladmin',   dep:'Gerencia',     tel:'312 000 0002',bg:'rgba(0,229,176,.12)',c:'var(--accent)'},
-  {av:'👑',n:'Marco Torres',     rol:'Administrador', user:'mtadmin',  dep:'Sistemas',     tel:'312 000 0003',bg:'rgba(0,229,176,.12)',c:'var(--accent)'},
-  // Vendedores
-  {av:'🧑‍💼',n:'Andrés Montoya',  rol:'Vendedor',      user:'vendedor', dep:'Comercial',    tel:'314 111 0001',bg:'rgba(108,92,231,.12)',c:'var(--accent2)'},
-  {av:'🧑‍💼',n:'Sandra Ríos',     rol:'Vendedor',      user:'srios',    dep:'Comercial',    tel:'314 111 0002',bg:'rgba(108,92,231,.12)',c:'var(--accent2)'},
-  {av:'🧑‍💼',n:'Pedro Castaño',   rol:'Vendedor',      user:'pcastano', dep:'Comercial',    tel:'314 111 0003',bg:'rgba(108,92,231,.12)',c:'var(--accent2)'},
-  {av:'🧑‍💼',n:'Juliana López',   rol:'Vendedor',      user:'jlopez',   dep:'Comercial',    tel:'314 111 0004',bg:'rgba(108,92,231,.12)',c:'var(--accent2)'},
-  {av:'🧑‍💼',n:'Diego Salcedo',   rol:'Vendedor',      user:'dsalcedo', dep:'Comercial',    tel:'314 111 0005',bg:'rgba(108,92,231,.12)',c:'var(--accent2)'},
-  {av:'🧑‍💼',n:'Marcela Pinto',   rol:'Vendedor',      user:'mpinto',   dep:'Comercial',    tel:'314 111 0006',bg:'rgba(108,92,231,.12)',c:'var(--accent2)'},
-  {av:'🧑‍💼',n:'Ricardo Vargas',  rol:'Vendedor',      user:'rvargas',  dep:'Comercial',    tel:'314 111 0007',bg:'rgba(108,92,231,.12)',c:'var(--accent2)'},
-  {av:'🧑‍💼',n:'Nathalia Gómez',  rol:'Vendedor',      user:'ngomez',   dep:'Comercial',    tel:'314 111 0008',bg:'rgba(108,92,231,.12)',c:'var(--accent2)'},
-  // Clientes
-  {av:'👤',n:'Restaurante El Campo',   rol:'Cliente',user:'cliente', dep:'Gastronomía', tel:'320 222 0001',bg:'rgba(255,140,66,.1)',c:'var(--orange)'},
-  {av:'👤',n:'Tienda Doña Rosa',       rol:'Cliente',user:'rosa',    dep:'Minorista',   tel:'320 222 0002',bg:'rgba(255,140,66,.1)',c:'var(--orange)'},
-  {av:'👤',n:'Supermercado El Éxito',  rol:'Cliente',user:'exito',   dep:'Cadena',      tel:'320 222 0003',bg:'rgba(255,140,66,.1)',c:'var(--orange)'},
-  {av:'👤',n:'Jugos Naturales SAS',    rol:'Cliente',user:'jugos',   dep:'Gastronomía', tel:'320 222 0004',bg:'rgba(255,140,66,.1)',c:'var(--orange)'},
-  {av:'👤',n:'Mercado Central',        rol:'Cliente',user:'mercado', dep:'Plaza',       tel:'320 222 0005',bg:'rgba(255,140,66,.1)',c:'var(--orange)'},
-  {av:'👤',n:'Fonda La Montaña',       rol:'Cliente',user:'fonda',   dep:'Gastronomía', tel:'320 222 0006',bg:'rgba(255,140,66,.1)',c:'var(--orange)'},
-  {av:'👤',n:'Nutrición & Salud',      rol:'Cliente',user:'nutri',   dep:'Retail',      tel:'320 222 0007',bg:'rgba(255,140,66,.1)',c:'var(--orange)'},
-  {av:'👤',n:'Carlos Mejía',           rol:'Cliente',user:'cmejia',  dep:'Particular',  tel:'320 222 0008',bg:'rgba(255,140,66,.1)',c:'var(--orange)'},
-  {av:'👤',n:'Ana Gómez',              rol:'Cliente',user:'agomez',  dep:'Particular',  tel:'320 222 0009',bg:'rgba(255,140,66,.1)',c:'var(--orange)'},
-  {av:'👤',n:'Naturcenter Pereira',    rol:'Cliente',user:'nature',  dep:'Retail',      tel:'320 222 0010',bg:'rgba(255,140,66,.1)',c:'var(--orange)'},
-  {av:'👤',n:'Restaurante La Cosecha', rol:'Cliente',user:'cosecha', dep:'Gastronomía', tel:'320 222 0011',bg:'rgba(255,140,66,.1)',c:'var(--orange)'},
-  {av:'👤',n:'Restaurante El Rancho',  rol:'Cliente',user:'rancho',  dep:'Gastronomía', tel:'320 222 0012',bg:'rgba(255,140,66,.1)',c:'var(--orange)'},
-  // Proveedores
-  {av:'🚚',n:'Finca Los Pinos',    rol:'Proveedor',user:'proveedor',dep:'Nariño',    tel:'310 456 7890',bg:'rgba(245,200,66,.1)',c:'var(--gold)'},
-  {av:'🚚',n:'Huerta Verde',       rol:'Proveedor',user:'hv',       dep:'Cundinamarca',tel:'316 654 3210',bg:'rgba(245,200,66,.1)',c:'var(--gold)'},
-  {av:'🚚',n:'El Bananero',        rol:'Proveedor',user:'banana',   dep:'Urabá',     tel:'300 123 4567',bg:'rgba(245,200,66,.1)',c:'var(--gold)'},
-  {av:'🚚',n:'Avícola Campesina',  rol:'Proveedor',user:'avicola',  dep:'YPSA',      tel:'311 777 8899',bg:'rgba(245,200,66,.1)',c:'var(--gold)'},
-];
-
-const PERDIDAS = [
-  {prod:'Cilantro',      kg:30, causa:'Deterioro por humedad',      val:'$15.000', fecha:'05/03/2026', resp:'Pedro Castaño'},
-  {prod:'Tomate Chonto', kg:25, causa:'Maduración acelerada',       val:'$45.000', fecha:'06/03/2026', resp:'Sandra Ríos'},
-  {prod:'Lulo',          kg:12, causa:'Transporte inadecuado',      val:'$30.000', fecha:'07/03/2026', resp:'Andrés Montoya'},
-  {prod:'Brócoli',       kg:8,  causa:'Temperatura incorrecta',     val:'$22.400', fecha:'08/03/2026', resp:'Juliana López'},
-  {prod:'Espinaca',      kg:18, causa:'Exceso de inventario',       val:'$25.200', fecha:'09/03/2026', resp:'Pedro Castaño'},
-  {prod:'Pimentón',      kg:10, causa:'Daño físico en transporte',  val:'$35.000', fecha:'10/03/2026', resp:'Diego Salcedo'},
-  {prod:'Ají Dulce',     kg:8,  causa:'Fecha de vencimiento',       val:'$32.000', fecha:'11/03/2026', resp:'Sandra Ríos'},
-  {prod:'Arveja Verde',  kg:15, causa:'Humedad excesiva en bodega', val:'$48.000', fecha:'12/03/2026', resp:'Marcela Pinto'},
-  {prod:'Papa Pastusa',  kg:12, causa:'Pudrición por almacenamiento',val:'$14.400',fecha:'13/03/2026', resp:'Ricardo Vargas'},
-];
-
-const AUTH_USERS = [
-  {ico:'ai-admin',e:'👑',n:'Carlos Ospina',   user:'admin',     rol:'Administrador',  perms:'Acceso total al sistema. Gestión de usuarios, configuración, reportes y todos los módulos.',     tasks:''},
-  {ico:'ai-admin',e:'👑',n:'Luisa Herrera',   user:'ladmin',    rol:'Administrador',  perms:'Acceso total al sistema. Gestión de usuarios, configuración, reportes y todos los módulos.',     tasks:''},
-  {ico:'ai-admin',e:'👑',n:'Marco Torres',    user:'mtadmin',   rol:'Administrador',  perms:'Administrador de sistemas. Gestión de infraestructura, backups y seguridad del servidor.',       tasks:''},
-  {ico:'ai-sup',  e:'🛠️',n:'Juan Peñaloza',  user:'soporte1',  rol:'Soporte Técnico',perms:'Puede acceder a logs del sistema, resetear contraseñas de usuarios y generar reportes técnicos.',tasks:'Monitoreo de uptime, resolución de incidencias, soporte a vendedores'},
-  {ico:'ai-sup',  e:'🛠️',n:'Valentina Cruz', user:'soporte2',  rol:'Soporte Técnico',perms:'Puede revisar errores del sistema, apoyar en capacitación de usuarios y subir actualizaciones.',tasks:'Capacitación de usuarios, documentación técnica, pruebas de módulos'},
-  {ico:'ai-sup',  e:'🛠️',n:'Felipe Mora',    user:'soporte3',  rol:'Soporte Técnico',perms:'Puede ejecutar mantenimientos programados, limpiar caché y verificar integridad de la base de datos.',tasks:'Mantenimiento nocturno, backups, auditoría de accesos'},
-  {ico:'ai-ven',  e:'🧑‍💼',n:'Andrés Montoya', user:'vendedor',  rol:'Vendedor',       perms:'Acceso a módulo de ventas, consulta de inventario y registro de transacciones con clientes.',   tasks:''},
-  {ico:'ai-cli',  e:'👤',n:'Restaurante El Campo',user:'cliente',rol:'Cliente',       perms:'Consulta de productos disponibles, historial de compras propias y generación de pedidos.',       tasks:''},
-];
-
-const STATS_DATA = [
-  {n:'Papa Pastusa',   compras:600,ventas:480,perdidas:20, ing:576000},
-  {n:'Plátano Hartón', compras:580,ventas:540,perdidas:18, ing:432000},
-  {n:'Maíz Choclo',   compras:500,ventas:320,perdidas:10, ing:480000},
-  {n:'Yuca',           compras:500,ventas:420,perdidas:12, ing:378000},
-  {n:'Cilantro',       compras:400,ventas:300,perdidas:30, ing:150000},
-  {n:'Zanahoria',      compras:400,ventas:210,perdidas:15, ing:231000},
-  {n:'Cebolla',        compras:350,ventas:185,perdidas:8,  ing:407000},
-  {n:'Tomate Chonto',  compras:300,ventas:160,perdidas:25, ing:288000},
-];
-
-// ═══════ LOGIN ═══════
 const CREDS={Administrador:{user:'admin',pass:'123456'},Vendedor:{user:'vendedor',pass:'123456'},Cliente:{user:'cliente',pass:'123456'},Proveedor:{user:'proveedor',pass:'123456'}};
 const RICONS={Administrador:'👑',Vendedor:'🧑‍💼',Cliente:'👤',Proveedor:'🚚'};
 let selRole='Administrador';
 
 function selectRole(b){document.querySelectorAll('.rbtn').forEach(x=>x.classList.remove('active'));b.classList.add('active');selRole=b.dataset.role;hideErr();}
-function doLogin(){
-  const u=document.getElementById('username').value.trim();
-  const p=document.getElementById('password').value.trim();
-  if(u===CREDS[selRole].user&&p===CREDS[selRole].pass){goDash(u);}else{showErr();}
-}
-function goDash(u){
-  document.getElementById('loginPage').style.display='none';
-  document.getElementById('dashPage').style.display='block';
-  document.getElementById('navUN').textContent=u;
-  document.getElementById('navUR').textContent=selRole;
-  document.getElementById('navAv').textContent=RICONS[selRole];
-  buildAll();startSessionTimer();
-}
+function doLogin(){const u=document.getElementById('username').value.trim();const p=document.getElementById('password').value.trim();if(u===CREDS[selRole].user&&p===CREDS[selRole].pass){goDash(u);}else{showErr();}}
+function goDash(u){document.getElementById('loginPage').style.display='none';document.getElementById('dashPage').style.display='block';document.getElementById('navUN').textContent=u;document.getElementById('navUR').textContent=selRole;document.getElementById('navAv').textContent=RICONS[selRole];buildAll();startSessionTimer();}
 function showErr(){const m=document.getElementById('errmsg');m.style.display='block';m.style.animation='none';void m.offsetWidth;m.style.animation='shake .4s ease';document.getElementById('username').classList.add('err');document.getElementById('password').classList.add('err');}
 function hideErr(){document.getElementById('errmsg').style.display='none';document.getElementById('username').classList.remove('err');document.getElementById('password').classList.remove('err');}
 function togglePass(){const i=document.getElementById('password');i.type=i.type==='password'?'text':'password';}
 document.addEventListener('keydown',e=>{if(e.key==='Enter')doLogin();});
 ['username','password'].forEach(id=>document.getElementById(id).addEventListener('input',hideErr));
 
-// ═══════ NAVIGATION ═══════
 function go(id,btn){
   document.querySelectorAll('.dash-section').forEach(s=>s.classList.remove('active'));
   document.getElementById('sec-'+id).classList.add('active');
   document.querySelectorAll('.nav-tab').forEach(t=>t.classList.remove('active'));
   if(btn){btn.classList.add('active');}
-  else{document.querySelectorAll('.nav-tab').forEach(t=>{if(t.textContent.includes(id.slice(0,4).charAt(0).toUpperCase()+id.slice(1,4)))t.classList.add('active');});}
 }
 
-// ═══════ BUILD ALL ═══════
-function buildAll(){
-  buildProdGrid();buildInvTable();buildVentas();buildCompras();buildUsers();buildPerdidas();buildAuth();buildBarChart();buildStatsTable();
-}
+function buildAll(){buildProdGrid();buildInvTable();buildVentas();buildCompras();buildUsers();buildPerdidas();buildAuth();buildBarChart();buildStatsTable();}
 
-// PRODUCTOS GRID
 function buildProdGrid(){
   document.getElementById('prodGrid').innerHTML=PRODUCTS.map((p,i)=>`
     <div onclick="openModal(${i})" style="background:var(--surface);border:1px solid var(--border);border-radius:14px;padding:18px;cursor:pointer;transition:border-color .2s,transform .2s;" onmouseover="this.style.borderColor='rgba(0,229,176,.4)';this.style.transform='translateY(-3px)'" onmouseout="this.style.borderColor='rgba(255,255,255,.08)';this.style.transform='translateY(0)'">
@@ -682,13 +1461,8 @@ function buildProdGrid(){
       </div>
     </div>`).join('');
 }
-function filterProds(q){
-  document.querySelectorAll('#prodGrid > div').forEach((el,i)=>{
-    el.style.display=PRODUCTS[i].n.toLowerCase().includes(q.toLowerCase())||PRODUCTS[i].cat.toLowerCase().includes(q.toLowerCase())?'':'none';
-  });
-}
+function filterProds(q){document.querySelectorAll('#prodGrid > div').forEach((el,i)=>{el.style.display=PRODUCTS[i].n.toLowerCase().includes(q.toLowerCase())||PRODUCTS[i].cat.toLowerCase().includes(q.toLowerCase())?'':'none';});}
 
-// MODAL
 function openModal(i){
   const p=PRODUCTS[i];
   document.getElementById('mEmoji').textContent=p.e;
@@ -708,111 +1482,48 @@ function openModal(i){
 function closeModal(){document.getElementById('prodModal').classList.remove('open');}
 document.getElementById('prodModal').addEventListener('click',function(e){if(e.target===this)closeModal();});
 
-// INVENTARIO TABLE
 function buildInvTable(){
   document.getElementById('invBody').innerHTML=PRODUCTS.map(p=>{
     const pct=Math.round((p.s/p.m)*100);
     const col=pct>60?'#00e5b0':pct>30?'#ff8c42':'#ff4d6d';
     const ec=p.est==='alto'?'b-green':p.est==='medio'?'b-orange':'b-red';
     const et=p.est==='alto'?'✔ Disponible':p.est==='medio'?'⚡ Medio':'⚠ Bajo';
-    return`<tr><td><div class="pcell"><div class="pemoji">${p.e}</div><div><div class="pname">${p.n}</div><div class="pdesc">${p.d.slice(0,50)}…</div></div></div></td>
-    <td><span class="badge b-green">${p.cat}</span></td>
-    <td style="font-family:Syne,sans-serif;font-weight:700;color:var(--accent)">$${p.p.toLocaleString('es-CO')}</td>
-    <td><div class="sbar-wrap"><div class="sbar"><div class="sfill" style="width:${pct}%;background:${col}"></div></div><div class="snum">${p.s} kg</div></div></td>
-    <td><span class="badge ${ec}">${et}</span></td></tr>`;
+    return`<tr><td><div class="pcell"><div class="pemoji">${p.e}</div><div><div class="pname">${p.n}</div><div class="pdesc">${p.d.slice(0,50)}…</div></div></div></td><td><span class="badge b-green">${p.cat}</span></td><td style="font-family:Syne,sans-serif;font-weight:700;color:var(--accent)">$${p.p.toLocaleString('es-CO')}</td><td><div class="sbar-wrap"><div class="sbar"><div class="sfill" style="width:${pct}%;background:${col}"></div></div><div class="snum">${p.s} kg</div></div></td><td><span class="badge ${ec}">${et}</span></td></tr>`;
   }).join('');
 }
 function filterInv(q){document.querySelectorAll('#invBody tr').forEach(r=>{r.style.display=r.textContent.toLowerCase().includes(q.toLowerCase())?'':'none';});}
 
-// VENTAS
 function buildVentas(){
-  document.getElementById('ventasBody').innerHTML=VENTAS.map(v=>`
-    <tr><td style="color:var(--muted);font-size:12px">${v.id}</td>
-    <td style="font-weight:500">${v.prod}</td><td>${v.cant}</td>
-    <td style="color:var(--muted)">${v.pu}</td>
-    <td style="font-family:Syne,sans-serif;font-weight:700;color:var(--accent)">${v.total}</td>
-    <td>${v.cli}</td><td style="color:var(--muted);font-size:12px">${v.fecha}</td>
-    <td><span class="badge b-green">✔ Completada</span></td></tr>`).join('');
+  document.getElementById('ventasBody').innerHTML=VENTAS.map(v=>`<tr><td style="color:var(--muted);font-size:12px">${v.id}</td><td style="font-weight:500">${v.prod}</td><td>${v.cant}</td><td style="color:var(--muted)">${v.pu}</td><td style="font-family:Syne,sans-serif;font-weight:700;color:var(--accent)">${v.total}</td><td>${v.cli}</td><td style="color:var(--muted);font-size:12px">${v.fecha}</td><td><span class="badge b-green">✔ Completada</span></td></tr>`).join('');
 }
 
-// COMPRAS
 function buildCompras(){
-  document.getElementById('provGrid').innerHTML=PROVEEDORES.map(p=>`
-    <div class="provcard">
-      <div class="prov-top">
-        <div class="prov-ico">${p.e}</div>
-        <div><div class="prov-name">${p.n}</div><div class="prov-loc">📍 ${p.loc}</div></div>
-      </div>
-      <div style="font-size:12px;color:var(--muted);margin-bottom:8px;">📞 ${p.tel}</div>
-      <div style="font-size:11px;margin-bottom:8px;">⭐ Calidad: <span style="color:var(--accent)">${p.calidad}</span></div>
-      <div class="prov-products">${p.prods.map(pr=>`<span class="badge b-green">${pr}</span>`).join('')}</div>
-    </div>`).join('');
-  document.getElementById('comprasBody').innerHTML=COMPRAS.map(c=>`
-    <tr><td style="color:var(--muted);font-size:12px">${c.id}</td>
-    <td style="font-weight:500">${c.prov}</td><td>${c.prod}</td><td>${c.cant}</td>
-    <td style="color:var(--muted)">${c.pu}</td>
-    <td style="font-family:Syne,sans-serif;font-weight:700;color:var(--gold)">${c.total}</td>
-    <td style="color:var(--muted);font-size:12px">${c.fecha}</td>
-    <td><span class="badge b-green">✔ Recibida</span></td></tr>`).join('');
+  document.getElementById('provGrid').innerHTML=PROVEEDORES.map(p=>`<div class="provcard"><div class="prov-top"><div class="prov-ico">${p.e}</div><div><div class="prov-name">${p.n}</div><div class="prov-loc">📍 ${p.loc}</div></div></div><div style="font-size:12px;color:var(--muted);margin-bottom:8px;">📞 ${p.tel}</div><div style="font-size:11px;margin-bottom:8px;">⭐ Calidad: <span style="color:var(--accent)">${p.calidad}</span></div><div class="prov-products">${p.prods.map(pr=>`<span class="badge b-green">${pr}</span>`).join('')}</div></div>`).join('');
+  document.getElementById('comprasBody').innerHTML=COMPRAS.map(c=>`<tr><td style="color:var(--muted);font-size:12px">${c.id}</td><td style="font-weight:500">${c.prov}</td><td>${c.prod}</td><td>${c.cant}</td><td style="color:var(--muted)">${c.pu}</td><td style="font-family:Syne,sans-serif;font-weight:700;color:var(--gold)">${c.total}</td><td style="color:var(--muted);font-size:12px">${c.fecha}</td><td><span class="badge b-green">✔ Recibida</span></td></tr>`).join('');
 }
 
-// USUARIOS
 function buildUsers(){
-  document.getElementById('userGrid').innerHTML=USUARIOS.map(u=>`
-    <div class="ucard">
-      <div class="uavatar" style="background:${u.bg};font-size:20px">${u.av}</div>
-      <div class="uinfo">
-        <strong>${u.n}</strong>
-        <small>@${u.user} · ${u.dep}</small>
-        <span class="badge ${u.rol==='Administrador'?'b-green':u.rol==='Vendedor'?'b-purple':u.rol==='Cliente'?'b-orange':'b-gold'} urole">${u.rol}</span>
-      </div>
-    </div>`).join('');
+  document.getElementById('userGrid').innerHTML=USUARIOS.map(u=>`<div class="ucard"><div class="uavatar" style="background:${u.bg};font-size:20px">${u.av}</div><div class="uinfo"><strong>${u.n}</strong><small>@${u.user} · ${u.dep}</small><span class="badge ${u.rol==='Administrador'?'b-green':u.rol==='Vendedor'?'b-purple':u.rol==='Cliente'?'b-orange':'b-gold'} urole">${u.rol}</span></div></div>`).join('');
 }
 
-// PÉRDIDAS
 function buildPerdidas(){
-  document.getElementById('perdidasBody').innerHTML=PERDIDAS.map(p=>`
-    <tr><td style="font-weight:500">${p.prod}</td>
-    <td style="color:var(--danger);font-weight:600">${p.kg} kg</td>
-    <td><span class="badge b-orange">${p.causa}</span></td>
-    <td style="font-family:Syne,sans-serif;font-weight:700;color:var(--danger)">${p.val}</td>
-    <td style="color:var(--muted);font-size:12px">${p.fecha}</td>
-    <td style="color:var(--muted)">${p.resp}</td></tr>`).join('');
+  document.getElementById('perdidasBody').innerHTML=PERDIDAS.map(p=>`<tr><td style="font-weight:500">${p.prod}</td><td style="color:var(--danger);font-weight:600">${p.kg} kg</td><td><span class="badge b-orange">${p.causa}</span></td><td style="font-family:Syne,sans-serif;font-weight:700;color:var(--danger)">${p.val}</td><td style="color:var(--muted);font-size:12px">${p.fecha}</td><td style="color:var(--muted)">${p.resp}</td></tr>`).join('');
 }
 
-// AUTH
 function buildAuth(){
-  document.getElementById('authGrid').innerHTML=AUTH_USERS.map(a=>`
-    <div class="acard">
-      <div class="aicon ${a.ico}">${a.e}</div>
-      <div class="ainfo">
-        <strong>${a.n}</strong>
-        <div class="auser">@${a.user}</div>
-        <span class="badge ${a.rol==='Administrador'?'b-green':a.rol==='Soporte Técnico'?'b-gold':a.rol==='Vendedor'?'b-purple':'b-orange'}">${a.rol}</span>
-        <p style="margin-top:8px">${a.perms}</p>
-        ${a.tasks?`<p style="margin-top:6px;color:var(--accent);font-size:11px">🛠️ ${a.tasks}</p>`:''}
-      </div>
-    </div>`).join('');
+  document.getElementById('authGrid').innerHTML=AUTH_USERS.map(a=>`<div class="acard"><div class="aicon ${a.ico}">${a.e}</div><div class="ainfo"><strong>${a.n}</strong><div class="auser">@${a.user}</div><span class="badge ${a.rol==='Administrador'?'b-green':a.rol==='Soporte Técnico'?'b-gold':a.rol==='Vendedor'?'b-purple':'b-orange'}">${a.rol}</span><p style="margin-top:8px">${a.perms}</p>${a.tasks?`<p style="margin-top:6px;color:var(--accent);font-size:11px">🛠️ ${a.tasks}</p>`:''}</div></div>`).join('');
 }
 
-// BAR CHART
 function buildBarChart(){
   const max=Math.max(...STATS_DATA.map(d=>d.ventas));
   const cols=['#00e5b0','#6c5ce7','#f5c842','#ff8c42','#00e5b0','#6c5ce7','#f5c842','#ff8c42'];
-  document.getElementById('barChart').innerHTML=STATS_DATA.map((d,i)=>`
-    <div class="brow"><div class="blabel">${d.n}</div>
-    <div class="btrack"><div class="bfill" style="width:${Math.round((d.ventas/max)*100)}%;background:${cols[i]}">${d.ventas} kg</div></div>
-    <div class="bval">$${(d.ing/1000).toFixed(0)}K</div></div>`).join('');
-}
-function buildStatsTable(){
-  document.getElementById('statsTable').innerHTML=STATS_DATA.map(d=>`
-    <tr><td style="font-weight:500">${d.n}</td><td>${d.compras} kg</td><td>${d.ventas} kg</td>
-    <td style="color:var(--danger)">${d.perdidas} kg</td>
-    <td style="color:var(--accent);font-family:Syne,sans-serif;font-weight:700">$${d.ing.toLocaleString('es-CO')}</td>
-    <td>${d.ventas>(d.compras*.7)?'<span class="tup">▲ Alta</span>':'<span class="tdn">▼ Baja</span>'}</td></tr>`).join('');
+  document.getElementById('barChart').innerHTML=STATS_DATA.map((d,i)=>`<div class="brow"><div class="blabel">${d.n}</div><div class="btrack"><div class="bfill" style="width:${Math.round((d.ventas/max)*100)}%;background:${cols[i]}">${d.ventas} kg</div></div><div class="bval">$${(d.ing/1000).toFixed(0)}K</div></div>`).join('');
 }
 
-// LOGOUT
+function buildStatsTable(){
+  document.getElementById('statsTable').innerHTML=STATS_DATA.map(d=>`<tr><td style="font-weight:500">${d.n}</td><td>${d.compras} kg</td><td>${d.ventas} kg</td><td style="color:var(--danger)">${d.perdidas} kg</td><td style="color:var(--accent);font-family:Syne,sans-serif;font-weight:700">$${d.ing.toLocaleString('es-CO')}</td><td>${d.ventas>(d.compras*.7)?'<span class="tup">▲ Alta</span>':'<span class="tdn">▼ Baja</span>'}</td></tr>`).join('');
+}
+
 function doLogout(){
   clearInterval(sessionInterval);
   ['mousemove','keydown','click','scroll','touchstart'].forEach(e=>document.removeEventListener(e,resetSess));
@@ -824,7 +1535,6 @@ function doLogout(){
   document.getElementById('password').value='';
 }
 
-// SESSION
 let sessionInterval,lastAct;
 const SLIMIT=180;
 function startSessionTimer(){
@@ -840,6 +1550,49 @@ function startSessionTimer(){
 }
 function resetSess(){lastAct=Date.now();document.getElementById('sessionWarning').style.display='none';document.getElementById('sessionFill').style.width='100%';}
 function forceOut(){document.getElementById('sessionWarning').style.display='none';doLogout();setTimeout(()=>alert('⏱️ Sesión cerrada por inactividad (3 min).'),100);}
+
+// ═══ SPLASH SCREEN ═══
+(function(){
+  const splash = document.getElementById('splashScreen');
+  const bar    = document.getElementById('splashBar');
+  const status = document.getElementById('splashStatus');
+  const msgs   = ['Iniciando sistema…','Cargando módulos…','Verificando seguridad…','Conectando base de datos…','¡Sistema listo!'];
+  let pct = 0, step = 0;
+  const iv = setInterval(()=>{
+    pct += (step < msgs.length-1) ? Math.random()*18+8 : 5;
+    if(pct > 100) pct = 100;
+    bar.style.width = pct + '%';
+    if(step < msgs.length) status.textContent = msgs[Math.min(step, msgs.length-1)];
+    step++;
+    if(pct >= 100){
+      clearInterval(iv);
+      setTimeout(()=>{
+        splash.classList.add('hide');
+        setTimeout(()=>splash.style.display='none', 700);
+      }, 500);
+    }
+  }, 380);
+})();
+
+// ═══ THEME TOGGLE ═══
+function toggleTheme(){
+  const body = document.body;
+  const btn  = document.getElementById('themeBtn');
+  body.classList.toggle('light-mode');
+  btn.textContent = body.classList.contains('light-mode') ? '☀️' : '🌙';
+}
+
+// ═══ LIVE CLOCK ═══
+function updateClock(){
+  const now = new Date();
+  const h = String(now.getHours()).padStart(2,'0');
+  const m = String(now.getMinutes()).padStart(2,'0');
+  const s = String(now.getSeconds()).padStart(2,'0');
+  const el = document.getElementById('navClock');
+  if(el) el.textContent = h+':'+m+':'+s;
+}
+setInterval(updateClock, 1000);
+updateClock();
 </script>
 </body>
 </html>
