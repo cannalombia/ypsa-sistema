@@ -1,0 +1,845 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>YPSA – Sistema de Gestión</title>
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;700;800&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#0a0a0f;--surface:#13131c;--surface2:#1a1a27;--surface3:#20202f;
+  --accent:#00e5b0;--accent2:#6c5ce7;--danger:#ff4d6d;--gold:#f5c842;--orange:#ff8c42;
+  --text:#f0f0f5;--muted:#7a7a9d;
+  --border:rgba(255,255,255,0.08);--input-bg:rgba(255,255,255,0.04);
+}
+*{margin:0;padding:0;box-sizing:border-box;}
+body{background:var(--bg);color:var(--text);font-family:'DM Sans',sans-serif;min-height:100vh;overflow-x:hidden;}
+.blob{position:fixed;border-radius:50%;filter:blur(110px);opacity:.11;pointer-events:none;animation:blobFloat 9s ease-in-out infinite;z-index:0;}
+.blob-1{width:600px;height:600px;background:var(--accent2);top:-220px;left:-200px;}
+.blob-2{width:500px;height:500px;background:var(--accent);bottom:-200px;right:-120px;animation-delay:3.5s;}
+@keyframes blobFloat{0%,100%{transform:translateY(0);}50%{transform:translateY(-28px);}}
+
+/* SESSION */
+.session-bar{display:none;position:fixed;top:0;left:0;right:0;height:3px;background:rgba(255,255,255,.05);z-index:999;}
+.session-bar-fill{height:100%;background:linear-gradient(90deg,var(--accent),var(--accent2));transition:width 1s linear;width:100%;}
+.session-warning{display:none;position:fixed;bottom:24px;right:24px;background:var(--surface);border:1px solid rgba(255,77,109,.4);border-radius:12px;padding:12px 18px;font-size:13px;color:var(--danger);z-index:500;}
+
+/* ══════════ LOGIN ══════════ */
+#loginPage{min-height:100vh;display:flex;align-items:center;justify-content:center;position:relative;z-index:10;padding:20px;}
+.login-card{display:grid;grid-template-columns:1fr 1fr;width:min(960px,100%);min-height:575px;border-radius:28px;overflow:hidden;border:1px solid var(--border);box-shadow:0 40px 120px rgba(0,0,0,.65);animation:fadeUp .6s ease both;}
+@keyframes fadeUp{from{opacity:0;transform:translateY(28px);}to{opacity:1;transform:translateY(0);}}
+.panel-left{background:linear-gradient(150deg,#0c0c1a,#111120);padding:50px 44px;display:flex;flex-direction:column;justify-content:space-between;position:relative;overflow:hidden;}
+.panel-left::before{content:'';position:absolute;inset:0;background:radial-gradient(ellipse at 15% 55%,rgba(0,229,176,.07),transparent 65%);}
+.brand{display:flex;align-items:center;gap:12px;position:relative;z-index:1;}
+.brand-icon{width:44px;height:44px;background:linear-gradient(135deg,var(--accent),var(--accent2));border-radius:12px;display:flex;align-items:center;justify-content:center;font-size:21px;box-shadow:0 8px 20px rgba(0,229,176,.22);}
+.brand-name{font-family:'Syne',sans-serif;font-size:22px;font-weight:800;}
+.brand-name span{color:var(--accent);}
+.left-content{position:relative;z-index:1;}
+.left-content h2{font-family:'Syne',sans-serif;font-size:36px;font-weight:800;line-height:1.08;margin-bottom:16px;}
+.left-content h2 em{font-style:normal;color:var(--accent);}
+.left-content p{font-size:14px;color:var(--muted);line-height:1.75;max-width:280px;}
+.l-stats{display:flex;flex-direction:column;gap:9px;position:relative;z-index:1;}
+.stat-row{display:flex;align-items:center;gap:12px;background:rgba(255,255,255,.03);border:1px solid var(--border);border-radius:11px;padding:11px 14px;transition:border-color .2s;}
+.stat-row:hover{border-color:rgba(0,229,176,.28);}
+.sicon{width:34px;height:34px;border-radius:9px;display:flex;align-items:center;justify-content:center;font-size:16px;flex-shrink:0;}
+.sicon.g{background:rgba(0,229,176,.12);}
+.sicon.p{background:rgba(108,92,231,.14);}
+.sicon.o{background:rgba(245,200,66,.11);}
+.sinfo strong{font-family:'Syne',sans-serif;font-size:13px;font-weight:700;display:block;line-height:1.2;}
+.sinfo small{font-size:11px;color:var(--muted);}
+.panel-right{background:var(--surface);padding:50px 44px;display:flex;flex-direction:column;justify-content:center;}
+.lh{margin-bottom:26px;}
+.lh h3{font-family:'Syne',sans-serif;font-size:26px;font-weight:800;margin-bottom:6px;}
+.lh p{font-size:13px;color:var(--muted);}
+.rlabel{font-size:11px;letter-spacing:1.5px;text-transform:uppercase;color:var(--muted);margin-bottom:9px;display:block;}
+.rselector{display:grid;grid-template-columns:1fr 1fr;gap:9px;margin-bottom:20px;}
+.rbtn{background:var(--input-bg);border:1px solid var(--border);border-radius:10px;padding:9px 12px;color:var(--muted);font-family:'DM Sans',sans-serif;font-size:12px;cursor:pointer;transition:all .2s;display:flex;align-items:center;gap:8px;}
+.rbtn:hover{border-color:var(--accent);color:var(--text);}
+.rbtn.active{border-color:var(--accent);background:rgba(0,229,176,.08);color:var(--accent);}
+.fg{margin-bottom:14px;}
+.fg label{display:block;font-size:11px;letter-spacing:1.5px;text-transform:uppercase;color:var(--muted);margin-bottom:6px;}
+.iw{position:relative;}
+.iw .ico{position:absolute;left:14px;top:50%;transform:translateY(-50%);font-size:15px;pointer-events:none;}
+.iw input{width:100%;background:var(--input-bg);border:1px solid var(--border);border-radius:11px;padding:12px 44px;color:var(--text);font-family:'DM Sans',sans-serif;font-size:14px;outline:none;transition:border-color .2s,background .2s;}
+.iw input::placeholder{color:var(--muted);}
+.iw input:focus{border-color:var(--accent);background:rgba(0,229,176,.03);}
+.iw input.err{border-color:var(--danger);}
+.tpass{position:absolute;right:12px;top:50%;transform:translateY(-50%);background:none;border:none;cursor:pointer;color:var(--muted);font-size:14px;transition:color .2s;}
+.tpass:hover{color:var(--accent);}
+.forgot{text-align:right;margin-top:5px;margin-bottom:20px;}
+.forgot a{font-size:12px;color:var(--accent);text-decoration:none;opacity:.7;}
+.forgot a:hover{opacity:1;}
+.btn-login{width:100%;background:linear-gradient(135deg,var(--accent),#00c4a0);color:#0a0a0f;border:none;border-radius:11px;padding:14px;font-family:'Syne',sans-serif;font-size:14px;font-weight:800;cursor:pointer;transition:opacity .2s,transform .15s;letter-spacing:.5px;}
+.btn-login:hover{opacity:.9;transform:translateY(-1px);}
+.errmsg{display:none;background:rgba(255,77,109,.1);border:1px solid rgba(255,77,109,.28);border-radius:10px;padding:10px 14px;font-size:13px;color:var(--danger);margin-top:11px;text-align:center;}
+@keyframes shake{0%,100%{transform:translateX(0);}25%{transform:translateX(-7px);}75%{transform:translateX(7px);}}
+
+/* ══════════ DASHBOARD ══════════ */
+#dashPage{display:none;min-height:100vh;position:relative;z-index:10;}
+@keyframes fadeIn{from{opacity:0;}to{opacity:1;}}
+
+/* TOPNAV */
+.topnav{display:flex;align-items:center;justify-content:space-between;padding:0 32px;background:rgba(13,13,20,.96);backdrop-filter:blur(18px);border-bottom:1px solid var(--border);position:sticky;top:0;z-index:50;height:58px;gap:16px;}
+.nav-brand{display:flex;align-items:center;gap:10px;flex-shrink:0;}
+.nav-brand-icon{width:34px;height:34px;background:linear-gradient(135deg,var(--accent),var(--accent2));border-radius:9px;display:flex;align-items:center;justify-content:center;font-size:16px;}
+.nav-brand-name{font-family:'Syne',sans-serif;font-size:17px;font-weight:800;}
+.nav-brand-name span{color:var(--accent);}
+.nav-tabs{display:flex;gap:2px;overflow-x:auto;}
+.nav-tab{background:none;border:none;color:var(--muted);font-family:'DM Sans',sans-serif;font-size:12px;padding:7px 13px;border-radius:8px;cursor:pointer;transition:all .2s;white-space:nowrap;}
+.nav-tab:hover{color:var(--text);background:rgba(255,255,255,.05);}
+.nav-tab.active{color:var(--accent);background:rgba(0,229,176,.08);}
+.nav-right{display:flex;align-items:center;gap:10px;flex-shrink:0;}
+.nav-user{display:flex;align-items:center;gap:9px;background:var(--surface2);border:1px solid var(--border);border-radius:100px;padding:4px 13px 4px 5px;}
+.nav-avatar{width:26px;height:26px;border-radius:50%;background:linear-gradient(135deg,var(--accent),var(--accent2));display:flex;align-items:center;justify-content:center;font-size:12px;}
+.nav-uinfo strong{font-size:12px;font-weight:600;display:block;line-height:1.2;}
+.nav-uinfo small{font-size:10px;color:var(--accent);letter-spacing:.5px;text-transform:uppercase;}
+.btn-out{background:rgba(255,77,109,.1);border:1px solid rgba(255,77,109,.28);color:var(--danger);border-radius:9px;padding:6px 13px;font-family:'DM Sans',sans-serif;font-size:12px;cursor:pointer;transition:all .2s;}
+.btn-out:hover{background:rgba(255,77,109,.18);}
+
+/* SECTIONS */
+.dash-section{display:none;max-width:1160px;margin:0 auto;padding:32px 32px 60px;animation:fadeIn .35s ease;}
+.dash-section.active{display:block;}
+
+/* HERO */
+.hero{background:linear-gradient(135deg,rgba(0,229,176,.07),rgba(108,92,231,.07));border:1px solid rgba(0,229,176,.17);border-radius:22px;padding:38px 46px;margin-bottom:28px;position:relative;overflow:hidden;}
+.hero::before{content:'';position:absolute;width:380px;height:380px;border-radius:50%;background:radial-gradient(circle,rgba(0,229,176,.08),transparent 70%);top:-140px;right:-80px;pointer-events:none;}
+.hero-tag{display:inline-flex;align-items:center;gap:7px;border:1px solid rgba(0,229,176,.33);color:var(--accent);font-size:10px;letter-spacing:2px;text-transform:uppercase;padding:5px 13px;border-radius:100px;margin-bottom:18px;}
+.hero-tag::before{content:'●';font-size:7px;animation:pulse 2s infinite;}
+@keyframes pulse{0%,100%{opacity:1;}50%{opacity:.25;}}
+.hero h1{font-family:'Syne',sans-serif;font-size:clamp(22px,3vw,36px);font-weight:800;line-height:1.12;margin-bottom:12px;}
+.hero h1 em{font-style:normal;color:var(--accent);}
+.hero p{font-size:14px;color:rgba(240,240,245,.68);line-height:1.75;max-width:700px;}
+
+/* KPI */
+.kpi-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:13px;margin-bottom:28px;}
+.kpi{background:var(--surface);border:1px solid var(--border);border-radius:15px;padding:19px;transition:border-color .2s,transform .2s;}
+.kpi:hover{border-color:rgba(0,229,176,.28);transform:translateY(-2px);}
+.kpi .ki{font-size:22px;margin-bottom:9px;}
+.kpi .kl{font-size:10px;letter-spacing:1.5px;text-transform:uppercase;color:var(--muted);margin-bottom:4px;}
+.kpi .kv{font-family:'Syne',sans-serif;font-size:26px;font-weight:800;color:var(--accent);line-height:1;}
+.kpi .kd{font-size:11px;color:var(--muted);margin-top:4px;}
+
+/* SEC TITLE */
+.stitle{font-family:'Syne',sans-serif;font-size:17px;font-weight:800;margin-bottom:14px;display:flex;align-items:center;gap:10px;}
+.sbadge{font-size:10px;background:rgba(0,229,176,.09);color:var(--accent);border:1px solid rgba(0,229,176,.18);border-radius:100px;padding:3px 11px;font-family:'DM Sans',sans-serif;font-weight:500;letter-spacing:.8px;}
+
+/* CARD */
+.card{background:var(--surface);border:1px solid var(--border);border-radius:15px;overflow:hidden;}
+.card-pad{padding:22px;}
+
+/* TABLE */
+.tbl{width:100%;border-collapse:collapse;font-size:13px;}
+.tbl th{text-align:left;padding:11px 15px;font-size:10px;letter-spacing:1.3px;text-transform:uppercase;color:var(--muted);border-bottom:1px solid var(--border);font-weight:500;}
+.tbl td{padding:12px 15px;border-bottom:1px solid rgba(255,255,255,.03);vertical-align:middle;}
+.tbl tr:last-child td{border-bottom:none;}
+.tbl tr:hover td{background:rgba(255,255,255,.018);}
+
+/* BADGES */
+.badge{display:inline-block;padding:3px 10px;border-radius:100px;font-size:11px;font-weight:500;}
+.b-green{background:rgba(0,229,176,.12);color:var(--accent);}
+.b-orange{background:rgba(255,140,66,.12);color:var(--orange);}
+.b-red{background:rgba(255,77,109,.12);color:var(--danger);}
+.b-purple{background:rgba(108,92,231,.12);color:var(--accent2);}
+.b-gold{background:rgba(245,200,66,.12);color:var(--gold);}
+
+/* PROD CELL */
+.pcell{display:flex;align-items:center;gap:11px;}
+.pemoji{width:38px;height:38px;border-radius:10px;background:rgba(0,229,176,.07);display:flex;align-items:center;justify-content:center;font-size:19px;flex-shrink:0;cursor:pointer;transition:background .2s;}
+.pemoji:hover{background:rgba(0,229,176,.15);}
+.pname{font-weight:500;font-size:13px;}
+.pdesc{font-size:11px;color:var(--muted);margin-top:2px;}
+
+/* STOCK BAR */
+.sbar-wrap{display:flex;align-items:center;gap:9px;}
+.sbar{height:5px;background:rgba(255,255,255,.06);border-radius:100px;flex:1;min-width:55px;}
+.sfill{height:100%;border-radius:100px;}
+.snum{font-size:12px;color:var(--muted);min-width:48px;text-align:right;}
+
+/* SEARCH */
+.srch{background:var(--input-bg);border:1px solid var(--border);border-radius:9px;padding:8px 14px;color:var(--text);font-family:'DM Sans',sans-serif;font-size:13px;outline:none;width:210px;transition:border-color .2s;}
+.srch:focus{border-color:var(--accent);}
+.srch::placeholder{color:var(--muted);}
+
+/* MODULE CARDS (inicio) */
+.mods-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-bottom:28px;}
+.mcard{background:var(--surface);border:1px solid var(--border);border-radius:13px;padding:18px;cursor:pointer;transition:border-color .2s,background .2s;}
+.mcard:hover{border-color:var(--accent);background:rgba(0,229,176,.03);}
+.mcard .mi{font-size:22px;margin-bottom:9px;}
+.mcard h4{font-family:'Syne',sans-serif;font-size:13px;font-weight:700;margin-bottom:4px;}
+.mcard p{font-size:12px;color:var(--muted);line-height:1.5;}
+
+/* MODAL */
+.modal-overlay{display:none;position:fixed;inset:0;background:rgba(5,5,10,.85);z-index:200;align-items:center;justify-content:center;backdrop-filter:blur(6px);}
+.modal-overlay.open{display:flex;animation:fadeIn .25s ease;}
+.modal{background:var(--surface);border:1px solid var(--border);border-radius:20px;width:min(560px,94vw);max-height:88vh;overflow-y:auto;padding:32px;}
+.modal h2{font-family:'Syne',sans-serif;font-size:20px;font-weight:800;margin-bottom:6px;}
+.modal .msub{font-size:13px;color:var(--muted);margin-bottom:22px;}
+.modal-close{float:right;background:rgba(255,255,255,.06);border:none;color:var(--muted);border-radius:8px;padding:6px 12px;cursor:pointer;font-size:13px;margin-top:-4px;transition:background .2s;}
+.modal-close:hover{background:rgba(255,255,255,.1);color:var(--text);}
+.mrow{display:flex;gap:14px;margin-bottom:14px;}
+.mfield{flex:1;}
+.mfield label{display:block;font-size:11px;letter-spacing:1px;text-transform:uppercase;color:var(--muted);margin-bottom:6px;}
+.mfield .mv{font-size:14px;font-weight:500;}
+.mfield .mv.accent{color:var(--accent);font-family:'Syne',sans-serif;font-weight:700;font-size:18px;}
+.mdivider{border:none;border-top:1px solid var(--border);margin:18px 0;}
+
+/* STATS */
+.sg4{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-bottom:24px;}
+.sbig{background:var(--surface);border:1px solid var(--border);border-radius:14px;padding:20px;}
+.sbig .sl{font-size:10px;letter-spacing:1.3px;text-transform:uppercase;color:var(--muted);margin-bottom:6px;}
+.sbig .sv{font-family:'Syne',sans-serif;font-size:28px;font-weight:800;line-height:1;}
+.sbig .ss{font-size:11px;color:var(--muted);margin-top:5px;}
+.sbig .sic{font-size:24px;margin-bottom:8px;}
+.charts2{display:grid;grid-template-columns:1fr 1fr;gap:18px;margin-bottom:24px;}
+.cc{background:var(--surface);border:1px solid var(--border);border-radius:14px;padding:22px;}
+.ct{font-family:'Syne',sans-serif;font-size:14px;font-weight:700;margin-bottom:18px;}
+.barchart{display:flex;flex-direction:column;gap:9px;}
+.brow{display:flex;align-items:center;gap:10px;}
+.blabel{font-size:12px;color:var(--muted);width:105px;flex-shrink:0;text-align:right;}
+.btrack{flex:1;height:20px;background:rgba(255,255,255,.05);border-radius:5px;overflow:hidden;}
+.bfill{height:100%;border-radius:5px;display:flex;align-items:center;padding-left:9px;font-size:11px;font-weight:600;color:#0a0a0f;transition:width .9s ease;}
+.bval{font-size:12px;color:var(--muted);min-width:50px;text-align:right;}
+.donut-wrap{display:flex;align-items:center;gap:22px;}
+.dlegend{display:flex;flex-direction:column;gap:9px;}
+.dleg{display:flex;align-items:center;gap:8px;font-size:13px;}
+.ddot{width:9px;height:9px;border-radius:50%;flex-shrink:0;}
+.tup{color:var(--accent);font-size:12px;}
+.tdn{color:var(--danger);font-size:12px;}
+
+/* USER GRID */
+.user-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;}
+.ucard{background:var(--surface2);border:1px solid var(--border);border-radius:13px;padding:18px;display:flex;align-items:center;gap:14px;transition:border-color .2s;}
+.ucard:hover{border-color:rgba(0,229,176,.25);}
+.uavatar{width:44px;height:44px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:20px;flex-shrink:0;}
+.uinfo strong{font-size:13px;font-weight:600;display:block;margin-bottom:3px;}
+.uinfo small{font-size:11px;color:var(--muted);}
+.uinfo .urole{display:inline-block;margin-top:5px;}
+
+/* PROVEEDOR CARDS */
+.prov-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;}
+.provcard{background:var(--surface);border:1px solid var(--border);border-radius:14px;padding:20px;transition:border-color .2s;}
+.provcard:hover{border-color:rgba(0,229,176,.25);}
+.prov-top{display:flex;align-items:center;gap:12px;margin-bottom:14px;}
+.prov-ico{width:44px;height:44px;border-radius:11px;background:rgba(0,229,176,.08);display:flex;align-items:center;justify-content:center;font-size:20px;flex-shrink:0;}
+.prov-name{font-family:'Syne',sans-serif;font-size:14px;font-weight:700;}
+.prov-loc{font-size:11px;color:var(--muted);}
+.prov-products{display:flex;flex-wrap:wrap;gap:6px;margin-top:10px;}
+
+/* AUTH USERS */
+.auth-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px;}
+.acard{background:var(--surface2);border:1px solid var(--border);border-radius:13px;padding:18px;display:flex;align-items:flex-start;gap:14px;transition:border-color .2s;}
+.acard:hover{border-color:rgba(0,229,176,.22);}
+.aicon{width:42px;height:42px;border-radius:11px;display:flex;align-items:center;justify-content:center;font-size:19px;flex-shrink:0;}
+.ai-admin{background:linear-gradient(135deg,rgba(0,229,176,.15),rgba(108,92,231,.15));}
+.ai-sup{background:rgba(245,200,66,.1);}
+.ai-ven{background:rgba(108,92,231,.12);}
+.ai-cli{background:rgba(255,140,66,.1);}
+.ainfo strong{font-size:13px;font-weight:600;display:block;margin-bottom:2px;}
+.ainfo .auser{font-size:12px;color:var(--accent);font-family:'Syne',sans-serif;margin-bottom:4px;}
+.ainfo p{font-size:12px;color:var(--muted);line-height:1.5;}
+
+/* MISSION */
+.mission{background:var(--surface);border:1px solid var(--border);border-radius:18px;padding:30px 36px;}
+.mission h3{font-family:'Syne',sans-serif;font-size:16px;font-weight:800;margin-bottom:11px;color:var(--accent);}
+.mission p{font-size:14px;color:rgba(240,240,245,.66);line-height:1.8;}
+
+@media(max-width:800px){
+  .login-card{grid-template-columns:1fr;}
+  .panel-left{padding:32px 26px;}
+  .panel-right{padding:32px 26px;}
+  .kpi-grid,.sg4{grid-template-columns:1fr 1fr;}
+  .mods-grid{grid-template-columns:1fr 1fr;}
+  .user-grid{grid-template-columns:1fr 1fr;}
+  .prov-grid{grid-template-columns:1fr 1fr;}
+  .auth-grid{grid-template-columns:1fr;}
+  .charts2{grid-template-columns:1fr;}
+  .topnav{height:auto;flex-wrap:wrap;padding:10px 16px;gap:8px;}
+  .nav-tabs{overflow-x:auto;width:100%;}
+  .dash-section{padding:22px 16px 48px;}
+}
+</style>
+</head>
+<body>
+<div class="blob blob-1"></div>
+<div class="blob blob-2"></div>
+<div class="session-bar" id="sessionBar"><div class="session-bar-fill" id="sessionFill"></div></div>
+<div class="session-warning" id="sessionWarning">⚠️ Sesión por cerrar por inactividad…</div>
+
+<!-- MODAL producto -->
+<div class="modal-overlay" id="prodModal">
+  <div class="modal">
+    <button class="modal-close" onclick="closeModal()">✕ Cerrar</button>
+    <div style="font-size:48px;margin-bottom:10px" id="mEmoji"></div>
+    <h2 id="mName"></h2>
+    <p class="msub" id="mDesc"></p>
+    <hr class="mdivider">
+    <div class="mrow">
+      <div class="mfield"><label>Categoría</label><div class="mv" id="mCat"></div></div>
+      <div class="mfield"><label>Precio / kg</label><div class="mv accent" id="mPrice"></div></div>
+      <div class="mfield"><label>Stock actual</label><div class="mv" id="mStock"></div></div>
+    </div>
+    <div class="mrow">
+      <div class="mfield"><label>Origen</label><div class="mv" id="mOrigen"></div></div>
+      <div class="mfield"><label>Temporada</label><div class="mv" id="mTemp"></div></div>
+      <div class="mfield"><label>Estado</label><div class="mv" id="mEst"></div></div>
+    </div>
+    <hr class="mdivider">
+    <div class="mfield"><label>Descripción detallada</label><p style="font-size:13px;color:var(--muted);line-height:1.8;margin-top:6px" id="mDetail"></p></div>
+  </div>
+</div>
+
+<!-- ═══════ LOGIN ═══════ -->
+<div id="loginPage">
+  <div class="login-card">
+    <div class="panel-left">
+      <div class="brand">
+        <div class="brand-icon">📦</div>
+        <div class="brand-name">YP<span>SA</span></div>
+      </div>
+      <div class="left-content">
+        <h2>Gestión<br><em>inteligente</em><br>de tu negocio</h2>
+        <p>Controla inventario, ventas, compras y usuarios desde un solo lugar, en tiempo real.</p>
+      </div>
+      <div class="l-stats">
+        <div class="stat-row"><div class="sicon g">🛡️</div><div class="sinfo"><strong>Soporte Técnico 24/7</strong><small>Asistencia permanente para tu operación</small></div></div>
+        <div class="stat-row"><div class="sicon p">📦</div><div class="sinfo"><strong>8 Módulos Funcionales</strong><small>Inventario, ventas, compras, reportes y más</small></div></div>
+        <div class="stat-row"><div class="sicon o">🔒</div><div class="sinfo"><strong>Seguridad SSL</strong><small>Datos cifrados y sesiones protegidas</small></div></div>
+      </div>
+    </div>
+    <div class="panel-right">
+      <div class="lh"><h3>Iniciar Sesión</h3><p>Selecciona tu rol e ingresa tus credenciales</p></div>
+      <span class="rlabel">Tipo de usuario</span>
+      <div class="rselector">
+        <button class="rbtn active" onclick="selectRole(this)" data-role="Administrador">👑 Administrador</button>
+        <button class="rbtn" onclick="selectRole(this)" data-role="Vendedor">🧑‍💼 Vendedor</button>
+        <button class="rbtn" onclick="selectRole(this)" data-role="Cliente">👤 Cliente</button>
+        <button class="rbtn" onclick="selectRole(this)" data-role="Proveedor">🚚 Proveedor</button>
+      </div>
+      <div class="fg"><label>Usuario</label><div class="iw"><span class="ico">👤</span><input type="text" id="username" placeholder="Ingresa tu usuario" autocomplete="off"></div></div>
+      <div class="fg"><label>Contraseña</label><div class="iw"><span class="ico">🔒</span><input type="password" id="password" placeholder="Ingresa tu contraseña" autocomplete="off"><button class="tpass" onclick="togglePass()">👁️</button></div></div>
+      <div class="forgot"><a href="#" onclick="alert('Contacta al administrador YPSA.');return false;">¿Olvidaste tu contraseña?</a></div>
+      <button class="btn-login" onclick="doLogin()">Ingresar al Sistema →</button>
+      <div class="errmsg" id="errmsg">❌ Usuario o contraseña incorrectos.</div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════ DASHBOARD ═══════ -->
+<div id="dashPage">
+  <nav class="topnav">
+    <div class="nav-brand">
+      <div class="nav-brand-icon">📦</div>
+      <div class="nav-brand-name">YP<span>SA</span></div>
+    </div>
+    <div class="nav-tabs">
+      <button class="nav-tab active"   onclick="go('inicio',this)">🏠 Inicio</button>
+      <button class="nav-tab" onclick="go('productos',this)">📦 Productos</button>
+      <button class="nav-tab" onclick="go('inventario',this)">📋 Inventario</button>
+      <button class="nav-tab" onclick="go('ventas',this)">🛒 Ventas</button>
+      <button class="nav-tab" onclick="go('compras',this)">🚚 Compras</button>
+      <button class="nav-tab" onclick="go('usuarios',this)">👥 Usuarios</button>
+      <button class="nav-tab" onclick="go('perdidas',this)">📉 Pérdidas</button>
+      <button class="nav-tab" onclick="go('auth',this)">🔐 Autenticación</button>
+      <button class="nav-tab" onclick="go('estadisticas',this)">📊 Estadísticas</button>
+    </div>
+    <div class="nav-right">
+      <div class="nav-user">
+        <div class="nav-avatar" id="navAv">👑</div>
+        <div class="nav-uinfo"><strong id="navUN">admin</strong><small id="navUR">Administrador</small></div>
+      </div>
+      <button class="btn-out" onclick="doLogout()">Salir</button>
+    </div>
+  </nav>
+
+  <!-- INICIO -->
+  <div class="dash-section active" id="sec-inicio">
+    <div class="hero">
+      <div class="hero-tag">Sistema activo</div>
+      <h1>Bienvenido al Sistema <em>YPSA</em></h1>
+      <p>Plataforma integral para gestionar inventario de mercados campesinos, usuarios, ventas, compras y pérdidas — con reportes que impulsan mejores decisiones.</p>
+    </div>
+    <div class="kpi-grid">
+      <div class="kpi"><div class="ki">📦</div><div class="kl">Productos</div><div class="kv">18</div><div class="kd">En inventario activo</div></div>
+      <div class="kpi"><div class="ki">🛒</div><div class="kl">Ventas del mes</div><div class="kv">$4.2M</div><div class="kd">COP registradas</div></div>
+      <div class="kpi"><div class="ki">👥</div><div class="kl">Usuarios</div><div class="kv">27</div><div class="kd">Registrados en sistema</div></div>
+      <div class="kpi"><div class="ki">📉</div><div class="kl">Pérdidas mes</div><div class="kv">$280K</div><div class="kd">Registradas y controladas</div></div>
+    </div>
+    <div class="stitle">Módulos del Sistema <span class="sbadge">8 disponibles</span></div>
+    <div class="mods-grid">
+      <div class="mcard" onclick="go('auth',null)"><div class="mi">🔐</div><h4>Autenticación</h4><p>Gestión de accesos, roles y sesiones seguras</p></div>
+      <div class="mcard" onclick="go('usuarios',null)"><div class="mi">👥</div><h4>Usuarios</h4><p>27 usuarios: clientes, vendedores, proveedores y admins</p></div>
+      <div class="mcard" onclick="go('inventario',null)"><div class="mi">📋</div><h4>Inventario</h4><p>Control de stock con 18 productos registrados</p></div>
+      <div class="mcard" onclick="go('ventas',null)"><div class="mi">🛒</div><h4>Ventas</h4><p>Ventas del mes con actualización automática</p></div>
+      <div class="mcard" onclick="go('compras',null)"><div class="mi">🚚</div><h4>Compras</h4><p>Proveedores disponibles y compras registradas</p></div>
+      <div class="mcard" onclick="go('perdidas',null)"><div class="mi">📉</div><h4>Pérdidas</h4><p>Control de productos no vendidos por mes</p></div>
+      <div class="mcard" onclick="go('estadisticas',null)"><div class="mi">📊</div><h4>Estadísticas</h4><p>Inversión, ventas, ganancias y pérdidas</p></div>
+      <div class="mcard" onclick="go('productos',null)"><div class="mi">🥬</div><h4>Productos</h4><p>18 productos de finca colombiana con detalle</p></div>
+    </div>
+    <div class="mission"><h3>🌱 Objetivo del Sistema</h3><p>Gestionar de manera eficiente el inventario de productos de mercados campesinos, así como el registro y control de usuarios, compras, ventas y pérdidas — reduciendo errores manuales y facilitando decisiones con reportes y estadísticas confiables.</p></div>
+  </div>
+
+  <!-- PRODUCTOS -->
+  <div class="dash-section" id="sec-productos">
+    <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:18px;flex-wrap:wrap;gap:10px;">
+      <div class="stitle" style="margin-bottom:0">Productos de Finca <span class="sbadge">18 registros</span></div>
+      <input class="srch" type="text" placeholder="🔍 Buscar producto…" oninput="filterProds(this.value)">
+    </div>
+    <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:14px;" id="prodGrid"></div>
+  </div>
+
+  <!-- INVENTARIO -->
+  <div class="dash-section" id="sec-inventario">
+    <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:18px;flex-wrap:wrap;gap:10px;">
+      <div class="stitle" style="margin-bottom:0">Inventario General <span class="sbadge">18 productos</span></div>
+      <input class="srch" type="text" placeholder="🔍 Buscar…" oninput="filterInv(this.value)">
+    </div>
+    <div class="card"><table class="tbl" id="invTable"><thead><tr><th>Producto</th><th>Categoría</th><th>Precio/kg</th><th>Stock</th><th>Estado</th></tr></thead><tbody id="invBody"></tbody></table></div>
+  </div>
+
+  <!-- VENTAS -->
+  <div class="dash-section" id="sec-ventas">
+    <div class="stitle">Ventas del Mes <span class="sbadge">Marzo 2026</span></div>
+    <div class="kpi-grid">
+      <div class="kpi"><div class="ki">💰</div><div class="kl">Total Ventas</div><div class="kv">$4.2M</div><div class="kd">COP este mes</div></div>
+      <div class="kpi"><div class="ki">🧾</div><div class="kl">Transacciones</div><div class="kv">143</div><div class="kd">Ventas registradas</div></div>
+      <div class="kpi"><div class="ki">📦</div><div class="kl">Kg vendidos</div><div class="kv">2.890</div><div class="kd">Unidades totales</div></div>
+      <div class="kpi"><div class="ki">👤</div><div class="kl">Clientes activos</div><div class="kv">38</div><div class="kd">Compraron este mes</div></div>
+    </div>
+    <div class="stitle">Detalle de Ventas <span class="sbadge">Últimas 143 transacciones</span></div>
+    <div class="card"><table class="tbl"><thead><tr><th>#</th><th>Producto</th><th>Cantidad</th><th>Precio Unit.</th><th>Total</th><th>Cliente</th><th>Fecha</th><th>Estado</th></tr></thead><tbody id="ventasBody"></tbody></table></div>
+  </div>
+
+  <!-- COMPRAS -->
+  <div class="dash-section" id="sec-compras">
+    <div class="stitle">Proveedores Disponibles <span class="sbadge">12 activos</span></div>
+    <div class="prov-grid" id="provGrid"></div>
+    <div style="margin-top:28px;">
+      <div class="stitle">Compras del Mes <span class="sbadge">Marzo 2026</span></div>
+      <div class="card"><table class="tbl"><thead><tr><th>#</th><th>Proveedor</th><th>Producto</th><th>Cantidad</th><th>Precio Unit.</th><th>Total</th><th>Fecha</th><th>Estado</th></tr></thead><tbody id="comprasBody"></tbody></table></div>
+    </div>
+  </div>
+
+  <!-- USUARIOS -->
+  <div class="dash-section" id="sec-usuarios">
+    <div class="stitle">Usuarios Registrados <span class="sbadge">27 en sistema</span></div>
+    <div class="kpi-grid">
+      <div class="kpi"><div class="ki">👑</div><div class="kl">Administradores</div><div class="kv">3</div><div class="kd">Acceso total</div></div>
+      <div class="kpi"><div class="ki">🧑‍💼</div><div class="kl">Vendedores</div><div class="kv">8</div><div class="kd">Gestión de ventas</div></div>
+      <div class="kpi"><div class="ki">👤</div><div class="kl">Clientes</div><div class="kv">12</div><div class="kd">Compradores activos</div></div>
+      <div class="kpi"><div class="ki">🚚</div><div class="kl">Proveedores</div><div class="kv">4</div><div class="kd">Suministradores</div></div>
+    </div>
+    <div class="user-grid" id="userGrid"></div>
+  </div>
+
+  <!-- PÉRDIDAS -->
+  <div class="dash-section" id="sec-perdidas">
+    <div class="stitle">Pérdidas del Mes <span class="sbadge">Marzo 2026</span></div>
+    <div class="kpi-grid">
+      <div class="kpi"><div class="ki">📉</div><div class="kl">Total Pérdidas</div><div class="kv" style="color:var(--danger)">$280K</div><div class="kd">COP este mes</div></div>
+      <div class="kpi"><div class="ki">🗑️</div><div class="kl">Kg perdidos</div><div class="kv" style="color:var(--orange)">138</div><div class="kd">Productos deteriorados</div></div>
+      <div class="kpi"><div class="ki">📦</div><div class="kl">Productos afectados</div><div class="kv">9</div><div class="kd">De 18 en inventario</div></div>
+      <div class="kpi"><div class="ki">📊</div><div class="kl">% sobre ventas</div><div class="kv" style="color:var(--gold)">6.7%</div><div class="kd">Tasa de pérdida</div></div>
+    </div>
+    <div class="stitle">Detalle de Pérdidas <span class="sbadge">Por producto</span></div>
+    <div class="card"><table class="tbl"><thead><tr><th>Producto</th><th>Kg perdidos</th><th>Causa</th><th>Valor perdido</th><th>Fecha</th><th>Responsable</th></tr></thead><tbody id="perdidasBody"></tbody></table></div>
+  </div>
+
+  <!-- AUTENTICACIÓN -->
+  <div class="dash-section" id="sec-auth">
+    <div class="stitle">Control de Accesos <span class="sbadge">Usuarios del sistema</span></div>
+    <div class="kpi-grid">
+      <div class="kpi"><div class="ki">👑</div><div class="kl">Administradores</div><div class="kv">3</div><div class="kd">Acceso completo</div></div>
+      <div class="kpi"><div class="ki">🛠️</div><div class="kl">Soporte Técnico</div><div class="kv">3</div><div class="kd">Gestión del sistema</div></div>
+      <div class="kpi"><div class="ki">🧑‍💼</div><div class="kl">Vendedores</div><div class="kv">8</div><div class="kd">Gestión de ventas</div></div>
+      <div class="kpi"><div class="ki">🔒</div><div class="kl">Sesión automática</div><div class="kv">3 min</div><div class="kd">Cierre por inactividad</div></div>
+    </div>
+    <div class="stitle">Perfiles de Acceso <span class="sbadge">Todos los roles</span></div>
+    <div class="auth-grid" id="authGrid"></div>
+  </div>
+
+  <!-- ESTADÍSTICAS -->
+  <div class="dash-section" id="sec-estadisticas">
+    <div class="stitle">Estadísticas del Negocio <span class="sbadge">Datos del sistema</span></div>
+    <div class="sg4">
+      <div class="sbig" style="border-color:rgba(0,229,176,.2)"><div class="sic">💰</div><div class="sl">Inversión Total</div><div class="sv" style="color:var(--accent)">$8.6M</div><div class="ss">Compras acumuladas COP</div></div>
+      <div class="sbig" style="border-color:rgba(108,92,231,.2)"><div class="sic">🛒</div><div class="sl">Ventas Totales</div><div class="sv" style="color:var(--accent2)">$12.4M</div><div class="ss">Ingresos acumulados COP</div></div>
+      <div class="sbig" style="border-color:rgba(245,200,66,.2)"><div class="sic">📈</div><div class="sl">Ganancia Neta</div><div class="sv" style="color:var(--gold)">$3.8M</div><div class="ss">Utilidad del período</div></div>
+      <div class="sbig" style="border-color:rgba(255,77,109,.2)"><div class="sic">📉</div><div class="sl">Pérdidas</div><div class="sv" style="color:var(--danger)">$280K</div><div class="ss">Productos deteriorados</div></div>
+    </div>
+    <div class="charts2">
+      <div class="cc"><div class="ct">🏆 Top Ventas por Producto (kg)</div><div class="barchart" id="barChart"></div></div>
+      <div class="cc"><div class="ct">📂 Distribución por Categoría</div>
+        <div class="donut-wrap">
+          <svg width="130" height="130" viewBox="0 0 130 130">
+            <circle cx="65" cy="65" r="48" fill="none" stroke="rgba(255,255,255,.05)" stroke-width="20"/>
+            <circle cx="65" cy="65" r="48" fill="none" stroke="#00e5b0" stroke-width="20" stroke-dasharray="106 196" stroke-dashoffset="0" transform="rotate(-90 65 65)"/>
+            <circle cx="65" cy="65" r="48" fill="none" stroke="#6c5ce7" stroke-width="20" stroke-dasharray="85 217" stroke-dashoffset="-106" transform="rotate(-90 65 65)"/>
+            <circle cx="65" cy="65" r="48" fill="none" stroke="#f5c842" stroke-width="20" stroke-dasharray="67 235" stroke-dashoffset="-191" transform="rotate(-90 65 65)"/>
+            <circle cx="65" cy="65" r="48" fill="none" stroke="#ff8c42" stroke-width="20" stroke-dasharray="45 257" stroke-dashoffset="-258" transform="rotate(-90 65 65)"/>
+            <text x="65" y="61" text-anchor="middle" fill="#f0f0f5" font-size="12" font-family="Syne" font-weight="800">18</text>
+            <text x="65" y="74" text-anchor="middle" fill="#7a7a9d" font-size="8">productos</text>
+          </svg>
+          <div class="dlegend">
+            <div class="dleg"><div class="ddot" style="background:#00e5b0"></div>Tubérculos — 35%</div>
+            <div class="dleg"><div class="ddot" style="background:#6c5ce7"></div>Hortalizas — 28%</div>
+            <div class="dleg"><div class="ddot" style="background:#f5c842"></div>Frutas — 22%</div>
+            <div class="dleg"><div class="ddot" style="background:#ff8c42"></div>Granos — 15%</div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="cc"><div class="ct">📋 Movimientos por Producto</div><table class="tbl"><thead><tr><th>Producto</th><th>Compras (kg)</th><th>Ventas (kg)</th><th>Pérdidas (kg)</th><th>Ingreso COP</th><th>Tendencia</th></tr></thead><tbody id="statsTable"></tbody></table></div>
+  </div>
+
+</div><!-- end dashPage -->
+
+<script>
+// ═══════ DATA ═══════
+const PRODUCTS = [
+  {e:'🥔',n:'Papa Pastusa',    d:'Variedad más consumida en Colombia, ideal para sopas y hervida',           cat:'Tubérculo',   p:1200, s:480,m:600,est:'alto',  or:'Nariño / Cundinamarca', t:'Todo el año',    det:'La papa pastusa es el tubérculo más comercializado en los mercados campesinos colombianos. Se cultiva principalmente en los departamentos de Nariño y Cundinamarca a más de 2.800 m de altitud. Ideal para sancochado, sopas y frituras. Alta rotación en plazas de mercado.'},
+  {e:'🌽',n:'Maíz Choclo',     d:'Mazorca tierna cosechada en finca, vendida fresca en mercado campesino',   cat:'Cereal',      p:1500, s:320,m:500,est:'alto',  or:'Eje Cafetero',          t:'Abr – Oct',      det:'El maíz choclo se cosecha tierno para consumo directo. Es base de la cocina colombiana en arepas, envueltos y mazamorra. Alta demanda en plazas locales. La finca YPSA lo comercializa fresco los lunes y jueves.'},
+  {e:'🍌',n:'Plátano Hartón',  d:'Plátano de cocción, se comercializa verde y maduro según pedido',          cat:'Fruta',       p:800,  s:540,m:600,est:'alto',  or:'Urabá / Eje Cafetero',  t:'Todo el año',    det:'El plátano hartón es el más demandado en Colombia para cocinar. Se vende verde para patacones y maduros para fritar o en sopas. Alta rotación, bajo costo y excelente margen para la finca.'},
+  {e:'🥕',n:'Zanahoria',       d:'Producción local, rica en betacaroteno, demanda constante en hogares',     cat:'Hortaliza',   p:1100, s:210,m:400,est:'medio', or:'Cundinamarca',          t:'Todo el año',    det:'La zanahoria es una de las hortalizas de mayor consumo en Colombia. Se usa en sopas, guisos, jugos y ensaladas. Ciclo de cosecha de 90 días. YPSA la recibe de minifincas de Cundinamarca semanalmente.'},
+  {e:'🧅',n:'Cebolla Cabezona',d:'Variedad blanca y morada; base de la cocina colombiana',                   cat:'Hortaliza',   p:2200, s:185,m:350,est:'medio', or:'Boyacá / Cundinamarca', t:'Todo el año',    det:'La cebolla cabezona es ingrediente insustituible en hogares y restaurantes colombianos. YPSA maneja la variedad blanca y morada. Se conserva bien por varios días, lo que reduce el riesgo de pérdida.'},
+  {e:'🍅',n:'Tomate Chonto',   d:'El más comercializado en Colombia; producción en invernadero y campo',     cat:'Hortaliza',   p:1800, s:160,m:300,est:'medio', or:'Antioquia / Santander', t:'Todo el año',    det:'El tomate chonto es el favorito para ensaladas, salsas y sofritos. Se produce bajo invernadero en Antioquia y a campo abierto en Santander. Es perecedero, por lo que YPSA hace rotación de stock cada 3 días.'},
+  {e:'🫘',n:'Fríjol Cargamanto',d:'Leguminosa emblema de la región, base del sancocho y el sudado',          cat:'Grano',       p:5500, s:95, m:200,est:'bajo',  or:'Antioquia / Eje Cafetero',t:'Mar – Jun',    det:'El fríjol cargamanto es símbolo de la gastronomía antioqueña. Se vende seco y verde. YPSA lo adquiere directamente de productores del Eje Cafetero. Alto valor por kilo y excelente margen de ganancia.'},
+  {e:'🥜',n:'Arveja Verde',    d:'Cosecha bimensual, alta rotación en plazas de mercado locales',            cat:'Grano',       p:3200, s:72, m:200,est:'bajo',  or:'Nariño / Boyacá',       t:'Ene – Mar',      det:'La arveja verde es una leguminosa de temporada con cosecha bimensual en las regiones frías del país. Se consume fresca y seca. YPSA la recibe de minifincas de Nariño y la comercializa en bolsas de 500g y 1kg.'},
+  {e:'🌿',n:'Cilantro',        d:'Aromática de alta rotación diaria; perecedero de ciclo corto',             cat:'Aromática',   p:500,  s:300,m:400,est:'alto',  or:'Cundinamarca / Boyacá',  t:'Todo el año',    det:'El cilantro es la aromática de mayor rotación en los mercados colombianos. YPSA lo recibe fresco cada 2 días de productores locales. Se vende en manojos de 50g y a granel. Perecedero: ciclo de venta máximo 48h.'},
+  {e:'🥬',n:'Espinaca',        d:'Hortaliza de hoja verde, cosecha semanal, demanda creciente',              cat:'Hortaliza',   p:1400, s:140,m:300,est:'medio', or:'Cundinamarca',          t:'Todo el año',    det:'La espinaca ha ganado mercado con la tendencia de alimentación saludable en Colombia. YPSA la recibe cosechada los lunes y viernes. Se vende fresca en atados de 250g, con buena demanda en supermercados locales.'},
+  {e:'🍠',n:'Yuca',            d:'Raíz andina de bajo costo y alta durabilidad; versátil en cocina',         cat:'Tubérculo',   p:900,  s:420,m:500,est:'alto',  or:'Tolima / Caldas',       t:'Todo el año',    det:'La yuca es un tubérculo de alta durabilidad y bajo precio que se adapta muy bien a la cocina colombiana. Se consume frita, sancochadda y en tortas. YPSA la comercializa en piezas y en arroba (12.5kg).'},
+  {e:'🫑',n:'Pimentón',        d:'Variedad roja y verde; producción bajo invernadero en Eje Cafetero',       cat:'Hortaliza',   p:3500, s:88, m:200,est:'bajo',  or:'Risaralda / Caldas',    t:'Todo el año',    det:'El pimentón se produce bajo invernadero en el Eje Cafetero colombiano. YPSA maneja variedad roja (más dulce) y verde (más firme). Se vende en unidades y kilogramo. Demanda creciente en restaurantes locales.'},
+  {e:'🍋',n:'Limón Tahití',    d:'Alta demanda gastronómica y en hogares; producción escalonada',            cat:'Fruta',       p:1200, s:350,m:500,est:'alto',  or:'Valle del Cauca / Tolima',t:'Todo el año',  det:'El limón Tahití es el cítrico más vendido en Colombia. YPSA lo recibe en cajas de 20kg de productores del Valle del Cauca. Alta rotación diaria. Se vende a restaurantes, cafeterías y consumidores finales.'},
+  {e:'🥦',n:'Brócoli',         d:'Hortaliza de temporada, cadena corta desde finca a consumidor',            cat:'Hortaliza',   p:2800, s:65, m:200,est:'bajo',  or:'Cundinamarca / Boyacá', t:'Jun – Nov',      det:'El brócoli se cultiva en zonas frías de Cundinamarca y Boyacá. YPSA lo comercializa bajo el modelo de cadena corta, con entrega directa del productor en menos de 24 horas. Demanda en restaurantes saludables.'},
+  {e:'🌶️',n:'Ají Dulce',       d:'Condimento base en cocina colombiana; producción en tierra caliente',     cat:'Aromática',   p:4000, s:50, m:150,est:'bajo',  or:'Tolima / Huila',        t:'Mar – Sep',      det:'El ají dulce es un condimento fundamental en la cocina colombiana de tierra caliente. YPSA lo recibe de productores del Tolima y Huila. Se vende fresco por kilo y en pequeños lotes para hogares y restaurantes.'},
+  {e:'🍑',n:'Lulo',            d:'Fruta nativa colombiana, utilizada en jugos y mermeladas artesanales',     cat:'Fruta',       p:2500, s:180,m:300,est:'medio', or:'Nariño / Putumayo',     t:'Jun – Dic',      det:'El lulo es una fruta nativa del piedemonte colombiano, muy apreciada en jugos naturales. YPSA lo recibe de productores de Nariño y Putumayo. Es perecedero — ciclo de venta de 5 días. Alta demanda en juguerías.'},
+  {e:'🥚',n:'Huevo Criollo',   d:'Producción avícola de patio en finca; alta demanda en mercado campesino', cat:'Proteína',    p:600,  s:400,m:600,est:'alto',  or:'Finca YPSA',            t:'Todo el año',    det:'El huevo criollo de patio es uno de los productos estrella de YPSA. Las gallinas se alimentan de maíz propio y pasto de la finca. El huevo criollo tiene cascara café oscura y yema naranja intensa — diferenciador de calidad.'},
+  {e:'🌱',n:'Pepino Cohombro', d:'Hortaliza refrescante; ciclo corto de 45 días, alta rotación',            cat:'Hortaliza',   p:1000, s:110,m:250,est:'medio', or:'Valle del Cauca',       t:'Todo el año',    det:'El pepino cohombro tiene un ciclo productivo corto de solo 45 días, lo que permite alta rotación. YPSA lo recibe del Valle del Cauca. Se vende en unidades y por kilo. Creciente demanda en ensaladas y cocina saludable.'},
+];
+
+const VENTAS = [
+  {id:'V-001',prod:'Papa Pastusa',cant:'50 kg',pu:'$1.200',total:'$60.000',cli:'Restaurante El Campo',fecha:'01/03/2026',est:'alto'},
+  {id:'V-002',prod:'Plátano Hartón',cant:'40 kg',pu:'$800',total:'$32.000',cli:'Tienda Doña Rosa',fecha:'01/03/2026',est:'alto'},
+  {id:'V-003',prod:'Tomate Chonto',cant:'30 kg',pu:'$1.800',total:'$54.000',cli:'Supermercado El Éxito',fecha:'02/03/2026',est:'alto'},
+  {id:'V-004',prod:'Cilantro',cant:'15 kg',pu:'$500',total:'$7.500',cli:'Carlos Mejía',fecha:'02/03/2026',est:'alto'},
+  {id:'V-005',prod:'Yuca',cant:'60 kg',pu:'$900',total:'$54.000',cli:'Fonda La Montaña',fecha:'03/03/2026',est:'alto'},
+  {id:'V-006',prod:'Maíz Choclo',cant:'25 unid',pu:'$1.500',total:'$37.500',cli:'Ana Gómez',fecha:'03/03/2026',est:'alto'},
+  {id:'V-007',prod:'Fríjol Cargamanto',cant:'20 kg',pu:'$5.500',total:'$110.000',cli:'Restaurante El Rancho',fecha:'04/03/2026',est:'alto'},
+  {id:'V-008',prod:'Limón Tahití',cant:'35 kg',pu:'$1.200',total:'$42.000',cli:'Jugos Naturales SAS',fecha:'04/03/2026',est:'alto'},
+  {id:'V-009',prod:'Zanahoria',cant:'45 kg',pu:'$1.100',total:'$49.500',cli:'Mercado Central',fecha:'05/03/2026',est:'alto'},
+  {id:'V-010',prod:'Cebolla Cabezona',cant:'28 kg',pu:'$2.200',total:'$61.600',cli:'Restaurante La Cosecha',fecha:'05/03/2026',est:'alto'},
+  {id:'V-011',prod:'Lulo',cant:'18 kg',pu:'$2.500',total:'$45.000',cli:'Jugos Naturales SAS',fecha:'06/03/2026',est:'alto'},
+  {id:'V-012',prod:'Huevo Criollo',cant:'10 doc',pu:'$7.200',total:'$72.000',cli:'Varios clientes',fecha:'06/03/2026',est:'alto'},
+  {id:'V-013',prod:'Pimentón',cant:'12 kg',pu:'$3.500',total:'$42.000',cli:'Restaurante El Campo',fecha:'07/03/2026',est:'alto'},
+  {id:'V-014',prod:'Brócoli',cant:'8 kg',pu:'$2.800',total:'$22.400',cli:'Naturcenter Pereira',fecha:'08/03/2026',est:'alto'},
+  {id:'V-015',prod:'Espinaca',cant:'10 kg',pu:'$1.400',total:'$14.000',cli:'Nutrición & Salud',fecha:'09/03/2026',est:'alto'},
+];
+
+const COMPRAS = [
+  {id:'C-001',prov:'Finca Los Pinos',prod:'Papa Pastusa',cant:'200 kg',pu:'$800',total:'$160.000',fecha:'01/03/2026',est:'alto'},
+  {id:'C-002',prov:'Agrocamp Nariño',prod:'Papa Pastusa',cant:'150 kg',pu:'$780',total:'$117.000',fecha:'02/03/2026',est:'alto'},
+  {id:'C-003',prov:'El Bananero',prod:'Plátano Hartón',cant:'300 kg',pu:'$450',total:'$135.000',fecha:'01/03/2026',est:'alto'},
+  {id:'C-004',prov:'Huerta Verde',prod:'Tomate Chonto',cant:'100 kg',pu:'$1.100',total:'$110.000',fecha:'02/03/2026',est:'alto'},
+  {id:'C-005',prov:'Finca La Aldea',prod:'Maíz Choclo',cant:'120 unid',pu:'$900',total:'$108.000',fecha:'03/03/2026',est:'alto'},
+  {id:'C-006',prov:'Productora Andina',prod:'Fríjol Cargamanto',cant:'50 kg',pu:'$3.800',total:'$190.000',fecha:'04/03/2026',est:'alto'},
+  {id:'C-007',prov:'Cítricos del Valle',prod:'Limón Tahití',cant:'200 kg',pu:'$700',total:'$140.000',fecha:'03/03/2026',est:'alto'},
+  {id:'C-008',prov:'Huerta Verde',prod:'Zanahoria',cant:'180 kg',pu:'$650',total:'$117.000',fecha:'05/03/2026',est:'alto'},
+  {id:'C-009',prov:'Avícola Campesina',prod:'Huevo Criollo',cant:'50 doc',pu:'$4.000',total:'$200.000',fecha:'06/03/2026',est:'alto'},
+  {id:'C-010',prov:'Aromáticas Boyacá',prod:'Cilantro',cant:'80 kg',pu:'$300',total:'$24.000',fecha:'07/03/2026',est:'alto'},
+];
+
+const PROVEEDORES = [
+  {e:'🌿',n:'Finca Los Pinos',    loc:'Nariño, Colombia',    prods:['Papa Pastusa','Arveja Verde'],       tel:'310 456 7890',calidad:'Excelente'},
+  {e:'🌾',n:'Agrocamp Nariño',    loc:'Pasto, Nariño',       prods:['Papa Pastusa','Zanahoria'],          tel:'314 789 1234',calidad:'Muy buena'},
+  {e:'🍌',n:'El Bananero',        loc:'Urabá, Antioquia',    prods:['Plátano Hartón'],                    tel:'300 123 4567',calidad:'Excelente'},
+  {e:'🥬',n:'Huerta Verde',       loc:'Cundinamarca',        prods:['Tomate Chonto','Zanahoria','Espinaca','Cilantro'],tel:'316 654 3210',calidad:'Muy buena'},
+  {e:'🌽',n:'Finca La Aldea',     loc:'Risaralda',           prods:['Maíz Choclo','Yuca'],                tel:'312 000 5555',calidad:'Buena'},
+  {e:'🫘',n:'Productora Andina',  loc:'Antioquia',           prods:['Fríjol Cargamanto','Arveja Verde'],  tel:'318 321 9876',calidad:'Excelente'},
+  {e:'🍋',n:'Cítricos del Valle', loc:'Valle del Cauca',     prods:['Limón Tahití','Pepino Cohombro'],    tel:'315 111 2233',calidad:'Muy buena'},
+  {e:'🥚',n:'Avícola Campesina',  loc:'Finca YPSA',          prods:['Huevo Criollo'],                     tel:'311 777 8899',calidad:'Excelente'},
+  {e:'🌱',n:'Aromáticas Boyacá',  loc:'Tunja, Boyacá',       prods:['Cilantro','Ají Dulce'],              tel:'317 456 1230',calidad:'Buena'},
+  {e:'🍑',n:'Tropifrutas Nariño', loc:'Pasto / Putumayo',    prods:['Lulo','Ají Dulce'],                  tel:'313 888 4455',calidad:'Muy buena'},
+  {e:'🥦',n:'Frío Andino',        loc:'Duitama, Boyacá',     prods:['Brócoli','Espinaca'],                tel:'320 234 5678',calidad:'Buena'},
+  {e:'🫑',n:'Invernadero Eje',    loc:'Pereira, Risaralda',  prods:['Pimentón','Tomate Chonto'],          tel:'319 345 6789',calidad:'Excelente'},
+];
+
+const USUARIOS = [
+  // Admins
+  {av:'👑',n:'Carlos Ospina',    rol:'Administrador', user:'admin',    dep:'Gerencia',     tel:'312 000 0001',bg:'rgba(0,229,176,.12)',c:'var(--accent)'},
+  {av:'👑',n:'Luisa Herrera',    rol:'Administrador', user:'ladmin',   dep:'Gerencia',     tel:'312 000 0002',bg:'rgba(0,229,176,.12)',c:'var(--accent)'},
+  {av:'👑',n:'Marco Torres',     rol:'Administrador', user:'mtadmin',  dep:'Sistemas',     tel:'312 000 0003',bg:'rgba(0,229,176,.12)',c:'var(--accent)'},
+  // Vendedores
+  {av:'🧑‍💼',n:'Andrés Montoya',  rol:'Vendedor',      user:'vendedor', dep:'Comercial',    tel:'314 111 0001',bg:'rgba(108,92,231,.12)',c:'var(--accent2)'},
+  {av:'🧑‍💼',n:'Sandra Ríos',     rol:'Vendedor',      user:'srios',    dep:'Comercial',    tel:'314 111 0002',bg:'rgba(108,92,231,.12)',c:'var(--accent2)'},
+  {av:'🧑‍💼',n:'Pedro Castaño',   rol:'Vendedor',      user:'pcastano', dep:'Comercial',    tel:'314 111 0003',bg:'rgba(108,92,231,.12)',c:'var(--accent2)'},
+  {av:'🧑‍💼',n:'Juliana López',   rol:'Vendedor',      user:'jlopez',   dep:'Comercial',    tel:'314 111 0004',bg:'rgba(108,92,231,.12)',c:'var(--accent2)'},
+  {av:'🧑‍💼',n:'Diego Salcedo',   rol:'Vendedor',      user:'dsalcedo', dep:'Comercial',    tel:'314 111 0005',bg:'rgba(108,92,231,.12)',c:'var(--accent2)'},
+  {av:'🧑‍💼',n:'Marcela Pinto',   rol:'Vendedor',      user:'mpinto',   dep:'Comercial',    tel:'314 111 0006',bg:'rgba(108,92,231,.12)',c:'var(--accent2)'},
+  {av:'🧑‍💼',n:'Ricardo Vargas',  rol:'Vendedor',      user:'rvargas',  dep:'Comercial',    tel:'314 111 0007',bg:'rgba(108,92,231,.12)',c:'var(--accent2)'},
+  {av:'🧑‍💼',n:'Nathalia Gómez',  rol:'Vendedor',      user:'ngomez',   dep:'Comercial',    tel:'314 111 0008',bg:'rgba(108,92,231,.12)',c:'var(--accent2)'},
+  // Clientes
+  {av:'👤',n:'Restaurante El Campo',   rol:'Cliente',user:'cliente', dep:'Gastronomía', tel:'320 222 0001',bg:'rgba(255,140,66,.1)',c:'var(--orange)'},
+  {av:'👤',n:'Tienda Doña Rosa',       rol:'Cliente',user:'rosa',    dep:'Minorista',   tel:'320 222 0002',bg:'rgba(255,140,66,.1)',c:'var(--orange)'},
+  {av:'👤',n:'Supermercado El Éxito',  rol:'Cliente',user:'exito',   dep:'Cadena',      tel:'320 222 0003',bg:'rgba(255,140,66,.1)',c:'var(--orange)'},
+  {av:'👤',n:'Jugos Naturales SAS',    rol:'Cliente',user:'jugos',   dep:'Gastronomía', tel:'320 222 0004',bg:'rgba(255,140,66,.1)',c:'var(--orange)'},
+  {av:'👤',n:'Mercado Central',        rol:'Cliente',user:'mercado', dep:'Plaza',       tel:'320 222 0005',bg:'rgba(255,140,66,.1)',c:'var(--orange)'},
+  {av:'👤',n:'Fonda La Montaña',       rol:'Cliente',user:'fonda',   dep:'Gastronomía', tel:'320 222 0006',bg:'rgba(255,140,66,.1)',c:'var(--orange)'},
+  {av:'👤',n:'Nutrición & Salud',      rol:'Cliente',user:'nutri',   dep:'Retail',      tel:'320 222 0007',bg:'rgba(255,140,66,.1)',c:'var(--orange)'},
+  {av:'👤',n:'Carlos Mejía',           rol:'Cliente',user:'cmejia',  dep:'Particular',  tel:'320 222 0008',bg:'rgba(255,140,66,.1)',c:'var(--orange)'},
+  {av:'👤',n:'Ana Gómez',              rol:'Cliente',user:'agomez',  dep:'Particular',  tel:'320 222 0009',bg:'rgba(255,140,66,.1)',c:'var(--orange)'},
+  {av:'👤',n:'Naturcenter Pereira',    rol:'Cliente',user:'nature',  dep:'Retail',      tel:'320 222 0010',bg:'rgba(255,140,66,.1)',c:'var(--orange)'},
+  {av:'👤',n:'Restaurante La Cosecha', rol:'Cliente',user:'cosecha', dep:'Gastronomía', tel:'320 222 0011',bg:'rgba(255,140,66,.1)',c:'var(--orange)'},
+  {av:'👤',n:'Restaurante El Rancho',  rol:'Cliente',user:'rancho',  dep:'Gastronomía', tel:'320 222 0012',bg:'rgba(255,140,66,.1)',c:'var(--orange)'},
+  // Proveedores
+  {av:'🚚',n:'Finca Los Pinos',    rol:'Proveedor',user:'proveedor',dep:'Nariño',    tel:'310 456 7890',bg:'rgba(245,200,66,.1)',c:'var(--gold)'},
+  {av:'🚚',n:'Huerta Verde',       rol:'Proveedor',user:'hv',       dep:'Cundinamarca',tel:'316 654 3210',bg:'rgba(245,200,66,.1)',c:'var(--gold)'},
+  {av:'🚚',n:'El Bananero',        rol:'Proveedor',user:'banana',   dep:'Urabá',     tel:'300 123 4567',bg:'rgba(245,200,66,.1)',c:'var(--gold)'},
+  {av:'🚚',n:'Avícola Campesina',  rol:'Proveedor',user:'avicola',  dep:'YPSA',      tel:'311 777 8899',bg:'rgba(245,200,66,.1)',c:'var(--gold)'},
+];
+
+const PERDIDAS = [
+  {prod:'Cilantro',      kg:30, causa:'Deterioro por humedad',      val:'$15.000', fecha:'05/03/2026', resp:'Pedro Castaño'},
+  {prod:'Tomate Chonto', kg:25, causa:'Maduración acelerada',       val:'$45.000', fecha:'06/03/2026', resp:'Sandra Ríos'},
+  {prod:'Lulo',          kg:12, causa:'Transporte inadecuado',      val:'$30.000', fecha:'07/03/2026', resp:'Andrés Montoya'},
+  {prod:'Brócoli',       kg:8,  causa:'Temperatura incorrecta',     val:'$22.400', fecha:'08/03/2026', resp:'Juliana López'},
+  {prod:'Espinaca',      kg:18, causa:'Exceso de inventario',       val:'$25.200', fecha:'09/03/2026', resp:'Pedro Castaño'},
+  {prod:'Pimentón',      kg:10, causa:'Daño físico en transporte',  val:'$35.000', fecha:'10/03/2026', resp:'Diego Salcedo'},
+  {prod:'Ají Dulce',     kg:8,  causa:'Fecha de vencimiento',       val:'$32.000', fecha:'11/03/2026', resp:'Sandra Ríos'},
+  {prod:'Arveja Verde',  kg:15, causa:'Humedad excesiva en bodega', val:'$48.000', fecha:'12/03/2026', resp:'Marcela Pinto'},
+  {prod:'Papa Pastusa',  kg:12, causa:'Pudrición por almacenamiento',val:'$14.400',fecha:'13/03/2026', resp:'Ricardo Vargas'},
+];
+
+const AUTH_USERS = [
+  {ico:'ai-admin',e:'👑',n:'Carlos Ospina',   user:'admin',     rol:'Administrador',  perms:'Acceso total al sistema. Gestión de usuarios, configuración, reportes y todos los módulos.',     tasks:''},
+  {ico:'ai-admin',e:'👑',n:'Luisa Herrera',   user:'ladmin',    rol:'Administrador',  perms:'Acceso total al sistema. Gestión de usuarios, configuración, reportes y todos los módulos.',     tasks:''},
+  {ico:'ai-admin',e:'👑',n:'Marco Torres',    user:'mtadmin',   rol:'Administrador',  perms:'Administrador de sistemas. Gestión de infraestructura, backups y seguridad del servidor.',       tasks:''},
+  {ico:'ai-sup',  e:'🛠️',n:'Juan Peñaloza',  user:'soporte1',  rol:'Soporte Técnico',perms:'Puede acceder a logs del sistema, resetear contraseñas de usuarios y generar reportes técnicos.',tasks:'Monitoreo de uptime, resolución de incidencias, soporte a vendedores'},
+  {ico:'ai-sup',  e:'🛠️',n:'Valentina Cruz', user:'soporte2',  rol:'Soporte Técnico',perms:'Puede revisar errores del sistema, apoyar en capacitación de usuarios y subir actualizaciones.',tasks:'Capacitación de usuarios, documentación técnica, pruebas de módulos'},
+  {ico:'ai-sup',  e:'🛠️',n:'Felipe Mora',    user:'soporte3',  rol:'Soporte Técnico',perms:'Puede ejecutar mantenimientos programados, limpiar caché y verificar integridad de la base de datos.',tasks:'Mantenimiento nocturno, backups, auditoría de accesos'},
+  {ico:'ai-ven',  e:'🧑‍💼',n:'Andrés Montoya', user:'vendedor',  rol:'Vendedor',       perms:'Acceso a módulo de ventas, consulta de inventario y registro de transacciones con clientes.',   tasks:''},
+  {ico:'ai-cli',  e:'👤',n:'Restaurante El Campo',user:'cliente',rol:'Cliente',       perms:'Consulta de productos disponibles, historial de compras propias y generación de pedidos.',       tasks:''},
+];
+
+const STATS_DATA = [
+  {n:'Papa Pastusa',   compras:600,ventas:480,perdidas:20, ing:576000},
+  {n:'Plátano Hartón', compras:580,ventas:540,perdidas:18, ing:432000},
+  {n:'Maíz Choclo',   compras:500,ventas:320,perdidas:10, ing:480000},
+  {n:'Yuca',           compras:500,ventas:420,perdidas:12, ing:378000},
+  {n:'Cilantro',       compras:400,ventas:300,perdidas:30, ing:150000},
+  {n:'Zanahoria',      compras:400,ventas:210,perdidas:15, ing:231000},
+  {n:'Cebolla',        compras:350,ventas:185,perdidas:8,  ing:407000},
+  {n:'Tomate Chonto',  compras:300,ventas:160,perdidas:25, ing:288000},
+];
+
+// ═══════ LOGIN ═══════
+const CREDS={Administrador:{user:'admin',pass:'123456'},Vendedor:{user:'vendedor',pass:'123456'},Cliente:{user:'cliente',pass:'123456'},Proveedor:{user:'proveedor',pass:'123456'}};
+const RICONS={Administrador:'👑',Vendedor:'🧑‍💼',Cliente:'👤',Proveedor:'🚚'};
+let selRole='Administrador';
+
+function selectRole(b){document.querySelectorAll('.rbtn').forEach(x=>x.classList.remove('active'));b.classList.add('active');selRole=b.dataset.role;hideErr();}
+function doLogin(){
+  const u=document.getElementById('username').value.trim();
+  const p=document.getElementById('password').value.trim();
+  if(u===CREDS[selRole].user&&p===CREDS[selRole].pass){goDash(u);}else{showErr();}
+}
+function goDash(u){
+  document.getElementById('loginPage').style.display='none';
+  document.getElementById('dashPage').style.display='block';
+  document.getElementById('navUN').textContent=u;
+  document.getElementById('navUR').textContent=selRole;
+  document.getElementById('navAv').textContent=RICONS[selRole];
+  buildAll();startSessionTimer();
+}
+function showErr(){const m=document.getElementById('errmsg');m.style.display='block';m.style.animation='none';void m.offsetWidth;m.style.animation='shake .4s ease';document.getElementById('username').classList.add('err');document.getElementById('password').classList.add('err');}
+function hideErr(){document.getElementById('errmsg').style.display='none';document.getElementById('username').classList.remove('err');document.getElementById('password').classList.remove('err');}
+function togglePass(){const i=document.getElementById('password');i.type=i.type==='password'?'text':'password';}
+document.addEventListener('keydown',e=>{if(e.key==='Enter')doLogin();});
+['username','password'].forEach(id=>document.getElementById(id).addEventListener('input',hideErr));
+
+// ═══════ NAVIGATION ═══════
+function go(id,btn){
+  document.querySelectorAll('.dash-section').forEach(s=>s.classList.remove('active'));
+  document.getElementById('sec-'+id).classList.add('active');
+  document.querySelectorAll('.nav-tab').forEach(t=>t.classList.remove('active'));
+  if(btn){btn.classList.add('active');}
+  else{document.querySelectorAll('.nav-tab').forEach(t=>{if(t.textContent.includes(id.slice(0,4).charAt(0).toUpperCase()+id.slice(1,4)))t.classList.add('active');});}
+}
+
+// ═══════ BUILD ALL ═══════
+function buildAll(){
+  buildProdGrid();buildInvTable();buildVentas();buildCompras();buildUsers();buildPerdidas();buildAuth();buildBarChart();buildStatsTable();
+}
+
+// PRODUCTOS GRID
+function buildProdGrid(){
+  document.getElementById('prodGrid').innerHTML=PRODUCTS.map((p,i)=>`
+    <div onclick="openModal(${i})" style="background:var(--surface);border:1px solid var(--border);border-radius:14px;padding:18px;cursor:pointer;transition:border-color .2s,transform .2s;" onmouseover="this.style.borderColor='rgba(0,229,176,.4)';this.style.transform='translateY(-3px)'" onmouseout="this.style.borderColor='rgba(255,255,255,.08)';this.style.transform='translateY(0)'">
+      <div style="font-size:38px;margin-bottom:10px;">${p.e}</div>
+      <div style="font-family:Syne,sans-serif;font-size:13px;font-weight:700;margin-bottom:4px;">${p.n}</div>
+      <div style="font-size:11px;color:var(--muted);line-height:1.5;margin-bottom:10px;">${p.d}</div>
+      <div style="display:flex;justify-content:space-between;align-items:center;">
+        <span class="badge b-green">${p.cat}</span>
+        <span style="font-family:Syne,sans-serif;font-size:13px;font-weight:700;color:var(--accent)">$${p.p.toLocaleString('es-CO')}</span>
+      </div>
+    </div>`).join('');
+}
+function filterProds(q){
+  document.querySelectorAll('#prodGrid > div').forEach((el,i)=>{
+    el.style.display=PRODUCTS[i].n.toLowerCase().includes(q.toLowerCase())||PRODUCTS[i].cat.toLowerCase().includes(q.toLowerCase())?'':'none';
+  });
+}
+
+// MODAL
+function openModal(i){
+  const p=PRODUCTS[i];
+  document.getElementById('mEmoji').textContent=p.e;
+  document.getElementById('mName').textContent=p.n;
+  document.getElementById('mDesc').textContent=p.d;
+  document.getElementById('mCat').innerHTML=`<span class="badge b-green">${p.cat}</span>`;
+  document.getElementById('mPrice').textContent=`$${p.p.toLocaleString('es-CO')} / kg`;
+  document.getElementById('mStock').textContent=`${p.s} kg disponibles`;
+  document.getElementById('mOrigen').textContent=p.or;
+  document.getElementById('mTemp').textContent=p.t;
+  const ec=p.est==='alto'?'b-green':p.est==='medio'?'b-orange':'b-red';
+  const et=p.est==='alto'?'✔ Disponible':p.est==='medio'?'⚡ Stock medio':'⚠ Bajo stock';
+  document.getElementById('mEst').innerHTML=`<span class="badge ${ec}">${et}</span>`;
+  document.getElementById('mDetail').textContent=p.det;
+  document.getElementById('prodModal').classList.add('open');
+}
+function closeModal(){document.getElementById('prodModal').classList.remove('open');}
+document.getElementById('prodModal').addEventListener('click',function(e){if(e.target===this)closeModal();});
+
+// INVENTARIO TABLE
+function buildInvTable(){
+  document.getElementById('invBody').innerHTML=PRODUCTS.map(p=>{
+    const pct=Math.round((p.s/p.m)*100);
+    const col=pct>60?'#00e5b0':pct>30?'#ff8c42':'#ff4d6d';
+    const ec=p.est==='alto'?'b-green':p.est==='medio'?'b-orange':'b-red';
+    const et=p.est==='alto'?'✔ Disponible':p.est==='medio'?'⚡ Medio':'⚠ Bajo';
+    return`<tr><td><div class="pcell"><div class="pemoji">${p.e}</div><div><div class="pname">${p.n}</div><div class="pdesc">${p.d.slice(0,50)}…</div></div></div></td>
+    <td><span class="badge b-green">${p.cat}</span></td>
+    <td style="font-family:Syne,sans-serif;font-weight:700;color:var(--accent)">$${p.p.toLocaleString('es-CO')}</td>
+    <td><div class="sbar-wrap"><div class="sbar"><div class="sfill" style="width:${pct}%;background:${col}"></div></div><div class="snum">${p.s} kg</div></div></td>
+    <td><span class="badge ${ec}">${et}</span></td></tr>`;
+  }).join('');
+}
+function filterInv(q){document.querySelectorAll('#invBody tr').forEach(r=>{r.style.display=r.textContent.toLowerCase().includes(q.toLowerCase())?'':'none';});}
+
+// VENTAS
+function buildVentas(){
+  document.getElementById('ventasBody').innerHTML=VENTAS.map(v=>`
+    <tr><td style="color:var(--muted);font-size:12px">${v.id}</td>
+    <td style="font-weight:500">${v.prod}</td><td>${v.cant}</td>
+    <td style="color:var(--muted)">${v.pu}</td>
+    <td style="font-family:Syne,sans-serif;font-weight:700;color:var(--accent)">${v.total}</td>
+    <td>${v.cli}</td><td style="color:var(--muted);font-size:12px">${v.fecha}</td>
+    <td><span class="badge b-green">✔ Completada</span></td></tr>`).join('');
+}
+
+// COMPRAS
+function buildCompras(){
+  document.getElementById('provGrid').innerHTML=PROVEEDORES.map(p=>`
+    <div class="provcard">
+      <div class="prov-top">
+        <div class="prov-ico">${p.e}</div>
+        <div><div class="prov-name">${p.n}</div><div class="prov-loc">📍 ${p.loc}</div></div>
+      </div>
+      <div style="font-size:12px;color:var(--muted);margin-bottom:8px;">📞 ${p.tel}</div>
+      <div style="font-size:11px;margin-bottom:8px;">⭐ Calidad: <span style="color:var(--accent)">${p.calidad}</span></div>
+      <div class="prov-products">${p.prods.map(pr=>`<span class="badge b-green">${pr}</span>`).join('')}</div>
+    </div>`).join('');
+  document.getElementById('comprasBody').innerHTML=COMPRAS.map(c=>`
+    <tr><td style="color:var(--muted);font-size:12px">${c.id}</td>
+    <td style="font-weight:500">${c.prov}</td><td>${c.prod}</td><td>${c.cant}</td>
+    <td style="color:var(--muted)">${c.pu}</td>
+    <td style="font-family:Syne,sans-serif;font-weight:700;color:var(--gold)">${c.total}</td>
+    <td style="color:var(--muted);font-size:12px">${c.fecha}</td>
+    <td><span class="badge b-green">✔ Recibida</span></td></tr>`).join('');
+}
+
+// USUARIOS
+function buildUsers(){
+  document.getElementById('userGrid').innerHTML=USUARIOS.map(u=>`
+    <div class="ucard">
+      <div class="uavatar" style="background:${u.bg};font-size:20px">${u.av}</div>
+      <div class="uinfo">
+        <strong>${u.n}</strong>
+        <small>@${u.user} · ${u.dep}</small>
+        <span class="badge ${u.rol==='Administrador'?'b-green':u.rol==='Vendedor'?'b-purple':u.rol==='Cliente'?'b-orange':'b-gold'} urole">${u.rol}</span>
+      </div>
+    </div>`).join('');
+}
+
+// PÉRDIDAS
+function buildPerdidas(){
+  document.getElementById('perdidasBody').innerHTML=PERDIDAS.map(p=>`
+    <tr><td style="font-weight:500">${p.prod}</td>
+    <td style="color:var(--danger);font-weight:600">${p.kg} kg</td>
+    <td><span class="badge b-orange">${p.causa}</span></td>
+    <td style="font-family:Syne,sans-serif;font-weight:700;color:var(--danger)">${p.val}</td>
+    <td style="color:var(--muted);font-size:12px">${p.fecha}</td>
+    <td style="color:var(--muted)">${p.resp}</td></tr>`).join('');
+}
+
+// AUTH
+function buildAuth(){
+  document.getElementById('authGrid').innerHTML=AUTH_USERS.map(a=>`
+    <div class="acard">
+      <div class="aicon ${a.ico}">${a.e}</div>
+      <div class="ainfo">
+        <strong>${a.n}</strong>
+        <div class="auser">@${a.user}</div>
+        <span class="badge ${a.rol==='Administrador'?'b-green':a.rol==='Soporte Técnico'?'b-gold':a.rol==='Vendedor'?'b-purple':'b-orange'}">${a.rol}</span>
+        <p style="margin-top:8px">${a.perms}</p>
+        ${a.tasks?`<p style="margin-top:6px;color:var(--accent);font-size:11px">🛠️ ${a.tasks}</p>`:''}
+      </div>
+    </div>`).join('');
+}
+
+// BAR CHART
+function buildBarChart(){
+  const max=Math.max(...STATS_DATA.map(d=>d.ventas));
+  const cols=['#00e5b0','#6c5ce7','#f5c842','#ff8c42','#00e5b0','#6c5ce7','#f5c842','#ff8c42'];
+  document.getElementById('barChart').innerHTML=STATS_DATA.map((d,i)=>`
+    <div class="brow"><div class="blabel">${d.n}</div>
+    <div class="btrack"><div class="bfill" style="width:${Math.round((d.ventas/max)*100)}%;background:${cols[i]}">${d.ventas} kg</div></div>
+    <div class="bval">$${(d.ing/1000).toFixed(0)}K</div></div>`).join('');
+}
+function buildStatsTable(){
+  document.getElementById('statsTable').innerHTML=STATS_DATA.map(d=>`
+    <tr><td style="font-weight:500">${d.n}</td><td>${d.compras} kg</td><td>${d.ventas} kg</td>
+    <td style="color:var(--danger)">${d.perdidas} kg</td>
+    <td style="color:var(--accent);font-family:Syne,sans-serif;font-weight:700">$${d.ing.toLocaleString('es-CO')}</td>
+    <td>${d.ventas>(d.compras*.7)?'<span class="tup">▲ Alta</span>':'<span class="tdn">▼ Baja</span>'}</td></tr>`).join('');
+}
+
+// LOGOUT
+function doLogout(){
+  clearInterval(sessionInterval);
+  ['mousemove','keydown','click','scroll','touchstart'].forEach(e=>document.removeEventListener(e,resetSess));
+  document.getElementById('sessionBar').style.display='none';
+  document.getElementById('sessionWarning').style.display='none';
+  document.getElementById('dashPage').style.display='none';
+  document.getElementById('loginPage').style.display='flex';
+  document.getElementById('username').value='';
+  document.getElementById('password').value='';
+}
+
+// SESSION
+let sessionInterval,lastAct;
+const SLIMIT=180;
+function startSessionTimer(){
+  document.getElementById('sessionBar').style.display='block';
+  lastAct=Date.now();
+  sessionInterval=setInterval(()=>{
+    const rem=SLIMIT-Math.floor((Date.now()-lastAct)/1000);
+    document.getElementById('sessionFill').style.width=Math.max(0,(rem/SLIMIT)*100)+'%';
+    if(rem<=30)document.getElementById('sessionWarning').style.display='block';
+    if(rem<=0){clearInterval(sessionInterval);forceOut();}
+  },1000);
+  ['mousemove','keydown','click','scroll','touchstart'].forEach(e=>document.addEventListener(e,resetSess));
+}
+function resetSess(){lastAct=Date.now();document.getElementById('sessionWarning').style.display='none';document.getElementById('sessionFill').style.width='100%';}
+function forceOut(){document.getElementById('sessionWarning').style.display='none';doLogout();setTimeout(()=>alert('⏱️ Sesión cerrada por inactividad (3 min).'),100);}
+</script>
+</body>
+</html>
